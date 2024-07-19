@@ -2,13 +2,29 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:base="https://lottia.net/notes/">
   <id>https://lottia.net/notes/</id>
   <title>lottia notes</title>
-  <updated>2024-07-06T16:21:00Z</updated>
+  <updated>2024-07-19T11:27:00Z</updated>
   <link rel="alternate" href="https://lottia.net/notes/" type="text/html"/>
   <link rel="self" href="https://lottia.net/notes/atom.xml" type="application/atom+xml"/>
   <author>
     <name>Asherah/Charlotte Connor</name>
     <uri>https://lottia.net/notes</uri>
   </author>
+  <entry>
+    <id>tag:lottia.net,2024-07-19:/notes/0010-vyxos.html</id>
+    <title type="html">VyxOS</title>
+    <published>2024-07-19T11:27:00Z</published>
+    <updated>2024-07-19T11:27:00Z</updated>
+    <link rel="alternate" href="https://lottia.net/notes/0010-vyxos.html" type="text/html"/>
+    <content type="html">&lt;section id="top"&gt;
+&lt;p&gt;Just a little note to say that I’ve published &lt;a href="https://github.com/kivikakk/vyxos"&gt;VyxOS&lt;/a&gt;, my Nix configuration.&lt;/p&gt;
+&lt;p&gt;It’s just over a year old at this point, and at one point supported a large mesh
+of eccentric servers with its own dynamic mesh and DNS and all sorts of
+nonsense, but the config and infra has been hugely condensed to make it friendly
+to my brain, and the history scrubbed to make it friendly to publishing.&lt;/p&gt;
+&lt;p&gt;Hope it’s interesting!&lt;/p&gt;
+&lt;/section&gt;
+</content>
+  </entry>
   <entry>
     <id>tag:lottia.net,2024-07-06:/notes/0009-time-travel-raw.html</id>
     <title type="html">Time travel, raw</title>
