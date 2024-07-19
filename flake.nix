@@ -126,6 +126,7 @@
 
         modules =
           [
+            ./common.nix
             freezeRegistry
             ./modules
           ]
@@ -133,7 +134,6 @@
           ++ [
             hostRootModule
             hostConfig.module
-            ./common.nix
           ]
           ++ homeManagerModules;
       };
