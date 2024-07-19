@@ -60,6 +60,51 @@
   
   <article class="post">
     <h1 class="post-title">
+      <a href="/2021/04/24/max-300/">
+        MAX 300
+      </a>
+    </h1>
+
+    <time datetime="2021-04-24T00:00:00+03:00" class="post-date">24 Apr 2021</time>
+
+    
+      <p><a href="https://remywiki.com/MAX_300">MAX 300</a> was the first<sup id="fnref:sakura" role="doc-noteref"><a href="#fn:sakura" class="footnote" rel="footnote">1</a></sup> level 10
+song I cleared at the arcade.  I learned to play DDR with my older brother; I
+distinctly recall the sensation of finally being better than him at a
+game—whether it was Descent, StarCraft, anything, he always had such a lead.</p>
+
+<p>I started DDR a bit later than him and had some catching up to do, but
+eventually crossed the level 9 mark before he did.  It turned out rhythm games
+would be a good place for me to excel.</p>
+
+<p>He lives overseas now, and at some point got an <a href="https://www.maty-taneczne.pl">L-TEK DDR
+pad</a>.  I was a bit envious, but felt the shipping
+expense—far worse to Australia than the US—was too hard to justify.
+Pandemic closing the gym made it muuuuuch more palatable, and plus it’d mean
+I’d get to play DDR with my brother again in a way.</p>
+
+<p>It’s been a very good way to get fit again, and hitting old milestones again is
+a lot of fun.  I’ve done some other harder ones already, but today was the day
+for clearing MAX<nobr> </nobr>300 again.  My scores are <em>much</em> better than my
+13-year-old self’s, even though my endurance isn’t.</p>
+
+<p><img src="/assets/post-img/max-300.jpg" alt="MAX 300 score (87.23%)" /></p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:sakura" role="doc-endnote">
+      <p>Not counting 桜 or bag here. <a href="#fnref:sakura" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <h1 class="post-title">
       <a href="/2021/03/29/as-best-we-can-tell-the-pub-is-shut/">
         As best we can tell, the pub is shut
       </a>
@@ -224,36 +269,6 @@ needed to reference the DTB to get it.  (I <a href="https://github.com/kivikakk/
 
       
         <a href="/2021/02/13/dtb-parser-implementing-notes/#more">Read more</a>
-      
-    
-  </article>
-  
-  <article class="post">
-    <h1 class="post-title">
-      <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/">
-        Breaking homegrown crypto
-      </a>
-    </h1>
-
-    <time datetime="2016-02-20T02:56:00+02:00" class="post-date">20 Feb 2016</time>
-
-    
-      <p>Note: this is a pretty long article which does a deep dive into breaking some amateur crypto.  I go on for quite a bit.  Make a cup of tea before reading, and get ready to read some code!</p>
-
-<h3 id="introduction">introduction</h3>
-
-<p>Everyone knows it.  Rolling your own cryptography is a terrible idea.  Here’s <a href="https://www.schneier.com/essays/archives/1999/03/cryptography_the_imp.html">Bruce Schneier writing about it in <strong>1999</strong></a>.  Here’s <a href="http://security.stackexchange.com/a/18198/34825">an excellent answer on the Infosec Stack Exchange</a> about why you shouldn’t do it.  Here’s <a href="https://www.schneier.com/blog/archives/2015/05/amateurs_produc.html">another Scheiner post</a> with an excellent opening sentence.</p>
-
-<p>This, then, is a post about a broken homegrown cryptosystem; namely, that used in <a href="https://www.codeigniter.com">CodeIgniter</a>, pre-2.2.  This version was current until the release of CodeIgniter 2.2, on <a href="https://ellislab.com/blog/entry/codeigniter-2.2.0-released">the 5th of June, 2014</a>, and you can still find sites on it today.</p>
-
-<p>The attack described in the post depends on a lot of things to go right (or wrong, if you will); it’s not just that they used a bad cipher, but also the fact that they rolled their own session storage, and implemented a fallback, and a dozen other things.  This is probably typical for most bugs of this class; a bunch of bad decisions which aren’t thought through find their logical conclusion in complete insecurity.</p>
-
-<p><a id="more"></a>Let’s get into it!</p>
-
-
-
-      
-        <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/#more">Read more</a>
       
     
   </article>

@@ -59,6 +59,36 @@
   
   <article class="post">
     <h1 class="post-title">
+      <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/">
+        Breaking homegrown crypto
+      </a>
+    </h1>
+
+    <time datetime="2016-02-20T02:56:00+02:00" class="post-date">20 Feb 2016</time>
+
+    
+      <p>Note: this is a pretty long article which does a deep dive into breaking some amateur crypto.  I go on for quite a bit.  Make a cup of tea before reading, and get ready to read some code!</p>
+
+<h3 id="introduction">introduction</h3>
+
+<p>Everyone knows it.  Rolling your own cryptography is a terrible idea.  Here’s <a href="https://www.schneier.com/essays/archives/1999/03/cryptography_the_imp.html">Bruce Schneier writing about it in <strong>1999</strong></a>.  Here’s <a href="http://security.stackexchange.com/a/18198/34825">an excellent answer on the Infosec Stack Exchange</a> about why you shouldn’t do it.  Here’s <a href="https://www.schneier.com/blog/archives/2015/05/amateurs_produc.html">another Scheiner post</a> with an excellent opening sentence.</p>
+
+<p>This, then, is a post about a broken homegrown cryptosystem; namely, that used in <a href="https://www.codeigniter.com">CodeIgniter</a>, pre-2.2.  This version was current until the release of CodeIgniter 2.2, on <a href="https://ellislab.com/blog/entry/codeigniter-2.2.0-released">the 5th of June, 2014</a>, and you can still find sites on it today.</p>
+
+<p>The attack described in the post depends on a lot of things to go right (or wrong, if you will); it’s not just that they used a bad cipher, but also the fact that they rolled their own session storage, and implemented a fallback, and a dozen other things.  This is probably typical for most bugs of this class; a bunch of bad decisions which aren’t thought through find their logical conclusion in complete insecurity.</p>
+
+<p><a id="more"></a>Let’s get into it!</p>
+
+
+
+      
+        <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/#more">Read more</a>
+      
+    
+  </article>
+  
+  <article class="post">
+    <h1 class="post-title">
       <a href="/2013/05/10/snapchat/">
         Snapchat: not for state secrets
       </a>

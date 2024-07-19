@@ -4,13 +4,23 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-07-18T19:21:19+03:00</updated>
+ <updated>2024-07-19T14:32:52+03:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>VyxOS</title>
+   <updated>2024-07-19T00:00:00+03:00</updated>
+   <id>https://kivikakk.ee/2024/07/19/vyxos</id>
+    
+      <link href="https://lottia.net/notes/0010-vyxos.html"/>
+      <content type="html">Nix configuration revealed!</content>
+    
+ </entry>
  
  <entry>
    <title>Sada päeva</title>
