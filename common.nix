@@ -12,12 +12,6 @@
     ];
   };
 
-  environment.systemPackages = builtins.attrValues {
-    inherit
-      (pkgs)
-      git # Needed to build the flake.
-      helix # doas vipw ...
-      nmap
-      ;
-  };
+  # Needed to build the flake.
+  environment.systemPackages = [pkgs.git];
 }
