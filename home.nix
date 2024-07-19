@@ -15,10 +15,6 @@
   home = {
     stateVersion = "23.05";
 
-    sessionVariables = {
-      EDITOR = "hx";
-    };
-
     packages = with pkgs; ([
         # Tools provided by or useful with the config.
         vyxos-git
