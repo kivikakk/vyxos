@@ -23,6 +23,7 @@ in {
 
     home-manager.users.${vyxUser} = {
       home.file = {
+        ".config/fish/functions/vyxnix.fish".source = ./vyxnix.fish;
         ".config/fish/functions/fish_prompt.fish".source = ./fish_prompt.fish;
         ".config/fish/functions/ZZZ.fish".source = ./ZZZ.fish;
       };

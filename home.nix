@@ -15,10 +15,6 @@
   home = {
     stateVersion = "23.05";
 
-    file = {
-      ".config/fish/functions/vyxnix.fish".source = ./sources/vyxnix.fish;
-    };
-
     sessionVariables = {
       EDITOR = "hx";
     };
