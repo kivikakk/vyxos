@@ -59,6 +59,10 @@ in {
             type = types.str;
             default = "0400";
           };
+          owner = mkOption {
+            type = types.nullOr types.str;
+            default = null;
+          };
           group = mkOption {
             type = types.nullOr types.str;
             default = null;

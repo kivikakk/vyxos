@@ -49,7 +49,9 @@
           "kivikakk-estrellita"
         ];
         encrypted = {
-          "furpoll-cookie" = {};
+          "furpoll-cookie" = {
+            owner = config.services.furpoll.user;
+          };
           "smtpd-auth-table" = {};
         };
       };
