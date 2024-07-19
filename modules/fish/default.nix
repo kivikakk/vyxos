@@ -25,8 +25,6 @@ in {
       home.file = {
         ".config/fish/functions/fish_prompt.fish".source = ./fish_prompt.fish;
         ".config/fish/functions/ZZZ.fish".source = ./ZZZ.fish;
-        ".config/fish/functions/blognew.fish".source = ./blognew.fish;
-        ".config/fish/functions/blogserve.fish".source = ./blogserve.fish;
       };
       programs.fish =
         {

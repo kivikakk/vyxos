@@ -40,4 +40,8 @@
       '';
     };
   };
+  home.file = {
+    ".config/fish/functions/blognew.fish".source = ./blognew.fish;
+    ".config/fish/functions/blogserve.fish".source = ./blogserve.fish;
+  };
 }
