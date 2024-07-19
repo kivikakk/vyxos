@@ -20,7 +20,7 @@ in {
     ]
     ++ optionals (!isDarwin) [
       ./nginx
-      ./networking
+      ./net
     ];
 
   options.vyxos =
