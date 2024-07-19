@@ -1,4 +1,6 @@
-{
+let
+  log = "log --show-notes='*' --abbrev-commit --pretty=format:'%Cred%h %Cgreen(%aD)%Creset -%C(bold red)%d%Creset %s %C(bold blue)<%an>% cm%Creset' --graph";
+in {
   cl = "clone";
 
   co = "checkout";
@@ -22,8 +24,9 @@
   d = "diff";
   dch = "diff --cached";
 
-  l = "log --show-notes='*' --abbrev-commit --pretty=format:'%Cred%h %Cgreen(%aD)%Creset -%C(bold red)%d%Creset %s %C(bold blue)<%an>% cm%Creset' --graph";
-  la = "log --show-notes='*' --abbrev-commit --pretty=format:'%Cred%h %Cgreen(%aD)%Creset -%C(bold red)%d%Creset %s %C(bold blue)<%an>% cm%Creset' --graph --all";
+  l = log;
+  lp = "${log} --patch";
+  la = "${log} --all";
 
   a = "add -p";
   ad = "add";
