@@ -38,7 +38,8 @@
         unzip
         wget
         # binutils # Do Not. This messes up things on macOS.
-      ] ++ [
+      ]
+      ++ [
         # Things I keep meaning to learn to use properly.
         fd
         fx

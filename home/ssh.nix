@@ -1,10 +1,16 @@
-{...}: {
+{
+  lib,
+  hostName,
+  ...
+}: let
+  allHostData = lib.importTOML ../hosts.toml;
+in {
   programs.ssh = {
     enable = true;
-    # TODO: generate from hosts.toml. Why not?
-    matchBlocks = rec {
-      seraphim.user = "kivikakk";
-      orav.user = "kivikakk";
-    };
+    matchBlocks = let
+      f = acc: host: hostConf:
+        acc // {${host} = {user = hostConf.user;};};
+    in
+      lib.foldlAttrs f {} allHostData;
   };
 }
