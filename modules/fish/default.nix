@@ -25,6 +25,7 @@ in {
       home.file = {
         ".config/fish/functions/vyxnix.fish".source = ./vyxnix.fish;
         ".config/fish/functions/fish_prompt.fish".source = ./fish_prompt.fish;
+        ".config/fish/functions/nix_shell_info.fish".source = ./nix_shell_info.fish;
         ".config/fish/functions/ZZZ.fish".source = ./ZZZ.fish;
       };
       programs.fish =
