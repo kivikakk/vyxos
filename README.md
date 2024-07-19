@@ -136,7 +136,42 @@ Similar to above, a [shell alias is created][ssh alias line] for every host defi
 
 ## `vyxnix`
 
-TODO
+Similar to git, I need the Nix tools closer to hand. [`vyxnix`](https://github.com/kivikakk/vyxos/blob/ee3468c9e365d8cc6cec009bb225a8295925b14f/modules/fish/vyxnix.fish) is the launcher that makes that happen; combine it with [a range of aliases](https://github.com/kivikakk/vyxos/blob/ee3468c9e365d8cc6cec009bb225a8295925b14f/home/fish.nix#L14-L21) and baby you've got yourself a stew.
+
+It mostly documents itself, so I'm going to just repeat the header comments:
+
+```fish
+# Principal nix3 launcher.
+#
+# "develop" and "shell" are treated specially:
+# vyxnix develop                  -> nix develop --command fish
+# vyxnix develop x y z            -> nix develop x y z --command fish
+# vyxnix develop x -- y z         -> nix develop x --command fish -c "y z"
+# vyxnix develop x --command y z  -> nix develop x --command y z
+# "d/s" below refers to these cases.
+#
+# "run" is also treated specially:
+# vyxnix run xyz                  -> nix run nixpkgs#xyz
+# vyxnix run abc#def              -> nix run abc#def
+# vyxnix run uvw -- nyonk         -> nix run nixpkgs#uvw -- nyonk
+#
+# !x=y translates to --override-input x y.
+# Default options (specify --vyx-no-defaults to omit):
+set -f defaultargs -L --keep-going
+
+# Specify --vyx-dry-run to echo the command that would be executed.
+```
+
+In practice this means (modulo the `defaultargs` mentioned above):
+
+* `nd -- make` is equivalent to `nix develop --command fish -c "make"`.
+* `nb !nixpkgs=~/g/nixpkgs` is equivalent to `nix build --override-input nixpkgs ~/g/nixpkgs`.
+* `nf` is equivalent to `nix fmt`.
+* `nr htop` is equivalent to `nix run nixpkgs#htop`.
+
+The default args are also really helpful — I almost never remember to include `-L` or `--keep-going` until a long build has failed and I wish I already had.
+
+The really nice thing about using Fish everywhere, too, is that these aliases all support tab-completion correctly, including the `--vyx` options. If they didn't, I'd want to use them a lot less, and keep forgetting the exact `--vyx` options since they're so rarely wanted.
 
 
 [sops-nix]: https://github.com/Mic92/sops-nix
