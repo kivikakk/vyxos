@@ -171,7 +171,7 @@ In practice this means (modulo the `defaultargs` mentioned above):
 
 The default args are also really helpful — I almost never remember to include `-L` or `--keep-going` until a long build has failed and I wish I already had.
 
-The really nice thing about using Fish everywhere, too, is that these aliases all support tab-completion correctly, including the `--vyx` options. If they didn't, I'd want to use them a lot less, and keep forgetting the exact `--vyx` options since they're so rarely wanted.
+The really nice thing about using Fish everywhere, too, is that `vyxnix` and aliases using it all support tab-completion correctly, including the `--vyx` options. If they didn't, I'd want to use them a lot less, and keep forgetting the exact `--vyx` options since they're so rarely wanted.
 
 
 [sops-nix]: https://github.com/Mic92/sops-nix
