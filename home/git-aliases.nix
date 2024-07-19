@@ -30,7 +30,6 @@ in {
 
   a = "add -p";
   ad = "add";
-  ada = "add -A";
 
   mrm = "rm";
   mrc = "rm --cached";
