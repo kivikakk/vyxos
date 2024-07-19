@@ -1,0 +1,83 @@
+commit 92a62a03692dd1792d5a1c7c0650d5794d25e16f
+Author: Asherah Connor <ashe@kivikakk.ee>
+Date:   Mon Sep 18 07:51:19 2023 +1000
+
+    pretty: add %cm/%cf.
+
+diff --git a/pretty.c b/pretty.c
+index 718530bbab..8b40c08cdc 100644
+--- a/pretty.c
++++ b/pretty.c
+@@ -775,13 +775,17 @@ static int mailmap_name(const char **email, size_t *email_len,
+ 
+ static size_t format_person_part(struct strbuf *sb, char part,
+ 				 const char *msg, int len,
+-				 const struct date_mode *dmode)
++				 const struct date_mode *dmode,
++				 const char *ca_msg, int ca_len)
+ {
+ 	/* currently all placeholders have same length */
+ 	const int placeholder_len = 2;
+ 	struct ident_split s;
++	struct ident_split ca_s;
+ 	const char *name, *mail;
++	const char *ca_name, *ca_mail;
+ 	size_t maillen, namelen;
++	size_t ca_maillen, ca_namelen;
+ 
+ 	if (split_ident_line(&s, msg, len) < 0)
+ 		goto skip;
+@@ -791,13 +795,26 @@ static size_t format_person_part(struct strbuf *sb, char part,
+ 	mail = s.mail_begin;
+ 	maillen = s.mail_end - s.mail_begin;
+ 
++	if (part == 'm' || part == 'f') {	 /* committer name or email if committer != author */
++		if (ca_msg != NULL && !split_ident_line(&ca_s, ca_msg, ca_len)) {
++			ca_name = ca_s.name_begin;
++			ca_namelen = ca_s.name_end - ca_s.name_begin;
++			ca_mail = ca_s.mail_begin;
++			ca_maillen = ca_s.mail_end - ca_s.mail_begin;
++			if (namelen == ca_namelen &&
++			    maillen == ca_maillen &&
++			    !strncmp(name, ca_name, namelen) &&
++			    !strncmp(mail, ca_mail, maillen))
++				return placeholder_len;
++		}
++	}
+ 	if (part == 'N' || part == 'E' || part == 'L') /* mailmap lookup */
+ 		mailmap_name(&mail, &maillen, &name, &namelen);
+-	if (part == 'n' || part == 'N') {	/* name */
++	if (part == 'n' || part == 'N' || part == 'm') {	/* name */
+ 		strbuf_add(sb, name, namelen);
+ 		return placeholder_len;
+ 	}
+-	if (part == 'e' || part == 'E') {	/* email */
++	if (part == 'e' || part == 'E' || part == 'f') {	/* email */
+ 		strbuf_add(sb, mail, maillen);
+ 		return placeholder_len;
+ 	}
+@@ -1045,7 +1062,7 @@ static int format_reflog_person(struct strbuf *sb,
+ 	if (!ident)
+ 		return 2;
+ 
+-	return format_person_part(sb, part, ident, strlen(ident), dmode);
++	return format_person_part(sb, part, ident, strlen(ident), dmode, NULL, 0);
+ }
+ 
+ static size_t parse_color(struct strbuf *sb, /* in UTF-8 */
+@@ -1650,11 +1667,13 @@ static size_t format_commit_one(struct strbuf *sb, /* in UTF-8 */
+ 	case 'a':	/* author ... */
+ 		return format_person_part(sb, placeholder[1],
+ 				   msg + c->author.off, c->author.len,
+-				   &c->pretty_ctx->date_mode);
++				   &c->pretty_ctx->date_mode,
++				   NULL, 0);
+ 	case 'c':	/* committer ... */
+ 		return format_person_part(sb, placeholder[1],
+ 				   msg + c->committer.off, c->committer.len,
+-				   &c->pretty_ctx->date_mode);
++				   &c->pretty_ctx->date_mode,
++				   msg + c->author.off, c->author.len);
+ 	case 'e':	/* encoding */
+ 		if (c->commit_encoding)
+ 			strbuf_addstr(sb, c->commit_encoding);

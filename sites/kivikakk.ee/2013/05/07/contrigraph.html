@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Contrigraph: drawing in GitHub</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="alternate" href="/feed.xml" type="application/atom+xml">
+</head>
+<body>
+
+<div class="container">
+  <div class="site">
+    <div class="header">
+      <h1 class="title"><a href="/">kivikakk.ee</a></h1>
+      <a class="extra" href="/">home</a>
+    </div>
+
+    <h2>Contrigraph: drawing in GitHub</h2>
+<p class="meta">07 May 2013</p>
+
+<div id="post">
+<p>Here’s <a href="https://github.com/contrigraph"><strong>Contrigraph</strong></a>, a “data
+visualisation” (?) created by generating commits to match the <a href="http://shop.github.com/products/contribution-graph-shirt">Contribution
+Graph Shirt</a> from
+GitHub.</p>
+
+<p>It was pretty much a hack; first, I read the colours straight off the shirt,
+producing a big block of data like</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0002342
+2223322
+2323241
+2224333
+3322122
+2242231
+...
+</code></pre></div></div>
+
+<p>Then we read that in one digit at a time, work out what day to start on so
+everything aligns correctly, and how many commits on a given day produce each
+gradient of colour.  The result isn’t pretty:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">start</span> <span class="o">=</span> <span class="no">Time</span><span class="p">.</span><span class="nf">new</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+<span class="n">tbl</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"0"</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"1"</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"2"</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"3"</span> <span class="o">=&gt;</span> <span class="mi">9</span><span class="p">,</span> <span class="s2">"4"</span> <span class="o">=&gt;</span> <span class="mi">14</span><span class="p">,</span> <span class="s2">"5"</span> <span class="o">=&gt;</span> <span class="mi">23</span><span class="p">}</span>
+
+<span class="mi">3</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span> 
+  <span class="n">dbd</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">n</span><span class="o">|</span>
+    <span class="n">tbl</span><span class="p">[</span><span class="n">n</span><span class="p">].</span><span class="nf">times</span> <span class="k">do</span>
+      <span class="sb">`echo 1 &gt;&gt; graafik`</span>
+      <span class="sb">`git commit -a -m 'contrigraph' --date='</span><span class="si">#{</span><span class="n">start</span><span class="p">.</span><span class="nf">to_s</span><span class="p">[</span><span class="mi">0</span><span class="o">..</span><span class="mi">9</span><span class="p">]</span><span class="si">}</span><span class="sb">T12:00:00'`</span>
+    <span class="k">end</span>
+    <span class="n">start</span> <span class="o">+=</span> <span class="mi">86400</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Three times so this thing will scroll on for the next few years.  Other values
+for <code class="highlighter-rouge">tbl</code> would work too; I just didn’t bother to do anything better.  I’ve
+written clearer code, but that wasn’t really the point either.</p>
+
+<p>I actually screwed this up twice: first I didn’t remember to treat the <code class="highlighter-rouge">0</code>
+entries correctly (i.e. I should have skipped those days, whereas I ignored
+them entirely); second, it seemed like I was getting hit by timezone issues
+where everything was shifted up a block.</p>
+
+<p>In retrospect, I should have first produced a mini-contributions graph
+generator (i.e. one that takes a Git repository and produces what GitHub would
+do), validate that against an existing user/repo, then use that to ensure it’d
+work the first time.  I did a similar thing to ensure I had the data correct,
+by producing a graph directly from the data:</p>
+
+<style type="text/css">
+  table.contrigraph {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  table.contrigraph td {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Shown on a Saturday. (Last day is Friday.) */
+  table.contrigraph td.cell1 { background-color: #eeeeee; } /* 0 */
+  table.contrigraph td.cell2 { background-color: #d6e685; } /* 1 */
+  table.contrigraph td.cell3 { background-color: #8cc665; } /* 9 */
+  table.contrigraph td.cell4 { background-color: #44a340; } /* 14 */
+  table.contrigraph td.cell5 { background-color: #1e6823; } /* 23 */
+</style>
+
+<table class="contrigraph">
+  <tbody>
+    <tr>
+      <td class="cell0"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+    </tr>
+    <tr>
+      <td class="cell0"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell4"></td>
+      <td class="cell3"></td>
+      <td class="cell1"></td>
+      <td class="cell4"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+    </tr>
+    <tr>
+      <td class="cell0"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell4"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell4"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell4"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell4"></td>
+    </tr>
+    <tr>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell4"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell4"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell4"></td>
+      <td class="cell4"></td>
+      <td class="cell3"></td>
+    </tr>
+    <tr>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell5"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell4"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell4"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+    </tr>
+    <tr>
+      <td class="cell4"></td>
+      <td class="cell2"></td>
+      <td class="cell4"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell4"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell5"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+    </tr>
+    <tr>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell1"></td>
+      <td class="cell2"></td>
+      <td class="cell2"></td>
+      <td class="cell3"></td>
+      <td class="cell1"></td>
+      <td class="cell0"></td>
+    </tr>
+  </tbody>
+</table>
+
+</div>
+
+
+    <div class="footer">
+      <div class="contact">
+        <p>
+          <img src="https://gravatar.com/avatar/c2a8564c05a7124ded58e86a6c86f6ca?s=70">
+        </p>
+      </div>
+
+      <div class="contact">
+        <p>
+	  <a href="https://kivikakk.ee">kivikakk.ee</a><br>
+	  <a href="https://github.com/kivikakk">github.com/kivikakk</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

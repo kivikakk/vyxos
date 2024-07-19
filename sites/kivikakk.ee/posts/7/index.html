@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark-poole">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    
+      kivikakk.ee
+    
+  </title>
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/ashe-icon-144.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+  <link rel="alternate" type="application/atom+xml" title="kivikakk.ee" href="/atom.xml">
+
+  <meta name="theme-color" content="#3E2349">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Home" />
+<meta name="author" content="Asherah Connor" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://kivikakk.ee/posts/7/" />
+<meta property="og:url" content="https://kivikakk.ee/posts/7/" />
+<meta property="og:site_name" content="kivikakk.ee" />
+<meta property="og:type" content="website" />
+<link rel="prev" href="https://kivikakk.ee/posts/6/" />
+<link rel="next" href="https://kivikakk.ee/posts/8/" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Home" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Asherah Connor","url":"https://kivikakk.ee"},"headline":"Home","url":"https://kivikakk.ee/posts/7/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+
+  <body>
+    <div class="container content">
+      <header class="masthead">
+        <h3 class="masthead-title">
+          <a href="/" title="Home">kivikakk.ee</a>
+
+          <nav class="nav">
+            
+            <small><a href="/">Home</a></small>
+            
+            <small><a href="/about/">About</a></small>
+            
+            <small><a href="/index/">Index</a></small>
+            
+          </nav>
+        </h3>
+      </header>
+
+      <main>
+        <div class="posts">
+  
+  <article class="post">
+    <h1 class="post-title">
+      <a href="/2021/03/29/as-best-we-can-tell-the-pub-is-shut/">
+        As best we can tell, the pub is shut
+      </a>
+    </h1>
+
+    <time datetime="2021-03-29T00:00:00+03:00" class="post-date">29 Mar 2021</time>
+
+    
+      <p>I was alerted by a commenter that it’s been more than a year, now, since this
+video dropped:</p>
+
+<center><iframe width="560" height="315" src="https://www.youtube.com/embed/83cEEyTuAMM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></center>
+
+<p>COVID measures had already begun to be implemented; national borders shut, most
+schools already closed.  Watching this press conference, <a href="https://www.youtube.com/watch?v=SqDP8SnPVA0">a scene from The
+Simpsons</a> played in my mind.  I’d
+been getting a little comfy with a video editing program to record <a href="https://www.youtube.com/watch?v=8tzZYDXHHG4">IIDX
+plays</a>, so I gave it a crack.</p>
+
+<p>I don’t really have networks to tap, but Niki liked it so much she diligently
+dropped it into comments on Facebook and Twitter replies wherever it seemed
+appropriate.  Before I knew it, I had a moderately popular YouTube video.  It
+entered the popular discourse when it was <a href="https://www.youtube.com/watch?v=7hOK5JF5XGA">further
+remixed</a>, but if you ask me, the
+Trump oversamples are just kinda gross.</p>
+
+<p>One thing that’s been interesting to see has been how the popularity of the
+video corresponded with (literally) viral events:</p>
+
+<p><img src="/assets/post-img/views.png" alt="A graph showing the views for the video" /></p>
+
+<p>The three major events were:</p>
+
+<ul>
+  <li>Late March, video released, Dan Andrews said “get on the beers”.</li>
+  <li>Mid-May, first lockdown restrictions eased.</li>
+  <li><a id="more"></a>October 26, Victoria recorded zero new cases/deaths for the
+first time since June.  Dan reported that he “might go a little higher up the
+shelf” than beers.</li>
+</ul>
+
+
+
+      
+        <a href="/2021/03/29/as-best-we-can-tell-the-pub-is-shut/#more">Read more</a>
+      
+    
+  </article>
+  
+  <article class="post">
+    <h1 class="post-title">
+      <a href="/2021/02/28/loader/">
+        Knowing when to look past your code
+      </a>
+    </h1>
+
+    <time datetime="2021-02-28T00:00:00+02:00" class="post-date">28 Feb 2021</time>
+
+    
+      <p>There’s a weird tension in programming — on the one hand, as you learn the
+ropes, you (hopefully) learn very quickly that the problem is almost <em>always</em>
+in your code, and not, say, the compiler, stdlib, kernel, etc.  This is usually
+very correct; the people who’ve worked on those things have many times the
+experience you did when you decided that there must be a bug in <code class="language-plaintext highlighter-rouge">printf</code> or
+something.</p>
+
+<p>You’ll later realise you tried to print something through a pointer to a
+stack-allocated variable that’s long since gone.  These accusations tend to
+wane as you gain familiarity with your subject matter, and wax as you step out
+into lands populated with ever more footguns, exposing more of the architecture
+than you ever suspected was there.  (See also: the emails from me to the libev
+mailing list in 2011.)</p>
+
+<p>At some point, though, your journies will take you to places where things
+aren’t so clear cut, and you’ll start to gain a sixth sense; a kind of visceral
+experience that <em>things are not as they have been promised to be</em>.</p>
+
+<p><a id="more"></a>A few weeks ago, that sixth sense whispered in my ear: “what
+if, instead of your cruddy bootloader written in a pre-1.0 systems language for
+a platform you don’t fully understand, it’s the 20 year-old project with 80,000
+commits that’s wrong?”  And it was right.</p>
+
+
+
+      
+        <a href="/2021/02/28/loader/#more">Read more</a>
+      
+    
+  </article>
+  
+  <article class="post">
+    <h1 class="post-title">
+      <a href="/2021/02/19/inkplate-done-quick/">
+        Inkplate done quick
+      </a>
+    </h1>
+
+    <time datetime="2021-02-19T00:00:00+02:00" class="post-date">19 Feb 2021</time>
+
+    
+      <p>I recently received an <a href="https://inkplate.io">Inkplate</a>, and while I’m in the
+middle of a few interesting projects already, I couldn’t let it sit there
+unused.  Until I get a longer chunk of time to turn it into something really
+nifty — maybe an embedded debugging helper of some kind — it can at least
+mean I no longer need to have Mail.app open.</p>
+
+<p><a href="https://github.com/kivikakk/kmlyink">kmlyink</a>’s README explains:</p>
+
+<blockquote>
+  <p>This repo has two parts:</p>
+
+  <ul>
+    <li>
+      <p>a Dockerised IMAP proxy written in Ruby.</p>
+
+      <p>It speaks plain HTTP, like an ESP can manage. It just fetches your Inbox
+listing and puts it in JSON.</p>
+    </li>
+    <li>
+      <p>a MicroPython module that connects to your wifi, speaks to the IMAP proxy,
+and formats it into the display.</p>
+    </li>
+  </ul>
+</blockquote>
+
+<p>It took just a few hours to get it all up and running.  Delightful!</p>
+
+<p><img src="/assets/post-img/kmlyink.jpg" alt="A photo of kmlyink in action. There's some emails listed on an e-ink
+display." /></p>
+
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <h1 class="post-title">
+      <a href="/2021/02/13/dtb-parser-implementing-notes/">
+        DTB parser implementing notes
+      </a>
+    </h1>
+
+    <time datetime="2021-02-13T00:00:00+02:00" class="post-date">13 Feb 2021</time>
+
+    
+      <p>Ever find yourself needing to implement a <a href="https://devicetree-specification.readthedocs.io/en/latest/chapter5-flattened-format.html">device tree
+blob</a>
+(aka FDT, flattened device tree) parser and want to save yourself some time?
+Learn from my mistakes!</p>
+
+<h2 id="if-you-try-to-do-it-in-one-pass-you-will-hurt-yourself">If you try to do it in one pass, you will hurt yourself</h2>
+
+<p><a id="more"></a>I charged headlong into writing
+<a href="https://github.com/kivikakk/dtb.zig">dtb.zig</a>
+by starting at the top of the Devicetree Specification page on the “Flattened
+Devicetree (DTB)” Format” and reading down. It looked delightfully simple. Keep
+in mind, I still didn’t know what I yet needed out of it, just that I probably
+needed to reference the DTB to get it.  (I <a href="https://github.com/kivikakk/daintree/commit/1a65076a36301f0fb33748b8da644010a178b58e#diff-5e1ca02318cf3679c3aa9a422be7adfefe1fefdd76d297d676770edeacdb5e67R329-R349">kind of know better now</a>.)</p>
+
+
+
+      
+        <a href="/2021/02/13/dtb-parser-implementing-notes/#more">Read more</a>
+      
+    
+  </article>
+  
+  <article class="post">
+    <h1 class="post-title">
+      <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/">
+        Breaking homegrown crypto
+      </a>
+    </h1>
+
+    <time datetime="2016-02-20T02:56:00+02:00" class="post-date">20 Feb 2016</time>
+
+    
+      <p>Note: this is a pretty long article which does a deep dive into breaking some amateur crypto.  I go on for quite a bit.  Make a cup of tea before reading, and get ready to read some code!</p>
+
+<h3 id="introduction">introduction</h3>
+
+<p>Everyone knows it.  Rolling your own cryptography is a terrible idea.  Here’s <a href="https://www.schneier.com/essays/archives/1999/03/cryptography_the_imp.html">Bruce Schneier writing about it in <strong>1999</strong></a>.  Here’s <a href="http://security.stackexchange.com/a/18198/34825">an excellent answer on the Infosec Stack Exchange</a> about why you shouldn’t do it.  Here’s <a href="https://www.schneier.com/blog/archives/2015/05/amateurs_produc.html">another Scheiner post</a> with an excellent opening sentence.</p>
+
+<p>This, then, is a post about a broken homegrown cryptosystem; namely, that used in <a href="https://www.codeigniter.com">CodeIgniter</a>, pre-2.2.  This version was current until the release of CodeIgniter 2.2, on <a href="https://ellislab.com/blog/entry/codeigniter-2.2.0-released">the 5th of June, 2014</a>, and you can still find sites on it today.</p>
+
+<p>The attack described in the post depends on a lot of things to go right (or wrong, if you will); it’s not just that they used a bad cipher, but also the fact that they rolled their own session storage, and implemented a fallback, and a dozen other things.  This is probably typical for most bugs of this class; a bunch of bad decisions which aren’t thought through find their logical conclusion in complete insecurity.</p>
+
+<p><a id="more"></a>Let’s get into it!</p>
+
+
+
+      
+        <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/#more">Read more</a>
+      
+    
+  </article>
+  
+</div>
+
+<div class="pagination">
+  
+    <a class="pagination-item newer" href="/posts/6/">Newer</a>
+  
+  
+    <a class="pagination-item older" href="/posts/8/">Older</a>
+  
+</div>
+
+      </main>
+
+      <footer class="footer">
+        <a href="/archive/">Archived blog</a>
+        <small>Xx</small>
+      </footer>
+    </div>
+  </body>
+</html>

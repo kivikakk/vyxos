@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="en"><head>
+    
+    
+    <meta charset="utf-8">
+    
+      <title>Happy birthday! - lottia notes</title>
+      <meta property="og:title" content="Happy birthday!">
+      <meta property="og:site_name" content="lottia notes">
+      <meta property="og:description" content="It's always your birthday!">
+    
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+
+    <meta name="author" content="Asherah Connor">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="stylesheet.css?v=1">
+    <link rel="stylesheet" href="syntax.css">
+
+    
+      <link href="atom.xml" rel="alternate" title="lottia notes" type="application/atom+xml">
+    
+    <meta name="generator" content="Nanoc 4.12.16">
+  </head>
+  <body id="top">
+    <div class="flex">
+      <main>
+        <h1>Happy birthday!</h1>
+        
+          <p>
+            <span class="created-at">2023-08-22</span>
+            
+              (created),
+              <span class="updated-at">2023-08-24</span>
+              (updated)
+            
+          </p>
+        
+        <section id="opening">
+<p>I’m writing a little hardware I²C clock stretcher (<a href="https://github.com/kivikakk/i2c_obs">I²C, oh! Big stretch</a>) to
+help me make my I²C controller implementation actually support it.</p>
+<p>These are some moments I’ve had while doing so.</p>
+</section>
+<section id="oobe">
+<h2>Out-of-band experience <a href="#oobe" aria-hidden="true" title="Permalink to section" class="anchor">🔗</a> <a href="#top" aria-hidden="true" title="Back to top" class="anchor">↩</a></h2>
+<p>I added a <a href="https://github.com/kivikakk/i2c_obs/commit/1078a55c9f5bd63fae9707586393535ed7afcd07#diff-fbbd4dd0ae5cec5958577b18349c32c4e93ed8df0846aacdfe916267b503e6f4">tiny UART module</a> to help me debug it. First I emitted a <code>&lt;</code>
+character when starting a big stretch, and a <code>&gt;</code> character once we’re all
+relaxed.</p>
+<p>I was going to then write the number of cycles counted during the SCL tLOW
+period in decimal but eventually decided, Who Really Can Be Bothered, and just
+shoved it out onto the UART, LSB first.</p>
+<p>The initial test went great:</p>
+<pre><code class="language-console?prompt=>"><span class="gp">@vyx ~&gt;</span><span class="w"> </span>tio /dev/ttyUSB1 <span class="nt">-b9600</span>
+<span class="go">[15:05:11.940] tio v2.5
+[15:05:11.940] Press ctrl-t q to quit
+[15:05:11.941] Connected
+[15:10:05.065] Switched to hexadecimal mode
+3c 0f 3e 3c 3e 3c 3e 3c 3e 3c 0f 3e</span></code></pre>
+<p><code>3c</code> and <code>3e</code> are <code>&lt;</code> and <code>&gt;</code> respectively. You can see I had some fun while
+realizing that I need to actually take steps to restart the FSM — disabling it
+isn’t enough.</p>
+<p>The I²C bus is running at 400kHz, meaning we expect the SCL low period to last
+1/800,000th of a second.</p>
+<p>The iCEBreaker the sleepy kitty is running on is running at 12MHz. At that
+speed, 1/800,000th of a second passes in 12,000,000/800,000<sup class="footnote-ref"><a href="#fn-maths" id="fnref-maths" data-footnote-ref="">1</a></sup> = 15 cycles.</p>
+<p>And we were seeing <code>0f</code> in the output, 15! Perfect.</p>
+<p>I recompiled the controller to run at 100kHz and continued the test.</p>
+<pre><code class="language-console"><span class="go">3c 3c 3e 3c 3c 3e 3c 3c 3e 3c 3c 3e 3c 3c 3e 3c 3c 3e</span></code></pre>
+<p>??? I thought I made a logic error and we were somehow resetting back to the
+initial state without finishing measurement.</p>
+<p>And then I said, “don’t fucking tell me,” because it’s not too hard to add <code>0f</code>
+to itself repeatedly in your head and so <code>0f</code>, <code>1e</code>, <code>2d</code>, <code>3c</code>. Happy birthday!</p>
+<p>At this point I promptly changed the start/stop characters to <code>ff</code> and <code>fe</code>, and
+then — detecting that I was just setting up the next, much larger footgun for
+myself — decided to dump the count one <em>nibble</em> at a time and thus render any
+byte with a non-zero high nibble officially out-of-band, and <a href="https://github.com/kivikakk/i2c_obs/commit/da9b89b43319114f3bb0fd43511ae934b10b7fac">thus</a>:</p>
+<pre><code class="language-console"><span class="go">ff 0c 03 fe</span></code></pre>
+</section>
+<section id="measurement">
+<h2>Modes of measurement <a href="#measurement" aria-hidden="true" title="Permalink to section" class="anchor">🔗</a> <a href="#top" aria-hidden="true" title="Back to top" class="anchor">↩</a></h2>
+<p>The I²C controller I’m testing with/for outputs its clock at a 50% duty
+cycle exactly<sup class="footnote-ref"><a href="#fn-fv" id="fnref-fv" data-footnote-ref="">2</a></sup>. I probably even verified that with a logic analyzer or
+oscilloscope at some stage! Point is, my initial idea was to train on the SCL
+tLOW period, and then start holding it low for ~twice that period as of the next
+low, and thus stretch the clock (a LOT).</p>
+<p>When you’re a noob like me, you may encounter this:</p>
+<p>(image link no longer valid – alt text was: a few breadboards with various
+boards on them, an OLED, a few LEDs, an oscilloscope, way too many cables, a
+mess)</p>
+<p>Here we have the bus only getting pulled up halfway. This is what it looks like
+when someone is trying to ground your bus <em>at the same time</em> as someone trying
+to put high out on it. An I²C bus is designed to be <em>pulled</em> high so that anyone
+can pull it low, but we’re seeing it <em>driven</em> high.</p>
+<p>The controller <a href="https://github.com/kivikakk/sh1107/commit/bb7388b9f1a3635711337a304bc17e3c682c8508">needed</a> to turn SCL’s output-enable off, to let it get pulled up
+high on its own, and then only to switch the output-enable on when it needs to
+be driven low. This lets anyone else on the bus keep SCL low, thus stretching
+the clock.</p>
+<p>This worked nicely when it comes to letting the bus stretch, but today I was
+trying to get the measurement to come out right — I wanted to have the little
+debugging app that talks via UART reporting the correct I²C bus speed — and
+noticed that, actually, we’re getting it wrong <em>not only because I’m failing to
+count correctly</em>, but because the waveform <em>doesn’t</em> have a 50% duty cycle!</p>
+<p>My poor baby oscilloscope can’t actually measure fast enough to see it, but
+<em>turns out</em> letting a pull-up resistor bring a bus high takes a little bit
+longer than driving it high. As a result, the tail end of the tLOW period is
+eating into the start of tHIGH as it shakily makes its way back up to full
+voltage. I absolutely need a way to see this, so I need a better scope I guess.</p>
+<p>Anyway, I’ll also measure from rising edge to rising edge (and falling edge to
+falling edge), and that should give me some more insight. Logically, I expect
+the falling-to-falling to be very consistent, because that transition is driven,
+whereas the rising-to-rising might vary depending on when the signal gets high
+enough to be considered “high” each cycle.</p>
+<p>I just need to not accidentally reinvent the <a href="https://www.crowdsupply.com/1bitsquared/glasgow">Glasgow Interface Explorer</a> while
+I’m here.</p>
+</section>
+<section class="footnotes" data-footnotes="" id="footnotes"><h2>Footnotes <a href="#footnotes" aria-hidden="true" title="Permalink to section" class="anchor">🔗</a> <a href="#top" aria-hidden="true" title="Back to top" class="anchor">↩</a></h2>
+<ol>
+<li id="fn-maths">
+<p>1/(12MHz/800kHz) = 1/((1/12,000,000)/(1/800,000)) = 12,000,000/800,000. <a href="#fnref-maths" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="1" aria-label="Back to reference 1">↩</a></p>
+</li>
+<li id="fn-fv">
+<p>Hey, that sounds like something I could really formally verify.
+I have <a href="https://github.com/kivikakk/sh1107/blob/7b05e685eb6ee53b9f069410c9f12005cd580d99/sh1107/formal/__init__.py#L133-L155">the start</a> of a verification setup, might as well use it. <a href="#fnref-fv" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="2" aria-label="Back to reference 2">↩</a></p>
+</li>
+</ol>
+</section>
+
+      </main>
+      <div class="sidebar">
+        <div class="sidebar-inner">
+          <ul>
+            <li class=""><a href="./">Home</a></li>
+            <li><a rel="me" href="https://kivikakk.ee">Author</a></li>
+          </ul>
+
+          
+            <h2>Notes</h2>
+            <ul>
+              
+                <li class=""><a href="0009-time-travel-raw.html">Time travel, raw</a></li>
+              
+                <li class=""><a href="0008-time-travel.html">Time travel</a></li>
+              
+                <li class=""><a href="0007-amaranth-to-chisel.html">Amaranth to Chisel</a></li>
+              
+                <li class=""><a href="0006-comrak-on-akkoma.html">Comrak on Akkoma</a></li>
+              
+                <li class=""><a href="0005-jambalam.html">Jambalam</a></li>
+              
+                <li class="active"><a href="0004-happy-birthday.html">Happy birthday!</a></li>
+              
+                <li class=""><a href="0003-nix-revisited.html">Nix revisited</a></li>
+              
+                <li class=""><a href="0002-untangling-cycles.html">Untangling cycles</a></li>
+              
+                <li class=""><a href="0001-hdl-toolchain-source.html">Installing an HDL toolchain from source</a></li>
+              
+            </ul>
+          
+
+          
+        </div>
+
+        
+          <div class="toc">
+            <div class="toc-inner">
+              <h2>Table of contents</h2>
+
+              <ul>
+                <li>
+                  <a href="#top">Top</a>
+                  
+                    
+                      
+                        </li><li>
+                      
+                      <a href="#oobe">Out-of-band experience</a>
+                    
+                  
+                    
+                      
+                        </li><li>
+                      
+                      <a href="#measurement">Modes of measurement</a>
+                    
+                  
+                    
+                      
+                        </li><li>
+                      
+                      <a href="#footnotes">Footnotes</a>
+                    
+                  
+                </li>
+              </ul>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+    <footer>
+      <p>
+        Licensed under the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
+        by its author.
+      </p>
+    </footer>
+    <script src="toc-highlight.js"></script>
+  
+
+</body></html>

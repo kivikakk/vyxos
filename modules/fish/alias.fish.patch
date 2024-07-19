@@ -1,0 +1,19 @@
+commit 3679474ad5d1d138df52a5722f7480462f290279
+Author: Asherah Connor <ashe@kivikakk.ee>
+Date:   Thu Sep 28 15:26:01 2023 +1000
+
+    alias: permit "git" self-aliases to wrap for completion.
+
+diff --git a/share/functions/alias.fish b/share/functions/alias.fish
+index 6588156b5..59e7ac70b 100644
+--- a/share/functions/alias.fish
++++ b/share/functions/alias.fish
+@@ -63,7 +63,7 @@ function alias --description 'Creates a function wrapping a command'
+     # The latter will have rare false positives but it's more important to
+     # prevent recursion for this high-level command.
+     set -l wraps
+-    if test $first_word != $name; and test $last_word != $name
++    if test x"$first_word" != x"$name"; and test x"$last_word" != x"$name" -o x"$first_word" = x"git"
+         set wraps --wraps (string escape -- $body)
+     end
+ 

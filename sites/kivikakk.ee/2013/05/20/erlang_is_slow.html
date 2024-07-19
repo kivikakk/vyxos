@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Erlang is slow: and other rubbish</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="alternate" href="/feed.xml" type="application/atom+xml">
+</head>
+<body>
+
+<div class="container">
+  <div class="site">
+    <div class="header">
+      <h1 class="title"><a href="/">kivikakk.ee</a></h1>
+      <a class="extra" href="/">home</a>
+    </div>
+
+    <h2>Erlang is slow: and other rubbish</h2>
+<p class="meta">20 May 2013</p>
+
+<div id="post">
+<p><a href="http://code.mixpanel.com/2011/08/05/how-and-why-we-switched-from-erlang-to-python/">How and Why We Switched from Erlang to
+Python</a>
+tells an intern’s tale, from whose perspective it runs like this: we used
+Erlang, “No one on our team is an Erlang expert” (despite “how crucial this
+service is to our product”!), and also would you please suspend brain activity
+while I make some performance claims.</p>
+
+<p>Hold your horses.  The good decision to rewrite critical services in a language
+they actually know aside, let’s look at their notes on perf:</p>
+
+<blockquote>
+  <p>Another thing to think about is the JSON library to use. Erlang is
+historically bad at string processing, and it turns out that string
+processing is very frequently the limiting factor in networked systems
+because you have to serialize data every time you want to transfer it.
+There’s not a lot of documentation online about mochijson’s performance, but
+switching to Python I knew that simplejson is written in C, and performs
+roughly 10x better than the default json library.</p>
+</blockquote>
+
+<hr />
+
+<p>Let’s distill these claims:</p>
+
+<ul>
+  <li>Erlang is historically bad at string processing</li>
+  <li>string processing is very frequently the limiting factor in networked systems</li>
+  <li>simplejson is written in C</li>
+  <li>simplejson performs 10x better than the default json library</li>
+</ul>
+
+<p>Further down:</p>
+
+<blockquote>
+  <p>I went into Mixpanel thinking Erlang was a really cool and fast language
+but after spending a significant amount of time … I understand how
+important code clarity and maintainability is.</p>
+</blockquote>
+
+<p>Thus by implication?</p>
+
+<ul>
+  <li>Erlang is not a really cool and fast language</li>
+  <li>Erlang is somehow not conducive to code clarity and maintainability</li>
+</ul>
+
+<p>This whole paragraph is just a mess and I can’t quote it without losing some of
+its slimy essence.</p>
+
+<p>Again, in full:</p>
+
+<blockquote>
+  <p>I’ve learned a lot about how to scale a real service in the couple of weeks
+I’ve been here. I went into Mixpanel thinking Erlang was a really cool and
+fast language, but after spending a significant amount of time sorting
+through a real implementation, I understand how important code clarity and
+maintainability is. Scalability is as much about being able to think through
+your code as it is about systems-level optimizations.</p>
+</blockquote>
+
+<p>By your own admission, no-one on your team is an Erlang expert; you “have
+trouble debugging downtime and performance problems”.  Plenty of Erlang users
+don’t, so it suggests the problem with your team’s command of the enviroment is
+severe.  Similarly, you earlier mention the “right way” to do something in
+Erlang, and immediately comment that your code didn’t do that at all – never
+mind that the “right way” mentioned <a href="http://code.mixpanel.com/2011/08/05/how-and-why-we-switched-from-erlang-to-python/#comment-197">was
+wrong</a>.</p>
+
+<p>Yikes.</p>
+
+<p>So why does the word “Erlang” feature in the above-quoted paragraph at all?</p>
+
+<p>There’s no reason to expect either code clarity or maintainability of a service
+developed over 2 years without an engineer skilled in the environment
+overseeing the architectecture.</p>
+
+<p>I didn’t say Erlang in that sentence, and yet it has greater explanatory power
+than the intern’s claim for the same phenomenon.</p>
+
+<p>I suspect their explanation is more controversial, however, and it’s easier to
+make these claims than arrive at the conclusion that the team’s own
+shortcomings were responsible for the technical debt accrued – and it makes
+for a better article.  I choose my explanation:</p>
+
+<ul><li><strike>Erlang is somehow not conducive to code clarity and
+maintainability</strike>: there is not even anecdotal support in the article
+for this claim</li></ul>
+
+<p>That leaves 5 claims.</p>
+
+<p>Let’s note an important confounding factor: the article is from August 2011.
+The state of Python and Erlang, and libraries for both have changed since.</p>
+
+<hr />
+
+<p>As an aside: it’s easy to think that the performance claims they do indirectly
+make are incidental (and not essential) to the article.</p>
+
+<p>But remove them, and note there’s not really an article any more; a prologue
+about mapping some concepts from an old codebase to new, and .. an epilogue
+espousing the virtues of code clarity and maintainability.</p>
+
+<p>Ain’t nobody gonna argue with that, but, as noted above, just that alone does
+not a “How and Why We Switched from Erlang to Python” blog post make.</p>
+
+<hr />
+
+<p>Let’s now dig into it – this won’t be much of an article without benchmarks
+either.  Unlike their benchmarks, I’m actually comparing things in order to
+contrast; their decision to give benchmarks on the new system but not on the
+old is baffling at best.</p>
+
+<p>I compared 4 Python JSON implementations and 3 Erlang ones:</p>
+
+<ul>
+  <li>json (built-in in Python 2.7.4)</li>
+  <li>simplejson 3.3.0 from <a href="https://pypi.python.org/pypi/simplejson/">PyPI</a>, both with and without C extensions</li>
+  <li>ujson 1.30 from <a href="https://pypi.python.org/pypi/ujson">PyPI</a></li>
+  <li>mochijson and mochijson2 from <a href="https://github.com/mochi/mochiweb">mochiweb</a></li>
+  <li><a href="https://github.com/davisp/jiffy">jiffy</a></li>
+</ul>
+
+<p>simplejson is what the intern picked for their rewrite.  mochijson is what they
+were using before.</p>
+
+<p>All versions are current at time of writing.</p>
+
+<p>Testing method:</p>
+
+<ul>
+  <li>read 5.9MB of JSON from disk into memory</li>
+  <li>start benchmark timer</li>
+  <li>parse JSON from memory 10 times, each time doing some minimal verification
+that the parse was successful</li>
+  <li>force a garbage collect</li>
+  <li>stop our benchmark timer</li>
+</ul>
+
+<p>The code is <a href="https://github.com/kivikakk/jsontest">available on my GitHub
+account</a>, and instructions to reproduce
+are found there.</p>
+
+<p>Here are the results:</p>
+
+<ul>
+  <li>ujson: 1,160ms</li>
+  <li>jiffy: 1,271ms</li>
+  <li>simplejson (with C): 1,561ms</li>
+  <li>json: 2,378ms</li>
+  <li>mochijson2: 8,692ms</li>
+  <li>mochijson: 11,111ms</li>
+  <li>simplejson (no C): 16,805ms</li>
+</ul>
+
+<p>ujson wins!  jiffy a close second!  simplejson a close third!  These results
+are the average of three runs each, but I did many more runs in testing the
+benchmark code and can say the variance was quite low.</p>
+
+<p>So:</p>
+
+<ul><li><strike>simplejson performs 10x better than the default json
+library</strike>: this doesn't appear to be the case now.  It may have been the
+case in 2011, depending on what the default json library was back
+then.</li>
+<li><strike>Erlang is not a really cool and fast language</strike>: in this
+particular example the best Erlang library is on par with both of the best
+Python libraries &ndash; all three C-boosted, of course &ndash; and the best
+pure Erlang library runs in half the time as the apparently-best pure Python
+one.  (<a href="http://hg.python.org/releasing/2.7.4/file/9290822f2280/Modules/_json.c">json
+is C-boosted</a>)</li></ul>
+
+<p>That leaves us with these claims unrefuted:</p>
+
+<ul>
+  <li>Erlang is historically bad at string processing</li>
+  <li>string processing is very frequently the limiting factor in networked systems</li>
+  <li>simplejson is written in C</li>
+</ul>
+
+<p>Erlang’s historical performance is somewhat irrelevant, but the claim stands nevertheless.</p>
+
+<p>No evidence was advanced for the second claim: there was no way to determine
+whether faster string processing was responsible for any improvement in their
+benchmarks: we don’t even know if the benchmarks improved because we only were
+given one set (!).  Of course, the changes being the entire system and not just
+string processing, before-and-afters would prove nothing, especially given the
+proficiency gap.  Hence:</p>
+
+<ul><li>string processing is very frequently the limiting factor in networked
+systems: maybe, maybe not, but picking the right library makes a big
+difference!</li></ul>
+
+<p>I mean, jeez; they could reduce their string processing (and thus the “limiting
+factor”?) by 33% if they switched from simplejson to ujson!</p>
+
+<p>As for the third claim, if I don’t nitpick, it stands.  Kinda.</p>
+
+<hr />
+
+<p>Why did I feel the need to write this up?</p>
+
+<p>I saw the article <a href="https://news.ycombinator.com/item?id=5732472">pop up on Hacker News
+today</a>, 2 years after its
+publication.  In fact, I’d seen the article not long after it was originally
+published, and I know it was on HN back then too.  I don’t care about the fact
+that it was reposted; more that it was written <em>at all</em>.</p>
+
+<p>It’s exactly the sort of useless bullshit that seems to fill a quarter of HN’s
+front page at any given stage: articles with titles like “Why I Don’t Use Vim”;
+“Why You Should Learn Vim”; “The Reason You Need To Understand System F If You
+Want To Ever Amount To Anything”; “Stop Thinking. Just Write.”; “How We Saved
+95% Of Our Datacentre Costs By Rewriting Everything In Ada”; etc. etc. etc.</p>
+
+<p>It’s edgy shit that grabs your attention and way oversells one point of view,
+at the expense of reason.  <a href="https://news.ycombinator.com/item?id=5733987">This comment
+thread</a> started out by
+acknowledging this trend, but was ruined by someone not catching the pattern
+being invoked. Usually there’s a nice novel point to be made somewhere if you
+can read the moderate subtext between the bold claims.</p>
+
+<p>Unfortunately this article had no such point, and so turned out to be 100%
+garbage.  But still, some people will read that article and go away thinking
+their prejudices about Erlang have been confirmed by someone who’s been in
+battle and seen it for themselves.</p>
+
+<p>And really, this isn’t about Erlang.  I don’t care what language or environment
+you use.  <a href="http://prog21.dadgum.com/142.html">Your coding philosophies are
+irrelevant</a>, if you deliver – and Mixpanel
+are delivering, and clearly made the right choice to get rid of some technical
+debt there.</p>
+
+<p>But don’t then try to shift any part of the responsibility of the decision to
+pay off that debt as being your tools’ faults, and especially not with such
+flawed logic.</p>
+
+
+</div>
+
+
+    <div class="footer">
+      <div class="contact">
+        <p>
+          <img src="https://gravatar.com/avatar/c2a8564c05a7124ded58e86a6c86f6ca?s=70">
+        </p>
+      </div>
+
+      <div class="contact">
+        <p>
+	  <a href="https://kivikakk.ee">kivikakk.ee</a><br>
+	  <a href="https://github.com/kivikakk">github.com/kivikakk</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

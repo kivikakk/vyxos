@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="en"><head>
+    
+    
+    <meta charset="utf-8">
+    
+      <title>Comrak on Akkoma - lottia notes</title>
+      <meta property="og:title" content="Comrak on Akkoma">
+      <meta property="og:site_name" content="lottia notes">
+      <meta property="og:description" content="I've barely touched Elixir before. How hard could shoving a Rust dependency into it be?">
+    
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+
+    <meta name="author" content="Asherah Connor">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="stylesheet.css?v=1">
+    <link rel="stylesheet" href="syntax.css">
+
+    
+      <link href="atom.xml" rel="alternate" title="lottia notes" type="application/atom+xml">
+    
+    <meta name="generator" content="Nanoc 4.12.16">
+  </head>
+  <body id="top">
+    <div class="flex">
+      <main>
+        <h1>Comrak on Akkoma</h1>
+        
+          <p>
+            <span class="created-at">2024-01-02</span>
+            
+          </p>
+        
+        <section id="top">
+<p>First up: I’ve never done more than toy with Elixir before, and never with Nix
+or Rust, so this “simply stuff Nix, Elixir and Rust into a magic hat” trick was
+guaranteed to be at least a little bit Fun™. And it was! :)</p>
+<p>Stock Akkoma uses <a href="https://github.com/pragdave/earmark">Earmark</a>, which
+looks like a lovely library, but maybe a lil out of date and out of step with
+CommonMark/GFM. <strong>We deserve <a href="https://github.com/kivikakk/comrak">Comrak</a></strong>.</p>
+<p>Happily enough, a Google search revealed a Nathan Faucett had already done
+most of the hard work of using Comrak from Elixir in
+<a href="https://gitlab.com/nathanfaucett/ex-markdown"><code>ex-markdown</code></a>. Thank you! This never gets old.</p>
+<p>Ported it for Comrak and <a href="https://github.com/rusterlium/rustler">Rustler</a>
+changes in the last 5 years, and then learned about the various ways to
+juggle Elixir and Mix releases/deps in Nix. <a href="https://github.com/kivikakk/ex-markdown/compare/master...lottia">Several hundred lines of hack-ish
+later</a> and
+<code>ex-markdown</code> was now fit for purpose.</p>
+<p>Special care was taken to ensure both <code>nix develop</code>- and <code>nix build</code>-based
+builds work — this one always wants to be able to quickly iterate in my checkout
+without waiting all day for non-incremental builds, but at the end a <code>nix build</code>
+should:</p>
+<ul>
+<li>match the behaviour of a clean <code>nix develop --command bash -c "mix deps.get &amp;&amp; mix test"</code>;</li>
+<li>always cleanly succeed; and,</li>
+<li>run <code>mix test</code> itself as a post-install check so we don’t get blindsided by
+differences in the dev shell/closure-built artefact only when later using it
+(i.e. in Akkoma).</li>
+</ul>
+<p>This required some finesse: we want to build the native Rust dependency as
+usual when doing <code>nix build</code>, which means doing the usual Cargo/Nix dance
+and compiling that artefact as its own derivation (and all its crate deps as
+their own, etc. etc.). On the other hand, in <code>nix develop</code> we want the usual
+compile-on-demand to happen. Happily, Rustler is portable enough to support this
+workflow! (see the <code>MARKDOWN_NATIVE_SKIP_COMPILATION</code> env var.)</p>
+<p>One tricky thing is the fucken Mix dependencies. The <code>ex-markdown</code> derivation
+itself needs to introduce its own Mix deps to <code>beamPackages.buildMix</code> so it can
+actually build and test. But that’s no good when we’re building Akkoma — we want
+to use a release-wide resolved version of those dependencies, with all BEAM deps
+in the one closure and no overlap.</p>
+<p>For now we hack it somewhat, and reproduce some of <code>ex-markdown</code>’s derivation in
+our Akkoma fork — <code>beamPackages</code> doesn’t have anything like <code>overrideBeamAttrs</code>
+or <code>overrideMixAttrs</code> at the moment.
+<a href="https://github.com/kivikakk/akkoma/compare/v3.10.4...lottia">There’s a fair bit more Nix</a>
+involved therein.</p>
+<p>We started with upstream Nixpkgs’ Akkoma package definition (again, copying the
+original as a base due to lack of override), add our <code>:markdown</code> package to the
+<code>mixNixDeps</code> — we pull the source, native package and toolchain deps through the
+<code>ex-markdown</code> flake :)! —, adjust the call-sites, and then as a cherry on top,
+expose a NixOS module that sets <code>config.services.akkoma.package</code> to the package
+exposed. Using the new Akkoma in my personal config is as simple as referring
+the module.</p>
+<p>And there you have it!</p>
+</section>
+<section id="future-work">
+<h2>Future work <a href="#future-work" aria-hidden="true" title="Permalink to section" class="anchor">🔗</a> <a href="#top" aria-hidden="true" title="Back to top" class="anchor">↩</a></h2>
+<ul>
+<li>
+<code>ex-markdown</code> only used a native call for parsing the input; the rendering is
+done in Elixir. Let’s add the missing NIF for rendering too!</li>
+<li>Working out a nicer way to share the <code>ex-markdown</code> derivation for use in
+downstream projects’ <code>mixNixDeps</code>.</li>
+<li>Working out a nicer way to override some properties of Nixpkgs’ Akkoma
+derivation.</li>
+<li>Unify version numbers and revisions.</li>
+<li>I’ve just noticed below that Comrak’s (GFM-compliant) autolink feature breaks
+remote user refs by turning them into mailto’s! Oops.</li>
+</ul>
+</section>
+<section id="reflections">
+<h2>Reflections <a href="#reflections" aria-hidden="true" title="Permalink to section" class="anchor">🔗</a> <a href="#top" aria-hidden="true" title="Back to top" class="anchor">↩</a></h2>
+<p>Having never really touched Elixir much, this was a reasonably intimidating
+circus of interdependent parts to dive right into. It was super fun and — as
+usual — I credit Nix with making this <em>at all</em> possible, and more importantly
+<em>worthwhile</em>. The fact that I don’t have to worry about accumulating platform
+tools (or getting them installed on the target server etc.) is only a small part
+of it.</p>
+<p>I did indeed spend quite a while fucking around with Making All This Shit Work
+With Nix, but I’d probably have spent as long or longer if I was just doing
+this on some pleb distro because of build artefacts left over from successive
+attempts — and of course, most of the work would be rendered null next time I
+had to set up a new server! The amount of discovery (and number of dead ends) I
+got to rebase into concrete learnings is <em>incredible</em>.</p>
+<p>(I once again express my thanks to those who got me here — especially
+<a href="https://pony.social/@cadey">@cadey@pony.social</a> for putting the idea in my head
+years ago, and my ex-qpf for using Nix in the year of our lord 2023, which was a
+strong enough signal to finally Just Do It.)</p>
+</section>
+
+      </main>
+      <div class="sidebar">
+        <div class="sidebar-inner">
+          <ul>
+            <li class=""><a href="./">Home</a></li>
+            <li><a rel="me" href="https://kivikakk.ee">Author</a></li>
+          </ul>
+
+          
+            <h2>Notes</h2>
+            <ul>
+              
+                <li class=""><a href="0009-time-travel-raw.html">Time travel, raw</a></li>
+              
+                <li class=""><a href="0008-time-travel.html">Time travel</a></li>
+              
+                <li class=""><a href="0007-amaranth-to-chisel.html">Amaranth to Chisel</a></li>
+              
+                <li class="active"><a href="0006-comrak-on-akkoma.html">Comrak on Akkoma</a></li>
+              
+                <li class=""><a href="0005-jambalam.html">Jambalam</a></li>
+              
+                <li class=""><a href="0004-happy-birthday.html">Happy birthday!</a></li>
+              
+                <li class=""><a href="0003-nix-revisited.html">Nix revisited</a></li>
+              
+                <li class=""><a href="0002-untangling-cycles.html">Untangling cycles</a></li>
+              
+                <li class=""><a href="0001-hdl-toolchain-source.html">Installing an HDL toolchain from source</a></li>
+              
+            </ul>
+          
+
+          
+        </div>
+
+        
+          <div class="toc">
+            <div class="toc-inner">
+              <h2>Table of contents</h2>
+
+              <ul>
+                <li>
+                  <a href="#top">Top</a>
+                  
+                    
+                      
+                        </li><li>
+                      
+                      <a href="#future-work">Future work</a>
+                    
+                  
+                    
+                      
+                        </li><li>
+                      
+                      <a href="#reflections">Reflections</a>
+                    
+                  
+                </li>
+              </ul>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+    <footer>
+      <p>
+        Licensed under the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
+        by its author.
+      </p>
+    </footer>
+    <script src="toc-highlight.js"></script>
+  
+
+</body></html>

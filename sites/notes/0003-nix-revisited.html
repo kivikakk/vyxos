@@ -1,0 +1,351 @@
+<!DOCTYPE html><html lang="en"><head>
+    
+    
+    <meta charset="utf-8">
+    
+      <title>Nix revisited - lottia notes</title>
+      <meta property="og:title" content="Nix revisited">
+      <meta property="og:site_name" content="lottia notes">
+      <meta property="og:description" content="An unsystematic collection of thoughts while adopting Nix.">
+    
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+
+    <meta name="author" content="Asherah Connor">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="stylesheet.css?v=1">
+    <link rel="stylesheet" href="syntax.css">
+
+    
+      <link href="atom.xml" rel="alternate" title="lottia notes" type="application/atom+xml">
+    
+    <meta name="generator" content="Nanoc 4.12.16">
+  </head>
+  <body id="top">
+    <div class="flex">
+      <main>
+        <h1>Nix revisited</h1>
+        
+          <p>
+            <span class="created-at">2023-07-15</span>
+            
+          </p>
+        
+        <p>I realized I was in error in not using <a href="https://nixos.org/">Nix</a>, and have been addressing that.
+(The primary artifact so far that is public is <a href="https://github.com/kivikakk/hdx"><code>hdx</code></a>, a response to
+<a href="0001-hdl-toolchain-source.html">Installing an HDL toolchain from source</a>.)  I have some knowledge of it from
+previous experiments.  Some observations:</p>
+<ul>
+<li>
+<p>You must thread the needle between “properly sitting down and reading the
+language guide” and “actively replacing previously-statefully-configured
+parts of your system and build environments”.  Without the former none of the
+idioms make sense; without the latter you won’t remember anything from the
+former.</p>
+</li>
+<li>
+<p>If you’re fighting Nix, you’re probably missing a good opportunity to use it
+instead.  Here’s an example:</p>
+<ol>
+<li>As a heavy Git user, I have a <em>lot</em> of terse aliases which are part of my
+muscle memory.</li>
+<li>It’s unacceptable to me to type <code>git </code> or even <code>g </code> before those
+aliases, as even the latter represents a 200% additional load on
+commands I use extremely frequently.</li>
+<li>It’s preferable to me to use Git’s aliases over shell aliases to do the
+actual expansion, particularly as I use some, uh, “Git shell aliases”?</li>
+</ol>
+<p>I used to use a method that involved piping the output of this Ruby script
+into <a href="https://fishshell.com/docs/current/cmds/source.html"><code>source</code></a> in my shell rc:</p>
+<pre><code class="language-ruby"><span class="c1">#!/usr/bin/env ruby</span>
+
+<span class="n">alias_lines</span> <span class="o">=</span> <span class="sb">`git config --global --list`</span><span class="p">.</span><span class="nf">lines</span><span class="p">.</span><span class="nf">grep</span><span class="p">(</span><span class="sr">/^alias\./</span><span class="p">)</span>
+
+<span class="n">alias_lines</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+  <span class="n">line</span> <span class="o">=~</span> <span class="sr">/\Aalias\.([^=]+)=(.*)\n\z/</span>
+  <span class="nb">name</span><span class="p">,</span> <span class="n">exp</span> <span class="o">=</span> <span class="vg">$1</span><span class="p">,</span> <span class="vg">$2</span>
+
+  <span class="k">if</span> <span class="n">exp</span> <span class="o">=~</span> <span class="sr">/\A!/</span>
+    <span class="nb">puts</span> <span class="s2">"alias </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">=</span><span class="se">\"</span><span class="s2">git </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="se">\"</span><span class="s2">  # </span><span class="si">#{</span><span class="n">exp</span><span class="si">}</span><span class="s2">"</span>
+  <span class="k">else</span>
+    <span class="nb">puts</span> <span class="s2">"alias </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">=</span><span class="se">\"</span><span class="s2">git </span><span class="si">#{</span><span class="n">exp</span><span class="si">}</span><span class="se">\"</span><span class="s2">"</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre>
+<p>(I think the conditional was trying to make up for lack of completions
+<em>through</em> Git aliases, which isn’t necessary these days.)</p>
+<p>I almost took that with me.  Can you believe it?  I now have a
+<code>gitAliases.nix</code> that looks like the following<sup class="footnote-ref"><a href="#fn-sense" id="fnref-sense" data-footnote-ref="">1</a></sup>:</p>
+<pre><code class="language-nix"><span class="p">{</span>
+  <span class="nv">co</span> <span class="o">=</span> <span class="s2">"checkout"</span><span class="p">;</span>
+  <span class="nv">cb</span> <span class="o">=</span> <span class="s2">"checkout -b"</span><span class="p">;</span>
+  <span class="nv">pc</span> <span class="o">=</span> <span class="s2">"checkout -p"</span><span class="p">;</span>
+
+  <span class="nv">s</span> <span class="o">=</span> <span class="s2">"status -sb"</span><span class="p">;</span>
+
+  <span class="nv">b</span> <span class="o">=</span> <span class="s2">"branch"</span><span class="p">;</span>
+  <span class="nv">ba</span> <span class="o">=</span> <span class="s2">"branch -a"</span><span class="p">;</span>
+  <span class="nv">bd</span> <span class="o">=</span> <span class="s2">"branch -d"</span><span class="p">;</span>
+
+<span class="c"># ...</span></code></pre>
+<p>Then, in my Home Manager configuration, effectively the following:</p>
+<pre><code class="language-nix"><span class="kd">let</span>
+  <span class="nv">gitAliases</span> <span class="o">=</span> <span class="kr">import</span> <span class="sx">./gitAliases.nix</span><span class="p">;</span>
+<span class="kn">in</span>
+<span class="p">{</span>
+  <span class="nv">home-manager</span><span class="o">.</span><span class="nv">users</span><span class="o">.</span><span class="nv">charlotte</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="nv">programs</span><span class="o">.</span><span class="nv">fish</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nv">shellAliases</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="c"># ...</span>
+      <span class="p">}</span> <span class="o">//</span> <span class="kr">builtins</span><span class="o">.</span><span class="nv">mapAttrs</span> <span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="nv">_v</span><span class="p">:</span> <span class="s2">"git </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="nv">gitAliases</span><span class="p">;</span>
+    <span class="p">};</span>
+
+    <span class="nv">programs</span><span class="o">.</span><span class="nv">git</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="nv">aliases</span> <span class="o">=</span> <span class="nv">gitAliases</span><span class="p">;</span>
+    <span class="p">};</span>
+  <span class="p">};</span>
+<span class="p">}</span></code></pre>
+<p>This feels delicious.  I have just noticed I’m not getting <code>--wraps</code> set when
+defining the function, and so completions are not provided.  It appears
+slightly unpredictable on fish’s side whether <code>alias x y</code> will use <code>-w y</code>,
+possibly to do with when in init it’s happening and whether such a function
+has been <a href="https://github.com/fish-shell/fish-shell/issues/8395#issuecomment-957135261">defined before</a>.  Oh, <a href="https://github.com/fish-shell/fish-shell/blob/861da91bf1029c1442f154f6c369b1b6030b29f3/share/functions/alias.fish#L61-L68">here we go</a>.</p>
+<ul>
+<li>
+<p>Time to hack that apart.  It’s almost disgusting how easy Nix makes
+patching packages I use and then having that just appear on all my
+systems!  Fuck!  I’m sure there’s a less nuclear option but I just <em>wanna</em>.</p>
+<ul>
+<li>Edit: this is the stuff <a href="https://web.archive.org/web/20231007165916/https://aperture.ink/system/media_attachments/files/110/713/786/757/975/142/original/f04db54777ab7a44.png">dreams are made of</a>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>As with anything, keep the stdlib source open in a window/tab/pane.  Here
+this means <code>/nix/var/nix/profiles/per-user/root/channels/nixpkgs/</code>.</p>
+</li>
+<li>
+<p>Builds may <em>not</em> generally be reproducible between NixOS and Nix on a
+different platform.  <a href="https://github.com/kivikakk/hdx/commit/b3af8a0bc323931b4866475d72352ea2f00605c1">Ahem</a>.</p>
+<p>I think this implies building <a href="https://github.com/NixOS/nixpkgs/blob/23.05/pkgs/development/embedded/fpga/icestorm/default.nix">Nixpkgs 23.05’s
+icestorm</a> on macOS today would fail.</p>
+<p>Let’s verify.  We want to use <code>nix-build --option substitute false</code> to
+disable binary substitution, but first invoke the <code>nix-shell</code> once for the
+derivation so we don’t build all its dependencies from source too:</p>
+<pre><code class="language-console"><span class="gp">~ $</span><span class="w"> </span><span class="c"># After a lot of fucking around with nix-store --gc:</span>
+<span class="gp">~ $</span><span class="w"> </span>nix-shell <span class="s1">'&lt;nixpkgs&gt;'</span> <span class="nt">-A</span> icestorm
+<span class="go">these 16 paths will be fetched (2.62 MiB download, 16.98 MiB unpacked):
+  /nix/store/sm3f0jqk0y1bmwpprjy15icb7bw9kfyp-apple-framework-CoreFoundation-11.0.0
+  /nix/store/iqh2hzmrnj9rvw6ahdzzsp9cqzf3ji6w-cctools-binutils-darwin-wrapper-973.0.1
+
+[ ... lots of output ... ]
+
+copying path '/nix/store/7v4rbxd8i0hsk2hgy8jnd4qn9vk89a86-clang-wrapper-11.1.0' from 'https://cache.nixos.org'...
+copying path '/nix/store/mas4ifv1v6llnqkyxq5w235x0hdq5yq3-stdenv-darwin' from 'https://cache.nixos.org'...
+
+</span><span class="gp">[nix-shell:~]$</span><span class="w"> </span><span class="nb">exit</span>
+<span class="go">exit
+</span><span class="gp">~ $</span><span class="w"> </span>nix-build <span class="nt">--option</span> substitute <span class="nb">false</span> <span class="s1">'&lt;nixpkgs&gt;'</span> <span class="nt">-A</span> icestorm
+<span class="go">this derivation will be built:
+  /nix/store/iqw5iqqkm71vx5dl4s6xzpm5ymxjddyq-icestorm-2020.12.04.drv
+building '/nix/store/iqw5iqqkm71vx5dl4s6xzpm5ymxjddyq-icestorm-2020.12.04.drv'...
+
+[ ... lots of output ... ]
+
+patching script interpreter paths in /nix/store/jxfzqadgp6ygd0dfdi7s0jx0nwbd3kxh-icestorm-2020.12.04
+stripping (with command strip and flags -S) in  /nix/store/jxfzqadgp6ygd0dfdi7s0jx0nwbd3kxh-icestorm-2020.12.04/bin
+/nix/store/jxfzqadgp6ygd0dfdi7s0jx0nwbd3kxh-icestorm-2020.12.04
+</span><span class="gp">~ $</span></code></pre>
+<p>It works!  Joke’s on me: the revision used in Nixpkgs is about 8 commits
+before the macOS fix that now needs to be worked around.</p>
+<p>Let’s verify this by building the derivation with the revision overridden.
+The name is also overridden, to avoid the package name + version being used:</p>
+<pre><code class="language-nix"><span class="kn">with</span> <span class="kr">import</span> <span class="o">&lt;</span><span class="nv">nixpkgs</span><span class="o">&gt;</span> <span class="p">{};</span>
+<span class="nv">icestorm</span><span class="o">.</span><span class="nv">overrideAttrs</span> <span class="p">({</span> <span class="nv">src</span><span class="p">,</span> <span class="o">...</span> <span class="p">}:</span> <span class="p">{</span>
+  <span class="nv">name</span> <span class="o">=</span> <span class="s2">"icestorm"</span><span class="p">;</span>
+  <span class="nv">src</span> <span class="o">=</span> <span class="nv">src</span><span class="o">.</span><span class="nv">override</span> <span class="p">{</span>
+    <span class="nv">rev</span> <span class="o">=</span> <span class="s2">"d20a5e9001f46262bf0cef220f1a6943946e421d"</span><span class="p">;</span>
+    <span class="nv">sha256</span> <span class="o">=</span> <span class="nv">lib</span><span class="o">.</span><span class="nv">fakeSha256</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">})</span></code></pre>
+<p>We do the little dance to get the fixed-output derivation hash suitable for the
+site it’s used:</p>
+<pre><code class="language-console?prompt=$"><span class="gp">~ $</span><span class="w"> </span>nix-build <span class="nt">-E</span> <span class="s1">'with import &lt;nixpkgs&gt; {}; icestorm.overrideAttrs ({ src, ... }: { name = "icestorm"; src = src.override { rev = "d20a5e9001f46262bf0cef220f1a6943946e421d"; sha256 = lib.fakeSha256; }; })'</span>
+<span class="go">these 2 derivations will be built:
+  /nix/store/wpcxl7fz89sk1b45xy2m36cv3gljgzmp-source.drv
+  /nix/store/gjs2rm2la5as2yh139yaqcz0q5hjgsc7-icestorm.drv
+building '/nix/store/wpcxl7fz89sk1b45xy2m36cv3gljgzmp-source.drv'...
+
+trying https://github.com/YosysHQ/icestorm/archive/d20a5e9001f46262bf0cef220f1a6943946e421d.tar.gz
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  926k    0  926k    0     0  1195k      0 --:--:-- --:--:-- --:--:-- 5570k
+unpacking source archive /private/tmp/nix-build-source.drv-0/d20a5e9001f46262bf0cef220f1a6943946e421d.tar.gz
+error: hash mismatch in fixed-output derivation '/nix/store/wpcxl7fz89sk1b45xy2m36cv3gljgzmp-source.drv':
+         specified: sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+            got:    sha256-dEBmxO2+Rf/UVyxDlDdJGFAeI4cu1wTCbneo5I4gFG0=
+error: 1 dependencies of derivation '/nix/store/gjs2rm2la5as2yh139yaqcz0q5hjgsc7-icestorm.drv' failed to build
+</span><span class="gp">~ $</span><span class="w"> </span>nix-build <span class="nt">-E</span> <span class="s1">'with import &lt;nixpkgs&gt; {}; icestorm.overrideAttrs ({ src, ... }: { name = "icestorm"; src = src.override { rev = "d20a5e9001f46262bf0cef220f1a6943946e421d"; sha256 = "dEBmxO2+Rf/UVyxDlDdJGFAeI4cu1wTCbneo5I4gFG0="; }; })'</span>
+<span class="go">this derivation will be built:
+  /nix/store/9klhbj6biiqn9696zzvyy8cmyjfjaw2d-icestorm.drv
+building '/nix/store/9klhbj6biiqn9696zzvyy8cmyjfjaw2d-icestorm.drv'...
+
+[ ... lots of output ... ]
+
+       &gt; cp icebox_vlog.py    /nix/store/1rdvdwvz44kkhirbvpn0yx2njwalrbf2-icestorm/bin/icebox_vlog
+       &gt; cp icebox_stat.py    /nix/store/1rdvdwvz44kkhirbvpn0yx2njwalrbf2-icestorm/bin/icebox_stat
+       &gt; sed -i '' 's+import iceboxdb+import iceboxdb as iceboxdb+g' /nix/store/1rdvdwvz44kkhirbvpn0yx2njwalrbf2-icestorm/bin/icebox.py
+       &gt; sed: can't read s+import iceboxdb+import iceboxdb as iceboxdb+g: No such file or directory
+       &gt; make[1]: *** [Makefile:65: install] Error 2
+       &gt; make[1]: Leaving directory '/private/tmp/nix-build-icestorm.drv-0/source/icebox'
+       &gt; make: *** [Makefile:13: install] Error 2
+       For full logs, run 'nix-store -l /nix/store/9klhbj6biiqn9696zzvyy8cmyjfjaw2d-icestorm.drv'.
+</span><span class="gp">~ $</span></code></pre>
+<p>Sure enough, it does fail.</p>
+</li>
+<li>
+<p>Nix feels very appropriate for people like me, whose thought processes or
+short-term memory may be disturbed without warning, thanks to the nature of
+work-in-progress state with declarative systems.</p>
+<ul>
+<li>
+<p>By which I mean; for the most part, recovering the idea I’m halfway through
+an attempt of<sup class="footnote-ref"><a href="#fn-int" id="fnref-int" data-footnote-ref="">2</a></sup> is more “image load” than “procedural init”.  It
+doesn’t require parsing shell history or terminal scrollback in order to
+learn the meaning of the current state of my system—99% of the context is
+in a file.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>I’m avoiding <code>nix-env</code> and flakes.  I don’t like the look of workflows that
+involve either.  <a href="https://xeiaso.net/blog/nix-flakes-1-2022-02-21">Xe describes</a> flakes as being suitable for use cases where
+you might use Niv or Lorri.  Niv and Lorri also appear to be tools for
+workflows I don’t like the look of.  Lorri refers to “fast direnv integration
+for robust CLI and editor integration”, and for whatever reason, that’s a
+slightly repellent notion to me at this stage.</p>
+<p>I expect my opinion on flakes will change as I continue.</p>
+</li>
+<li>
+<p>Did I mention builds may not be reproducible?</p>
+<pre><code class="language-console?prompt=$"><span class="go">-- Build files have been written to: /tmp/nix-build-nextpnr.drv-1/nextpnr-54b2045/build
+building
+build flags: -j10 SHELL=/nix/store/mxvgjwzdvrl81plvgqnzbrqb14ccnji6-bash-5.2-p15/bin/bash
+[  0%] Building CXX object bba/CMakeFiles/bbasm.dir/main.cc.o
+[  1%] Generating chipdb/chipdb-25k.bba
+/nix/store/mxvgjwzdvrl81plvgqnzbrqb14ccnji6-bash-5.2-p15/bin/bash: line 1: 54809 Segmentation fault: 11  /nix/store/zdd58zb8y7bm15jm0985fdjzy8wrmaci-python3-3.11.4/bin/python3.11 /tmp/nix-build-nextpnr.drv-1/nextpnr-54b2045/ecp5/trellis_import.py -L /nix/store/z3mpz8mqd858vbx849zqyh1mdv64l3vd-trellis/lib/trellis -L /nix/store/z3mpz8mqd858vbx849zqyh1mdv64l3vd-trellis/share/trellis/util/common -L /nix/store/z3mpz8mqd858vbx849zqyh1mdv64l3vd-trellis/share/trellis/timing/util -p /tmp/nix-build-nextpnr.drv-1/nextpnr-54b2045/ecp5/constids.inc -g /tmp/nix-build-nextpnr.drv-1/nextpnr-54b2045/ecp5/gfx.h 25k &gt; chipdb/chipdb-25k.bba.new
+make[2]: *** [ecp5/CMakeFiles/chipdb-ecp5-bbas.dir/build.make:77: ecp5/chipdb/chipdb-25k.bba] Error 139
+make[1]: *** [CMakeFiles/Makefile2:359: ecp5/CMakeFiles/chipdb-ecp5-bbas.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[  2%] Linking CXX executable bbasm
+[  2%] Built target bbasm
+make: *** [Makefile:136: all] Error 2
+error: boost::bad_format_string: format-string is ill-formed
+</span><span class="gp">~ $</span><span class="w"> </span><span class="c"># ...</span></code></pre>
+<p>(There’s a segmentation fault in there :)))</p>
+</li>
+</ul>
+<section class="footnotes" data-footnotes="" id="footnotes"><h2>Footnotes <a href="#footnotes" aria-hidden="true" title="Permalink to section" class="anchor">🔗</a> <a href="#top" aria-hidden="true" title="Back to top" class="anchor">↩</a></h2>
+<ol>
+<li id="fn-sense">
+<p>If my internal sense of what a Git alias should be called is occupied by a
+base system command that itself is in muscle memory—which only occurs for
+2-letter aliases—I transpose the two letters, or repeat a letter somewhere.</p>
+<ul>
+<li>
+<code>git checkout -p</code> thus becomes <code>pc</code> to avoid <code>cp(1)</code>.</li>
+<li>
+<code>git cherry-pick</code> is uncommon enough that it loses the fight for <code>pc</code>
+and gets <code>pcp</code>.</li>
+<li>
+<code>git rm</code> gets <code>mrm</code>, because <code>mr</code> on its own feels like it should be
+obviously merge-related — there are 9 aliases beginning with <code>m</code> that
+<em>are</em> merge-related — but at 3 characters, <code>mrm</code> is unique enough to
+be recognizable.</li>
+<li>Why not <code>cpc</code> or <code>rmr</code>?  iirc, <code>checkout -p</code> got <code>pc</code> first; when it
+was time to introduce a <code>cherry-pick</code> alias, there was no consideration
+of giving it <code>cpc</code>—<code>pc</code> was an established metaphor for this
+initialism, whereas <code>cpc</code> would break that and introduce confusion.
+Moving <code>checkout -p</code> to <code>cpc</code> for consistency’s sake is unacceptable
+and leaves no clear answer for <code>cherry-pick</code>.  <code>rmr</code> seems fine, but
+continuing with the weirdness is what makes a beautiful natural
+language :)</li>
+</ul>
+<a href="#fnref-sense" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="1" aria-label="Back to reference 1">↩</a>
+</li>
+<li id="fn-int">
+<p>Which I have to do once every 8–10 minutes on average, at a guess. <a href="#fnref-int" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="2" aria-label="Back to reference 2">↩</a></p>
+</li>
+</ol>
+</section>
+
+      </main>
+      <div class="sidebar">
+        <div class="sidebar-inner">
+          <ul>
+            <li class=""><a href="./">Home</a></li>
+            <li><a rel="me" href="https://kivikakk.ee">Author</a></li>
+          </ul>
+
+          
+            <h2>Notes</h2>
+            <ul>
+              
+                <li class=""><a href="0009-time-travel-raw.html">Time travel, raw</a></li>
+              
+                <li class=""><a href="0008-time-travel.html">Time travel</a></li>
+              
+                <li class=""><a href="0007-amaranth-to-chisel.html">Amaranth to Chisel</a></li>
+              
+                <li class=""><a href="0006-comrak-on-akkoma.html">Comrak on Akkoma</a></li>
+              
+                <li class=""><a href="0005-jambalam.html">Jambalam</a></li>
+              
+                <li class=""><a href="0004-happy-birthday.html">Happy birthday!</a></li>
+              
+                <li class="active"><a href="0003-nix-revisited.html">Nix revisited</a></li>
+              
+                <li class=""><a href="0002-untangling-cycles.html">Untangling cycles</a></li>
+              
+                <li class=""><a href="0001-hdl-toolchain-source.html">Installing an HDL toolchain from source</a></li>
+              
+            </ul>
+          
+
+          
+        </div>
+
+        
+          <div class="toc">
+            <div class="toc-inner">
+              <h2>Table of contents</h2>
+
+              <ul>
+                <li>
+                  <a href="#top">Top</a>
+                  
+                    
+                      
+                        </li><li>
+                      
+                      <a href="#footnotes">Footnotes</a>
+                    
+                  
+                </li>
+              </ul>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+    <footer>
+      <p>
+        Licensed under the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
+        by its author.
+      </p>
+    </footer>
+    <script src="toc-highlight.js"></script>
+  
+
+</body></html>

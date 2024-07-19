@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://lottia.net/notes/</loc>
+    <lastmod>2024-01-02</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0001-hdl-toolchain-source.html</loc>
+    <lastmod>2024-07-06</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0002-untangling-cycles.html</loc>
+    <lastmod>2023-06-30</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0003-nix-revisited.html</loc>
+    <lastmod>2024-07-06</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0004-happy-birthday.html</loc>
+    <lastmod>2024-07-06</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0005-jambalam.html</loc>
+    <lastmod>2024-07-06</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0006-comrak-on-akkoma.html</loc>
+    <lastmod>2024-07-06</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0007-amaranth-to-chisel.html</loc>
+    <lastmod>2024-06-24</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0008-time-travel.html</loc>
+    <lastmod>2024-07-06</lastmod>
+  </url>
+  <url>
+    <loc>https://lottia.net/notes/0009-time-travel-raw.html</loc>
+    <lastmod>2024-07-06</lastmod>
+  </url>
+</urlset>
+

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark-poole">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+    
+      Escapology: how, when and why to encode and escape &middot; kivikakk.ee
+    
+  </title>
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/ashe-icon-144.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+  <link rel="alternate" type="application/atom+xml" title="kivikakk.ee" href="/atom.xml">
+
+  <meta name="theme-color" content="#3E2349">
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="Escapology: how, when and why to encode and escape" />
+<meta name="author" content="Asherah Connor" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="As programmers, we spend a lot of time just carting data from one place to another. Sometimes that’s the entire purpose of a program or library (data conversion whatevers), but more often it’s just something that needs to happen in the course of getting a certain task done. When we’re sending a request, using a library, executing templates or whatever, it’s important to be 100% clear on the format of the data, which is a fancy way of saying how the data is encoded. Let’s do the tacky dictionary thing: encoding (plural encodings) (computing) The way in which symbols are mapped onto bytes, e.g. in the rendering of a particular font, or in the mapping from keyboard input into visual text. A conversion of plain text into a code or cypher form (for decoding by the recipient). I think these senses are a bit too specific—if your data is in a computer in any form, then it’s already encoded. The keyboard doesn’t even have to come into it." />
+<meta property="og:description" content="As programmers, we spend a lot of time just carting data from one place to another. Sometimes that’s the entire purpose of a program or library (data conversion whatevers), but more often it’s just something that needs to happen in the course of getting a certain task done. When we’re sending a request, using a library, executing templates or whatever, it’s important to be 100% clear on the format of the data, which is a fancy way of saying how the data is encoded. Let’s do the tacky dictionary thing: encoding (plural encodings) (computing) The way in which symbols are mapped onto bytes, e.g. in the rendering of a particular font, or in the mapping from keyboard input into visual text. A conversion of plain text into a code or cypher form (for decoding by the recipient). I think these senses are a bit too specific—if your data is in a computer in any form, then it’s already encoded. The keyboard doesn’t even have to come into it." />
+<link rel="canonical" href="https://kivikakk.ee/2012/04/18/escapology/" />
+<meta property="og:url" content="https://kivikakk.ee/2012/04/18/escapology/" />
+<meta property="og:site_name" content="kivikakk.ee" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2012-04-18T14:10:00+03:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Escapology: how, when and why to encode and escape" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Asherah Connor","url":"https://kivikakk.ee"},"dateModified":"2012-04-18T14:10:00+03:00","datePublished":"2012-04-18T14:10:00+03:00","description":"As programmers, we spend a lot of time just carting data from one place to another. Sometimes that’s the entire purpose of a program or library (data conversion whatevers), but more often it’s just something that needs to happen in the course of getting a certain task done. When we’re sending a request, using a library, executing templates or whatever, it’s important to be 100% clear on the format of the data, which is a fancy way of saying how the data is encoded. Let’s do the tacky dictionary thing: encoding (plural encodings) (computing) The way in which symbols are mapped onto bytes, e.g. in the rendering of a particular font, or in the mapping from keyboard input into visual text. A conversion of plain text into a code or cypher form (for decoding by the recipient). I think these senses are a bit too specific—if your data is in a computer in any form, then it’s already encoded. The keyboard doesn’t even have to come into it.","headline":"Escapology: how, when and why to encode and escape","mainEntityOfPage":{"@type":"WebPage","@id":"https://kivikakk.ee/2012/04/18/escapology/"},"url":"https://kivikakk.ee/2012/04/18/escapology/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+
+  <body>
+    <div class="container content">
+      <header class="masthead">
+        <h3 class="masthead-title">
+          <a href="/" title="Home">kivikakk.ee</a>
+
+          <nav class="nav">
+            
+            <small><a href="/">Home</a></small>
+            
+            <small><a href="/about/">About</a></small>
+            
+            <small><a href="/index/">Index</a></small>
+            
+          </nav>
+        </h3>
+      </header>
+
+      <main>
+        <article class="post">
+  <h1 class="post-title">Escapology: how, when and why to encode and escape</h1>
+  <time datetime="2012-04-18T14:10:00+03:00" class="post-date">18 Apr 2012</time>
+  <p>As programmers, we spend a lot of time just carting data from one place to
+another.  Sometimes that’s the entire purpose of a program or library (data
+conversion whatevers), but more often it’s just something that needs to happen
+in the course of getting a certain task done.  When we’re sending a request,
+using a library, executing templates or whatever, it’s important to be 100%
+clear on the format of the data, which is a fancy way of saying how the data is
+encoded.</p>
+
+<p>Let’s do the tacky dictionary thing:</p>
+
+<blockquote>
+  <p><strong><a href="http://en.wiktionary.org/wiki/encoding">encoding</a></strong> (<em>plural</em> encodings)</p>
+
+  <ol>
+    <li>
+      <p>(computing) The way in which symbols are mapped onto bytes, e.g. in the
+rendering of a particular font, or in the mapping from keyboard input into
+visual text.</p>
+    </li>
+    <li>
+      <p>A conversion of plain text into a code or cypher form (for decoding by the
+recipient).</p>
+    </li>
+  </ol>
+</blockquote>
+
+<p><a id="more"></a>I think these senses are a bit too specific—if your data is in a computer in
+any form, then it’s already encoded.  The keyboard doesn’t even have to come
+into it.</p>
+
+<!--more-->
+
+<hr />
+
+<p>If you’re like me and you come from an English-speaking country, there’s a good
+chance that this might seem farfetched, or totally obvious but lacking in
+depth.  The letter <code class="language-plaintext highlighter-rouge">A</code> is represented in ASCII by the integer 65, or hex <code class="language-plaintext highlighter-rouge">41</code>.</p>
+
+<p>From hereon, if I refer to a number with regular formatting, it’s decimal
+unless specified otherwise; likewise with <code class="language-plaintext highlighter-rouge">code</code> formatting, it’s hexadecimal.</p>
+
+<p>You are also probably aware that non-Latin characters like <code class="language-plaintext highlighter-rouge">恋</code> do not have any
+mapping in ASCII, that people all tried to make their own ways to get around
+this—none of which interoperated particularly well—and that at some stage,
+a bunch of smart people decided to create Unicode, which assigns a unique
+integer codepoint to every character of every language (and then some), such
+that the character just mentioned is <a id="604b"></a><code class="language-plaintext highlighter-rouge">U+604b</code>, and that there are character
+encodings, like UTF-8, which are used to represent the codepoints in a
+bytestream, such that <code class="language-plaintext highlighter-rouge">恋</code> becomes <code class="language-plaintext highlighter-rouge">e6 81 8b</code>.</p>
+
+<p>This is all well and good.  But what do you do with this stuff in your program?</p>
+
+<p>Firstly, we need to straighten out what your environment does, or doesn’t do,
+with character encodings.  I’m going to use PHP, Erlang and HTML as my
+examples, because they’re things I work with at work, and they each have
+slightly different ways of dealing with encoding <sup id="fnref:php-silly" role="doc-noteref"><a href="#fn:php-silly" class="footnote" rel="footnote">1</a></sup> owing to their
+internal representation of strings.</p>
+
+<p>Secondly, I’m going to expand this beyond character encodings to <strong>any
+encoding</strong>—which is ultimately what I want to talk about here.  We’re not
+just encoding the textual content for decoding into codepoints; we’re also
+often encoding data to put it within other data in a demarcated way.  In this
+case, we tend to refer to <strong>escaping</strong>, but escaping and encoding are different
+ways of talking about the same <em>process</em>.</p>
+
+<h2 id="php">PHP</h2>
+
+<p>The best way to describe PHP’s character encoding is with the words “not at
+all”.  Strings do not have metadata associated with encoding; to all string
+manipulation functions, a string might as well be an array of bytes,
+representing the raw bytes from the disk that occured between two ASCII <code class="language-plaintext highlighter-rouge">"</code>
+(<code class="language-plaintext highlighter-rouge">22</code>) characters.</p>
+
+<p>In other words, PHP treats the input PHP file as byte soup—nominally ASCII.</p>
+
+<p>Say I want to store <code class="language-plaintext highlighter-rouge">恋は戦争</code> <sup id="fnref:love-is-war" role="doc-noteref"><a href="#fn:love-is-war" class="footnote" rel="footnote">2</a></sup> in a string in PHP.  I boot up my
+editor, open a new file called <code class="language-plaintext highlighter-rouge">koi.php</code> and enter:</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span>
+
+<span class="nv">$koi</span> <span class="o">=</span> <span class="s2">"恋は戦争"</span><span class="p">;</span>
+
+<span class="k">echo</span> <span class="nv">$koi</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span></code></pre></figure>
+
+<p>What do I get?</p>
+
+<p><img src="/assets/post-img/koihasensou-utf8.png" alt="The text &quot;恋は戦争&quot; displays correctly in my
+browser." /></p>
+
+<p>Hey, the text displays correctly!  PHP must be super-smart and it’s doing
+everything right!  Right?</p>
+
+<p>Maybe.  My text-editor decided to save the file in UTF-8 by default.  If I was
+in Japan and I dealt mostly with Japanese, it could be that I tended to save
+files in some popular non-Unicode encodings, like
+<a href="http://en.wikipedia.org/wiki/Shift_JIS">Shift JIS</a> or
+<a href="http://en.wikipedia.org/wiki/ISO-2022-JP">ISO-2022-JP</a>.</p>
+
+<p>What happens if I resave the file in Shift JIS?</p>
+
+<p><img src="/assets/post-img/koihasensou-sjis.png" alt="Non-descript characters appear instead." /></p>
+
+<p><em><a href="http://en.wikipedia.org/wiki/Mojibake">Mojibake!</a></em>  Character encoding issues
+are so common, Japanese has a word for it.</p>
+
+<p>What happened?  PHP actually has no idea about what the text is, encoding,
+whatever.  When it looks at the file, it sees this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0000000: 3c3f 0a0a 246b 6f69 203d 2022 97f6 82cd  &lt;?..$koi = "....
+0000010: 90ed 9188 223b 0a0a 6563 686f 2024 6b6f  ....";..echo $ko
+0000020: 693b 0a0a 3f3e 0a                        i;..?&gt;.
+</code></pre></div></div>
+
+<p>Note that we have a <code class="language-plaintext highlighter-rouge">22</code> at byte <code class="language-plaintext highlighter-rouge">0b</code>, indicating the start of a string, and
+then another <code class="language-plaintext highlighter-rouge">22</code> at byte <code class="language-plaintext highlighter-rouge">14</code>.  I’m contending that the bytes between—i.e.
+<code class="language-plaintext highlighter-rouge">97 f6 82 cd 90 ed 91 88</code>—are what gets stored in the string, without any
+further knowledge.</p>
+
+<p>If this were the case, then <code class="language-plaintext highlighter-rouge">strlen($koi)</code> should be equal to <code class="language-plaintext highlighter-rouge">8</code> (despite
+there being <code class="language-plaintext highlighter-rouge">4</code> Japanese characters).  I modify <code class="language-plaintext highlighter-rouge">koi.php</code>, still in Shift JIS:</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span>
+
+<span class="nv">$koi</span> <span class="o">=</span> <span class="s2">"恋は戦争"</span><span class="p">;</span>
+
+<span class="k">echo</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$koi</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">"&lt;br&gt;</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$koi</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span></code></pre></figure>
+
+<p>And now?</p>
+
+<p><img src="/assets/post-img/koihasensou-sjislen.png" alt="The number 8 prefaces the mojibake." /></p>
+
+<p><em><a href="http://patrickmccoy.typepad.com/lost_in_translation/2006/02/yappari_thats_r_1.html">Yappari</a></em>.
+PHP has <em>no clue</em> what encoding the string is in—it’s just saving those
+bytes, counting them, and throwing them back out.  So why does the UTF-8 one
+look alright in the browser and the Shift JIS one doesn’t?</p>
+
+<p>The first tripping point is the webserver; the Apache on the machine I’m
+testing has this directive in a conffile:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AddDefaultCharset UTF-8
+</code></pre></div></div>
+
+<p>Sure enough, when we take a look at the headers sent on the wire:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 200 OK
+Date: Wed, 18 Apr 2012 04:17:51 GMT
+Server: Apache/2.2.11 (Fedora)
+X-Powered-By: PHP/5.2.9
+Content-Length: 14
+Connection: close
+Content-Type: text/html; charset=UTF-8
+</code></pre></div></div>
+
+<p>So the browser is trying to read the Shift JIS as UTF-8, hence mojibake.  We
+can force that by adding an appropriate <a href="http://php.net/header"><code class="language-plaintext highlighter-rouge">header()</code></a>
+call, but it goes to show that PHP isn’t cognisant of what’s going on here.</p>
+
+<p>Another grand example is using other built-in string functions.
+<a href="http://php.net/str_replace"><code class="language-plaintext highlighter-rouge">str_replace()</code></a> and
+<a href="http://php.net/substr"><code class="language-plaintext highlighter-rouge">substr()</code></a> are fraught with difficulty, no matter what
+encoding you use.</p>
+
+<p>We haven’t even hit the fun stuff yet.  What happens if we use another popular
+Japanese encoding, ISO-2022-JP?  ISO-2022, also known as ECMA-35, is a standard
+for mechanisms for encoding foreign language text, and is used for Japanese in
+ISO-2022-JP, Chinese in ISO-2022-CN, and more, including extensions of the
+same.</p>
+
+<p>Being a more complicated system, it fails to make some guarantees about the
+encoded data which other encodings do make; Shift JIS, for instance, <a href="http://en.wikipedia.org/wiki/Shift_JIS#Shift_JIS_byte_map">does not use common ASCII special characters in its second byte</a>,
+such as <code class="language-plaintext highlighter-rouge">$</code>.  This means a <code class="language-plaintext highlighter-rouge">$</code> symbol in Shift JIS-encoded text always means a
+<code class="language-plaintext highlighter-rouge">$</code>, whereas the letter <code class="language-plaintext highlighter-rouge">A</code> could occur as either a literal <code class="language-plaintext highlighter-rouge">A</code>, or as the
+second byte in a double-byte character <sup id="fnref:mb-encoding" role="doc-noteref"><a href="#fn:mb-encoding" class="footnote" rel="footnote">3</a></sup>.</p>
+
+<p>Keeping in mind that ISO-2022-JP doesn’t exercise such care, let’s see what we
+get …</p>
+
+<p><img src="/assets/post-img/koihasensou-iso2022jp.png" alt="We get a few &quot;undefined variable&quot; PHP
+warnings." /></p>
+
+<p>Uhhhh.  What’s stored on the disk?</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0000000: 3c3f 0a0a 246b 6f69 203d 2022 1b24 424e  &lt;?..$koi = ".$BN
+0000010: 7824 4f40 6f41 681b 2842 223b 0a0a 6563  x$O@oAh.(B";..ec
+0000020: 686f 2073 7472 6c65 6e28 246b 6f69 2920  ho strlen($koi) 
+0000030: 2e20 223c 6272 3e5c 6e22 3b0a 6563 686f  . "&lt;br&gt;\n";.echo
+0000040: 2024 6b6f 693b 0a0a 3f3e 0a               $koi;..?&gt;.
+</code></pre></div></div>
+
+<p>The ISO-2022-JP encoding of <code class="language-plaintext highlighter-rouge">恋は戦争</code> contains the byte-sequence <code class="language-plaintext highlighter-rouge">24 42 4e 78
+24 4f</code>, which is <code class="language-plaintext highlighter-rouge">$BNx$O</code> in ASCII—so PHP tries to interpolate variables so
+named.</p>
+
+<p>Of course, this means even scarier things are possible.  I replaced <code class="language-plaintext highlighter-rouge">恋は戦争</code>
+with <code class="language-plaintext highlighter-rouge">あ</code>—the Japanese letter “a”, essentially—and we get:</p>
+
+<p><img src="/assets/post-img/a-iso2022jp.png" alt="A warning and a parse error." /></p>
+
+<p>Whoops!  On the disk:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0000000: 3c3f 0a0a 246b 6f69 203d 2022 1b24 4224  &lt;?..$koi = ".$B$
+0000010: 221b 2842 223b 0a0a 6563 686f 2073 7472  ".(B";..echo str
+0000020: 6c65 6e28 246b 6f69 2920 2e20 223c 6272  len($koi) . "&lt;br
+0000030: 3e5c 6e22 3b0a 6563 686f 2024 6b6f 693b  &gt;\n";.echo $koi;
+0000040: 0a0a 3f3e 0a                             ..?&gt;.
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">あ</code> encodes as <code class="language-plaintext highlighter-rouge">1b 24 42 24 22 1b 28 42</code>.  Those playing at home will notice a
+<code class="language-plaintext highlighter-rouge">22</code>—i.e. <code class="language-plaintext highlighter-rouge">"</code>—is stuck in the middle, so PHP thinks you’ve prematurely
+terminated the string.</p>
+
+<p>The solution is to encode your source files as UTF-8, because UTF-8 guarantees
+that all ASCII characters—that is, values <code class="language-plaintext highlighter-rouge">00</code> through <code class="language-plaintext highlighter-rouge">7f</code>—are both mapped
+to the same byte in UTF-8, <em>and</em> that those bytes will not occur in a UTF-8
+stream as part of any other character.  UTF-8 is <a href="http://en.wikipedia.org/wiki/UTF-8#Description">marvelously
+well-designed</a> (actually).</p>
+
+<p>This means that PHP won’t do anything funny with your strings, though it still
+treats it like a bag of bytes.  Next, use only the <a href="http://php.net/manual/en/book.mbstring.php">multibyte string extension</a>
+to do string operations.  For instance, let’s revert back to the <code class="language-plaintext highlighter-rouge">恋は戦争</code>
+example in UTF-8, and use <a href="http://php.net/mb_strlen"><code class="language-plaintext highlighter-rouge">mb_strlen()</code></a> instead of
+the plain variety:</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span>
+
+<span class="nv">$koi</span> <span class="o">=</span> <span class="s2">"恋は戦争"</span><span class="p">;</span>
+
+<span class="k">echo</span> <span class="nb">mb_strlen</span><span class="p">(</span><span class="nv">$koi</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">"&lt;br&gt;</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$koi</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span></code></pre></figure>
+
+<p>And we see:</p>
+
+<p><img src="/assets/post-img/koihasensou-utf8len.png" alt="12!?" /></p>
+
+<p>Whoops.  That’s raw bytes again!  The multibyte module has no idea what
+encoding to use, so if we don’t tell it, it behaves as usefully as
+<a href="http://php.net/strlen"><code class="language-plaintext highlighter-rouge">strlen()</code></a>. We have to tell it, and in a very PHP-like
+manner, we set a <strong>global</strong> state for the interpreter.  Great.</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span>
+
+<span class="nb">mb_internal_encoding</span><span class="p">(</span><span class="s2">"UTF-8"</span><span class="p">);</span>
+
+<span class="nv">$koi</span> <span class="o">=</span> <span class="s2">"恋は戦争"</span><span class="p">;</span>
+
+<span class="k">echo</span> <span class="nb">mb_strlen</span><span class="p">(</span><span class="nv">$koi</span><span class="p">)</span> <span class="mf">.</span> <span class="s2">"&lt;br&gt;</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+<span class="k">echo</span> <span class="nv">$koi</span><span class="p">;</span>
+
+<span class="cp">?&gt;</span></code></pre></figure>
+
+<p>And finally:</p>
+
+<p><img src="/assets/post-img/koihasensou-utf8lenmb.png" alt="The number 4. Hallelujah." /></p>
+
+<p>Onto saner pastures.</p>
+
+<h2 id="erlang">Erlang</h2>
+
+<p>Erlang is a funny language.  <a href="http://learnyousomeerlang.com/starting-out-for-real#lists">It doesn’t even <em>have</em>
+strings</a><sup id="fnref:inconvenient-truth" role="doc-noteref"><a href="#fn:inconvenient-truth" class="footnote" rel="footnote">4</a></sup>.
+Instead, a string is a list of numbers; the REPL guesses that a list should be
+pretty-printed as a string if they all look like printable ASCII:</p>
+
+<figure class="highlight"><pre><code class="language-erlang" data-lang="erlang"><span class="mi">1</span><span class="o">&gt;</span> <span class="s">"Hello."</span><span class="p">.</span>
+<span class="s">"Hello."</span>
+<span class="mi">2</span><span class="o">&gt;</span> <span class="p">[</span><span class="mi">72</span><span class="p">,</span> <span class="mi">101</span><span class="p">,</span> <span class="mi">108</span><span class="p">,</span> <span class="mi">108</span><span class="p">,</span> <span class="mi">111</span><span class="p">,</span> <span class="mi">46</span><span class="p">].</span>
+<span class="s">"Hello."</span>
+<span class="mi">3</span><span class="o">&gt;</span></code></pre></figure>
+
+<p>lol!  Gnarly!  But seriously, this accidentally becomes great when you start
+Unicoding it up like you’re part of the UN:</p>
+
+<figure class="highlight"><pre><code class="language-erlang" data-lang="erlang"><span class="mi">3</span><span class="o">&gt;</span> <span class="nv">S</span> <span class="o">=</span> <span class="s">"恋は戦争"</span><span class="p">.</span>
+<span class="p">[</span><span class="mi">24651</span><span class="p">,</span><span class="mi">12399</span><span class="p">,</span><span class="mi">25126</span><span class="p">,</span><span class="mi">20105</span><span class="p">]</span>
+<span class="mi">4</span><span class="o">&gt;</span></code></pre></figure>
+
+<p>Huh!?  Well, they’re not printable ASCII, so what <em>are</em> they?  Let’s translate
+those pesky decimals into something humans can read:</p>
+
+<figure class="highlight"><pre><code class="language-erlang" data-lang="erlang"><span class="mi">4</span><span class="o">&gt;</span> <span class="p">[</span><span class="nn">io</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span><span class="s">"</span><span class="si">~4.16.0b</span><span class="s">, "</span><span class="p">,</span> <span class="p">[</span><span class="nv">N</span><span class="p">])</span> <span class="p">||</span> <span class="nv">N</span> <span class="o">&lt;-</span> <span class="nv">S</span><span class="p">],</span> <span class="n">ok</span><span class="p">.</span>
+<span class="mi">604</span><span class="n">b</span><span class="p">,</span> <span class="mi">306</span><span class="n">f</span><span class="p">,</span> <span class="mi">6226</span><span class="p">,</span> <span class="mi">4</span><span class="n">e89</span><span class="p">,</span> <span class="n">ok</span>
+<span class="mi">5</span><span class="o">&gt;</span></code></pre></figure>
+
+<p><code class="language-plaintext highlighter-rouge">604b</code>?  <a href="#604b">Doesn’t that sound familiar?</a>.  It’s actually interpreting
+each Unicode <em>character</em> (not each <em>byte</em>) as its integer codepoint.  That
+means all lovely things we want to assume hold true, like length calculation
+and substrings:</p>
+
+<figure class="highlight"><pre><code class="language-erlang" data-lang="erlang"><span class="mi">5</span><span class="o">&gt;</span> <span class="nb">length</span><span class="p">(</span><span class="nv">S</span><span class="p">).</span>
+<span class="mi">4</span>
+<span class="mi">6</span><span class="o">&gt;</span> <span class="nn">io</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span><span class="s">"~ts</span><span class="si">~n</span><span class="s">"</span><span class="p">,</span> <span class="p">[</span><span class="nn">lists</span><span class="p">:</span><span class="nf">sublist</span><span class="p">(</span><span class="nv">S</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]).</span>
+<span class="err">戦争</span>
+<span class="n">ok</span>
+<span class="mi">7</span><span class="o">&gt;</span></code></pre></figure>
+
+<p>So Erlang provides a pretty good native data-type for storing Unicode
+characters; pre-Unicode, we were just storing the numbers of ASCII characters
+in a list, so now we just store the numbers of Unicode codepoints instead.</p>
+
+<p>Unfortunately, the simplicity of <em>entry</em> does not extend to source files.
+D’oh!  The Erlang manual specifies that source must be entered in
+<a href="http://en.wikipedia.org/wiki/ISO/IEC_8859-1">ISO-8859-1</a>, also known as
+“Latin-1” encoding.  Only the REPL is smart enough to do Unicode.  This is
+detailed in <a href="http://www.erlang.org/doc/apps/stdlib/unicode_usage.html#id62505">the Erlang manual</a>.</p>
+
+<p>So you could consider that it’s difficult to get Unicode data <em>into</em>
+Erlang—in that you can’t enter it directly into the source—but once you
+have it, it’s much more straightforward to manange than with, say, PHP.  The
+reality is, most Unicode data in your program will be coming from <em>without</em>
+your program, not within—i.e. user input, API call results, etc.—so this
+isn’t as bad as it sounds.</p>
+
+<p>Erlang doesn’t store metadata about the encoding; it avoids the problem
+entirely by letting strings represent Unicode natively.  Once you start sending
+or receiving them on the wire, you’ll usually want convert them to or from
+binary strings with functions from the
+<a href="http://www.erlang.org/doc/man/unicode.html"><code class="language-plaintext highlighter-rouge">unicode</code></a> module, which provides
+helpers for various UTF encodings, and Latin-1.  Once so-converted, the data is
+unambiguously opaque … compared with PHP’s “I don’t have a clue <em>what</em> it is”.</p>
+
+<h2 id="html">HTML</h2>
+
+<p>This is a huge kludge.</p>
+
+<p>HTML itself contains a way to declare its own encoding, using a <a href="http://en.wikipedia.org/wiki/Meta_element"><code class="language-plaintext highlighter-rouge">&lt;meta&gt;</code> tag</a>
+to declare the <a href="http://en.wikipedia.org/wiki/MIME#Content-Type">Content-Type</a>
+of the document.  The issue, if you weren’t paying attention, is that reading
+the <code class="language-plaintext highlighter-rouge">&lt;meta&gt;</code> tag implies you are able to make any sense of the document
+whatsoever.  Valid HTML requires the <code class="language-plaintext highlighter-rouge">&lt;meta&gt;</code> to appear within the <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code>,
+i.e. for HTML 5:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"utf-8"</span><span class="nt">&gt;</span>
+  ...</code></pre></figure>
+
+<p>This isn’t a problem with sane encodings, because they tend to map ASCII
+through; but things like UTF-16 and above require the server to declare the
+content-type in the HTTP headers; interpreting
+<a href="http://en.wikipedia.org/wiki/UTF-32">UTF-32</a> as ASCII leads to madness.</p>
+
+<p>For comparison’s sake, the layout on disk of the above in UTF-8 (identical to
+ASCII here):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00000000: 3c21 646f 6374 7970 6520 6874 6d6c 3e0a  &lt;!doctype html&gt;.
+00000010: 3c68 746d 6c3e 0a3c 6865 6164 3e0a 2020  &lt;html&gt;.&lt;head&gt;.  
+00000020: 3c6d 6574 6120 6368 6172 7365 743d 2275  &lt;meta charset="u
+00000030: 7466 2d38 223e 0a                        tf-8"&gt;.  ....
+</code></pre></div></div>
+
+<p>And in UTF-32:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00000000: 0000 003c 0000 0021 0000 0064 0000 006f  ...&lt;...!...d...o
+00000010: 0000 0063 0000 0074 0000 0079 0000 0070  ...c...t...y...p
+00000020: 0000 0065 0000 0020 0000 0068 0000 0074  ...e... ...h...t
+00000030: 0000 006d 0000 006c 0000 003e 0000 000a  ...m...l...&gt;....
+00000040: 0000 003c 0000 0068 0000 0074 0000 006d  ...&lt;...h...t...m
+00000050: 0000 006c 0000 003e 0000 000a 0000 003c  ...l...&gt;.......&lt;
+00000060: 0000 0068 0000 0065 0000 0061 0000 0064  ...h...e...a...d
+00000070: 0000 003e 0000 000a 0000 0020 0000 0020  ...&gt;....... ... 
+00000080: 0000 003c 0000 006d 0000 0065 0000 0074  ...&lt;...m...e...t
+...
+</code></pre></div></div>
+
+<p>(it goes on like this)</p>
+
+<p>Triples of <code class="language-plaintext highlighter-rouge">NUL</code>-bytes separating everything!  This is UTF-32’s grand plan to
+support everything without variable-width encoding, meaning operations like
+string length, slicing and substring matching could be done fairly
+cheaply<sup id="fnref:utf-32-clusterfuck" role="doc-noteref"><a href="#fn:utf-32-clusterfuck" class="footnote" rel="footnote">5</a></sup>.</p>
+
+<p>In these cases you should be ensuring the server sends the correct
+<code class="language-plaintext highlighter-rouge">Content-Type</code>, implying the server has a clue—and if you’re lucky, enough
+users’ browsers will guess.</p>
+
+<p>This could be considered a non-solution.</p>
+
+<p>The other thing HTML brings to the table, via SGML, is character entity
+references, giving you the ability to <a href="http://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references">refer to any Unicode character by
+codepoint</a>.
+This doesn’t make for happy editing, but it does mean that HTML can <em>represent</em>
+arbitrary Unicode characters even when the HTML itself is ASCII, for instance.</p>
+
+<h2 id="representing-unicode-characters">Representing Unicode characters</h2>
+
+<p>This is an important concept.  In HTML, one can enter:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="ni">&amp;#x604b;&amp;#x306f;&amp;#x6226;&amp;#x4e89;</span></code></pre></figure>
+
+<p>And get this in their browser:</p>
+
+<p><img src="/assets/post-img/koihasensou-utf8.png" alt="The text &quot;恋は戦争&quot;." /><!-- Yes, I'm reusing this
+image. --></p>
+
+<p>This is without any other markup or declaration of encoding; we’re telling the
+browser to render the characters by Unicode codepoint directly.  This is
+equivalent to entering them into a list in Erlang source directly:</p>
+
+<figure class="highlight"><pre><code class="language-erlang" data-lang="erlang"><span class="p">[</span><span class="mi">16#604b</span><span class="p">,</span> <span class="mi">16#306f</span><span class="p">,</span> <span class="mi">16#6226</span><span class="p">,</span> <span class="mi">16#4e89</span><span class="p">]</span></code></pre></figure>
+
+<p>It’s important to make clear a distinction here, however: HTML is <em>markup</em>, and
+Erlang is a <em>programming language</em>.  HTML gives you an escape route to render a
+given codepoint, which is good, but what we’re talking about when we talk about
+Erlang is actually an <strong>internal representation</strong>.</p>
+
+<p>This is what I’m more interested in, so I’ll put HTML to the side for now.</p>
+
+<p>When data enters your Erlang program, it’s most likely going to be encoded in
+some form; whichever service receives that data is responsible for making sense
+of it.  Imagine you’re writing a webserver: people might submit forms in UTF-8,
+UTF-16, Shift JIS, Latin-1, whatever.  No matter what you’re doing with that
+data—you might be spitting it right back in the response; hacking it up into
+pieces; storing in a database, maybe for later hacking—you need to normalise
+the format of the data <em>while you still know what format it’s in</em>.</p>
+
+<p>If you’re coding in PHP and you receive a string full of bits, if you throw
+that into a database without noting the encoding
+<sup id="fnref:whose-encoding-is-it-anyway" role="doc-noteref"><a href="#fn:whose-encoding-is-it-anyway" class="footnote" rel="footnote">6</a></sup>, you’ve permanently lost the ability to say for
+sure what the data actually is.</p>
+
+<p>The solution, then, is to normalise the data at the point of entry, once, and
+to normalise it into an <em>internal format</em> that makes sense.  In Erlang, you
+might store a string as a codepoint list.  In PHP, you’ve little option but to
+normalise it to another encoding like UTF-8, and to decide that UTF-8 <em>is</em> the
+internal format for textual data.</p>
+
+<h2 id="check-your-blindspots">Check your blindspots</h2>
+
+<p>Do <strong>not</strong> fall into the trap of saying “well, I know my users will only enter
+Latin-1 data, which happens to be the default, so I’ll just save that and print
+that.”  Guess what?  That’s what most of Japan said when they decided to use
+Shift JIS.  Except for those who used ISO-2022-JP.  Or EUC-JP.  Good luck to
+most of these people when people from other countries start submitting data.</p>
+
+<p>If you won’t listen to me, listen to the experience of the top 25 Japanese
+websites according to Alexa.  <a href="http://www.webmasterworld.com/printerfriendlyv5.cgi?forum=32&amp;discussion=3373673&amp;serial=3376486&amp;user=">A forum post from
+mid-2007</a>
+detailed 10 of them using UTF-8.  When I check the other 15, 8 have moved to
+UTF-8, leaving 7 not using UTF-8.  3 of those are on Shift JIS because they’re
+either tailored for the Japanese mobile market—which endemically tends to
+only support Shift JIS (Japanese mobile phones are not like your mobile phones)
+—or because they make heavy use of <a href="http://en.wikipedia.org/wiki/Shift_JIS_art">Shift_JIS
+art</a>.</p>
+
+<p>Storing data authentically is something that, as programmers, we need to get
+used to, and clobbering data that doesn’t conform to your expectation makes no
+sense.</p>
+
+<p>When data comes in, store it in a normal form.  If you’re building a webservice
+in a sane language or framework, it’s probable that the environment has done
+this work for you.</p>
+
+<h2 id="dont-escape-data">Don’t escape data</h2>
+
+<p>The key is to strongly mark the boundaries of keeping data in one format and
+another.  Strongly-typed languages can distinguish this at compile time and
+stop mistakes, but that’s a rant for another day.</p>
+
+<p>I’m going to start talking about another encoding process, often referred to as
+escaping.</p>
+
+<p>Pop-quiz: what’s wrong with this PHP?</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span>
+
+<span class="c1">// Omitted: init.</span>
+
+<span class="nv">$username</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s2">"username"</span><span class="p">];</span>
+<span class="nv">$password</span> <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s2">"password"</span><span class="p">];</span>
+<span class="nb">mysql_query</span><span class="p">(</span><span class="s2">"INSERT INTO tblUsers VALUES ('</span><span class="nv">$username</span><span class="s2">', '</span><span class="nv">$password</span><span class="s2">')"</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span></code></pre></figure>
+
+<p>A related question is “what’s <em>not</em> wrong with this PHP?”.  I can think of nine
+separate issues with it <sup id="fnref:php-issue-register" role="doc-noteref"><a href="#fn:php-issue-register" class="footnote" rel="footnote">7</a></sup>, but let’s look at the obvious
+one: <code class="language-plaintext highlighter-rouge">$username</code> and <code class="language-plaintext highlighter-rouge">$password</code> are inserted into the query unescaped.  Maybe.</p>
+
+<p>Unless you live under a rock, you’ll recognise the <a href="http://en.wikipedia.org/wiki/SQL_injection">SQL injection attack</a>,
+also known as <strong>SQLi</strong>.  The issue is because we’re substituting
+<code class="language-plaintext highlighter-rouge">$username</code>—which we should think of as user data—directly into the stream
+of a MySQL command.  By doing so, we’re essentially saying that the user data
+<em>is</em> part of a MySQL command—because it is.  A user could enter <code class="language-plaintext highlighter-rouge">"'); DROP TABLE tblUsers; --</code>,
+and because we failed to encode user data as user data (which really means
+escaping here), it happens.</p>
+
+<p>So how do we “encode” data?  The correct way is to let the layer of abstraction
+handle that for you.  If you use <a href="http://php.net/manual/en/book.pdo.php">PDO</a>,
+and put the laundry list of issues with the above code aside, it looks like
+this:</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="cp">&lt;?</span>
+
+<span class="c1">// Omitted: init, database connection in $db.</span>
+
+<span class="nv">$stmt</span> <span class="o">=</span> <span class="nv">$db</span><span class="o">-&gt;</span><span class="nf">prepare</span><span class="p">(</span><span class="s1">'INSERT INTO tblUsers VALUES (:username, :password)'</span><span class="p">);</span>
+
+<span class="nv">$stmt</span><span class="o">-&gt;</span><span class="nf">execute</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+	<span class="s1">':username'</span> <span class="o">=&gt;</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s2">"username"</span><span class="p">],</span>
+	<span class="s1">':password'</span> <span class="o">=&gt;</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s2">"password"</span><span class="p">],</span>
+<span class="p">));</span>
+
+<span class="cp">?&gt;</span></code></pre></figure>
+
+<p>We let PDO deal with constructing the query—being the most-informed part of
+the system to deal with query parameter encoding.  If we do it ourselves, we’ll
+probably make a mistake.</p>
+
+<p>Note that <strong>we are <em>not</em> escaping the data</strong>—we’re deciding that another part
+of the system which knows how to do it should do it instead.  Knowing when
+<strong>not</strong> to escape is often just as important as knowing when <strong>to</strong> escape.</p>
+
+<h3 id="caveat">Caveat</h3>
+
+<p>Q. When will the above go terribly wrong?</p>
+
+<p>A. <a href="http://web.archive.org/web/20171002204939/http://php.net/manual/en/security.magicquotes.php">When a deficient language tries to automate security</a>,
+and finds that’s actually not possible according to the definition of security.</p>
+
+<p>Hello, your database is now full of backslashes.  Unfortunately, magic quotes
+is enabled at the level of the webserver, so if your host has it enabled, you
+have to try to turn it off.  <a href="http://web.archive.org/web/20210101040748/https://www.php.net/manual/en/security.magicquotes.disabling.php">Look at that Example #2.  Mmmmmm.</a></p>
+
+<p>Do <strong>not</strong> rely on broken auto-escaping.  Your code will become unportable (and
+insecure) if you end up hosting the same stuff elsewhere where this process
+does not take place.  It’s tantamount to assuming all data will come in encoded
+in UTF-16 and being surprised when your application breaks at inopportune moments.</p>
+
+<p>(Edit 2021-02-18: I’ve needed to put in archive links here, as this has been
+thoroughly sweeped under the rug; deprecated in PHP 5.3 and removed in PHP 5.4.
+Keep in mind you can still find PHP 4 webhosting if you search for it.)</p>
+
+<h2 id="the-golden-rule">The golden rule</h2>
+
+<p>So, what’s the guiding principle?</p>
+
+<p><strong>Data in your application should be <em>semantically pure</em></strong>.</p>
+
+<p>If this doesn’t make any sense to you, read it once more, and I’ll explain.</p>
+
+<p><strong>Data in your application should be <em>semantically pure</em></strong>.</p>
+
+<p>Let’s say you take a username as input in a web application.  When the client
+makes the request and sends us this username, we receive it into a variable.
+What does the variable contain, right from the start?  Is it the exact text
+they entered?  Does it have quotes escaped?  Are characters like <code class="language-plaintext highlighter-rouge">&lt;</code> and <code class="language-plaintext highlighter-rouge">&gt;</code>
+converted to HTML entities so we can output it back into the page if we need
+to?</p>
+
+<p>No.  The variable contains the username.  <em>Nothing</em> else.</p>
+
+<p>It is not escaped.  It has no special encoding <strong>other</strong> than the normalisation
+about textual data encoding we’ve already discussed.  It is in <em>no way</em> prepped
+for output, because it is the <em>pure</em> username.</p>
+
+<p><em>When</em> we want to output it, we pass it to the presentation layer <em>pure</em>, and
+let the presentation layer apply as many post-processing layers of encoding as
+is required for the context.  It will probably convert special characters to
+entities if they could cause issues.  If it’s being put in a link URI it will
+be URI encoded.  If it’s ending up in some server-side generated JavaScript it
+may need to be escaped appropriately.</p>
+
+<p><em>When</em> we want to do a match against the database, we pass it to the database
+layer <em>pure</em>, and let the database layer perform the correct escaping for the
+context.</p>
+
+<p>Let’s say you take a user’s age as input in a web application.  You may have a
+mind for UX, so you check that the field appears to contain a number.  Now,
+before you start passing that variable around everywhere, what do you do?
+<strong>You represent it internally as a number</strong>.  You call
+<a href="http://php.net/intval"><code class="language-plaintext highlighter-rouge">intval</code></a> or <code class="language-plaintext highlighter-rouge">list_to_integer/1</code> and you <strong>let the
+presentation layer decide what to do with a number</strong>.</p>
+
+<p>Otherwise you’re going to leave yourself open for all sorts of trouble.</p>
+
+<p>The key is that the value is <em>semantically</em> pure—it carries the meaning of
+the value in the programming language as it does in your mind.  No extra
+backslashes in your mind?  Make sure the application sees that too.  This is
+why we add structs, classes, new types and so forth; to better model the
+semantics of the values in the programming language.</p>
+
+<h2 id="mvc">MVC</h2>
+
+<p>The model is the purest part of the application.  You ask it for some value,
+and it gives it to you, completely unadorned.  It’s the controller’s
+responsibility to request data of the model, and to hand all requisite data so
+gathered to the view; it’s ultimately the view’s responsibility to perform
+encoding of data according to context.</p>
+
+<p>Similarly, when the controller receives request data, it should parse it into
+semantically meaningful values, which are then passed back to the view and into
+models as appropriate.</p>
+
+<p>If the view then, say, uses some of this data in a query string value, it URI
+encodes it.  If it’s including the data on the page directly, it converts HTML
+entities to avoid <a href="http://en.wikipedia.org/wiki/Cross-site_scripting">XSS</a>.</p>
+
+<p>And so on.</p>
+
+<h2 id="escape-data-unescape-data">Escape data, unescape data</h2>
+
+<p>I hope this entry might have shown you some of the parallels between
+character-set encoding and escaping; they are both forms of processing data
+into different formats, and it’s nearly always a mistake to not know if this
+form of processing has occurred yet on a given piece of data, anywhere in an
+application.</p>
+
+<p>Repeating the process (double-escaping or double-encoding) <em>without intending
+to</em> means you’re actually talking about those bytes that represent the encoded
+data <em>in</em> the encoded data.  Without being sure of the state of your inputs,
+this can happen easily, and the next time you type <code class="language-plaintext highlighter-rouge">恋は戦争</code>, you end up
+seeing <code class="language-plaintext highlighter-rouge">æ&lt;81&gt;&lt;8b&gt;ã&lt;81&gt;¯æ&lt;88&gt;¦äº&lt;89&gt;</code>—which is what happens if you interpret
+the UTF-8 bytes of the string as a Latin-1 sequence<sup id="fnref:encodeception" role="doc-noteref"><a href="#fn:encodeception" class="footnote" rel="footnote">8</a></sup>.</p>
+
+<p>Here are some other actions analogous to encoding.</p>
+
+<ul>
+  <li>Shell escaping.</li>
+  <li>Wrapping in the jQuery object<sup id="fnref:jquery-idempotency" role="doc-noteref"><a href="#fn:jquery-idempotency" class="footnote" rel="footnote">9</a></sup>.</li>
+  <li>Quoting people in conversation.</li>
+  <li>Editor’s comments in a quote in a newspaper.</li>
+</ul>
+
+<p>Ultimately, it’s a matter of being certain about the <em>type</em> of data you’re
+handling, whereby type I mean anything relevant to parsing its semantic
+content.  Both dynamically- and statically-typed languages are amenable to
+annotating objects with metadata concerning the operations that have been
+carried out with them.</p>
+
+<p>I’m also trying to point out that this is not restricted to programming
+languages—it’s whenever you have different categories of things being spoken
+of, or different levels of abstraction.</p>
+
+<p>Golang’s <a href="http://golang.org/pkg/html/template/">html/template package</a>,
+effectively performing the role of the view in MVC, does automatic encoding of
+data that has come from the controller, depending on the context.  This is a
+nifty feature, as it allows you to forget about escaping—so long as you are
+passing it semantically pure data, of course.</p>
+
+<p>If you have the template <code class="language-plaintext highlighter-rouge">&lt;p&gt;{{.}}&lt;/p&gt;</code>, then data to be substituted at
+dot will have HTML entities inserted automatically, preventing XSS attacks.
+Similarly, with the template fragment 
+<code class="language-plaintext highlighter-rouge">&lt;a href="/?action={{.}}"&gt;{{.}}&lt;/a&gt;</code> dot’s content will be URI
+encoded in the first instance and have HTML entities inserted in the second.</p>
+
+<p>As the package documentation explains:</p>
+
+<blockquote>
+  <p>This package assumes that template authors are trusted, that Execute’s data
+parameter is not, and seeks to preserve the properties below in the face of
+untrusted data:</p>
+
+  <p>Structure Preservation Property: “… when a template author writes an HTML
+tag in a safe templating language, the browser will interpret the
+corresponding portion of the output as a tag regardless of the values of
+untrusted data, and similarly for other structures such as attribute
+boundaries and JS and CSS string boundaries.”</p>
+
+  <p>Code Effect Property: “… only code specified by the template author should
+run as a result of injecting the template output into a page and all code
+specified by the template author should run as a result of the same.”</p>
+
+  <p>Least Surprise Property: “A developer (or code reviewer) familiar with HTML,
+CSS, and JavaScript, who knows that contextual autoescaping happens should be
+able to look at a {{.}} and correctly infer what sanitization happens.”</p>
+</blockquote>
+
+<p>This provides a lot of reassurances that we want—but then if we <em>do</em> have
+some data in the controller that we <em>really</em> want to be substituted in as HTML,
+what’s a cute programmer such as yourself to do?</p>
+
+<p>The same package provides the
+<a href="http://golang.org/pkg/html/template/#HTML"><code class="language-plaintext highlighter-rouge">HTML</code> type</a>
+—actually, a synonym for <code class="language-plaintext highlighter-rouge">string</code>.  In Golang, type synonyms are different
+types with respect to method sets—we can’t use a method of one on another
+(methods are not inherited)—and there is no implicit conversion between them.
+Objects of different types (even where the types are synonyms) are completely
+different, except that we can
+<a href="http://golang.org/ref/spec#Conversions">convert between them</a> as they have the
+same <a href="http://golang.org/ref/spec#Types">underlying type</a>.  This means that we
+can take a <code class="language-plaintext highlighter-rouge">string</code> and turn it into a <code class="language-plaintext highlighter-rouge">HTML</code> with a simple conversion:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span class="c">// x is of type string</span>
+<span class="n">x</span> <span class="o">:=</span> <span class="s">"&lt;p&gt;This is delicious!&lt;/p&gt;"</span>
+
+<span class="c">// y is of type HTML</span>
+<span class="n">y</span> <span class="o">:=</span> <span class="n">HTML</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></code></pre></figure>
+
+<p>Passing an object of type HTML to <code class="language-plaintext highlighter-rouge">html/template</code> tells it that the escaping
+required to sanitise HTML has already been done, and so in a context where such
+escaping is necessary, the content will be included verbatim.  Of course, this
+also implies you don’t let user input find its way into a <code class="language-plaintext highlighter-rouge">HTML</code>-typed object
+without doing necessary encoding/normalisation yourself.  I refrain from using the word “sanitisation”, as the term has plenty of bad connotations which I’m about to talk about.</p>
+
+<p>There are a range of other types for indicating that you’ve taken on the
+responsibility of validating the variable contents are safe for use in given
+contexts, i.e. giving the developer an escape for getting some data in which
+you know you don’t want re-encoded.  The important thing is that you’re
+categorically stating that it’s so—no part of the system will assume it
+otherwise.  It’s safe by default, but in a way that doesn’t compare to “magic
+quotes”, because it’s happening at the view, right before output, not at data
+entry, contaminating your entire application.</p>
+
+<h2 id="for-the-love-of-all-that-is-good">For the love of all that is good</h2>
+
+<p><a href="http://coding.smashingmagazine.com/2011/01/11/keeping-web-users-safe-by-sanitizing-input-data/">Don’t do this</a>.</p>
+
+<p>This is an anti-pattern.  This is <strong>the</strong> anti-pattern.  The author’s very
+first suggestion is to tell you to set the server-wide configuration for PHP to
+automatically do certain escaping on some variables.  The idea is that you can
+now pretend that all your variables are ready to become a part of HTML
+somewhere!</p>
+
+<p>Of course, if you insert these (safely) into the database, you’ve just inserted
+HTML-sanitised data into the database.  Your database is perfectly capable of
+storing the text <code class="language-plaintext highlighter-rouge">kivi "owl" kakk</code>, but now you’ve got a row with the value
+<code class="language-plaintext highlighter-rouge">kivi &amp;quot;owl&amp;quot; kakk</code>.  If you still think this is a good idea, you
+should leave the classroom right now.</p>
+
+<p>You read this out of the database.  Maybe you want to know how many characters
+long it is.  <code class="language-plaintext highlighter-rouge">strlen()</code>?  26.  Never mind that the actual displayed string is
+16 when shown in HTML.  Maybe you want to use this value in an API call to some
+other webservice.  You wrap it in a few objects, maybe encode it to JSON.  Now
+you have to remember to <em>decode</em> the entities before you use it in non-HTML
+contexts.  Though if you want to put it into HTML to be part of a URI, you have
+to remember to decode it, then re-encode it with URI (component) encoding.  You
+lose.</p>
+
+<p>If you treat data semantically to begin with, and only encode it as appropriate
+for the output at the <em>time</em> of output, we don’t have an issue.  Input
+filtering is just a way to make sure you’ll never really know what’s in a
+variable.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Data in your application should <em>mean what it means</em>.</p>
+
+<p>When data comes in, interpret its <em>meaning</em> once, according to context.</p>
+
+<p>When data goes out, encode it <em>meaningfully</em> according to context.</p>
+
+<p>This applies to charsets, escaping and more.</p>
+
+<h2 id="postscript-php-strings">Postscript: PHP strings</h2>
+
+<p>It’s interesting to note here that there is neither a PHP type which represents
+a string with a given encoding—
+<a href="http://www.php.net/manual/en/language.types.string.php#language.types.string.details">the PHP string is a byte-buffer</a>
+and no more—nor a suitable sequence-like container for arbitrary codepoints;
+you could follow the same approach that Erlang takes and store codepoints as
+integers within arrays, but due to PHP’s impressive array
+type<sup id="fnref:array-what-array" role="doc-noteref"><a href="#fn:array-what-array" class="footnote" rel="footnote">10</a></sup>, it would be incredibly inefficient.</p>
+
+<p>I’m also not finding any way to take an arbitrary list of codepoints (or a
+single codepoint) and return it in a given encoding; the data is always assumed
+to have come in as a string in some encoding.  Of course, you could take your
+codepoints and convert them to UTF-8 yourself, and <em>then</em> treat that with the
+multibyte string module.  <a href="http://stackoverflow.com/questions/1805802/php-convert-unicode-codepoint-to-utf-8">This appears to not be
+atypical</a>.
+Oh, PHP.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:php-silly" role="doc-endnote">
+
+      <p>Hint: the way PHP does it is silly.  See the part on “Text” in <a href="http://me.veekun.com/blog/2012/04/09/php-a-fractal-of-bad-design/">Eevee’s
+blog post about
+PHP</a>. <a href="#fnref:php-silly" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:love-is-war" role="doc-endnote">
+
+      <p>Japanese <em>koi wa sensou</em>, meaning <a href="http://supercell.sc/koisen/">“love is war”</a>. <a href="#fnref:love-is-war" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:mb-encoding" role="doc-endnote">
+
+      <p>All encodings mentioned so far, except ASCII, are examples of
+<a href="http://en.wikipedia.org/wiki/Variable-width_encoding">variable-width
+encodings</a>, or
+<em>multibyte encodings</em>. <a href="#fnref:mb-encoding" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:inconvenient-truth" role="doc-endnote">
+
+      <p>Well, there are binaries, but <strong>sshhhh</strong>, I’m in the middle of pointmaking. <a href="#fnref:inconvenient-truth" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:utf-32-clusterfuck" role="doc-endnote">
+
+      <p>Of course, they shot themselves in all thirty-two of their feet when
+English-language text in UTF-32 resembles UTF-16 so much that browsers
+trying to auto-detect encoding when the server doesn’t declare it <a href="http://en.wikipedia.org/wiki/UTF-32#Non-use_in_HTML5">detect
+it as UTF-16</a>, not to
+mention endianness problems also found in UTF-16 and <a href="http://en.wikipedia.org/wiki/Byte_order_mark">the terrible kludges
+to work around
+them</a>.</p>
+
+      <p>Given UTF-16 doesn’t solve any problem (well), and creates many, I find
+myself wondering why they bothered. <a href="#fnref:utf-32-clusterfuck" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:whose-encoding-is-it-anyway" role="doc-endnote">
+
+      <p>And how do you know the encoding?  You don’t.  The browser encodes it in
+the <em>same encoding as it determined the page to be</em>.  Think about what that
+means for a bit. <a href="#fnref:whose-encoding-is-it-anyway" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:php-issue-register" role="doc-endnote">
+
+      <ol>
+        <li>may need to check <a href="http://php.net/get_magic_quotes_gpc"><code class="language-plaintext highlighter-rouge">get_magic_quotes_gpc()</code></a> to know if data is encoded.</li>
+        <li>password stored unhashed.</li>
+        <li>we don’t specify a connection object.</li>
+        <li>we’re using an antique MySQL library.</li>
+        <li>inputs are unescaped (maybe—see point 1).</li>
+        <li>escape inputs when you could use placeholders? Doing so successfully means ensuring data is <em>not</em> escaped by now; see point 1.</li>
+        <li>specifying columns; inserted columns <em>may</em> cause failure, or just data going in the wrong places.</li>
+        <li>use placeholders when you can use an ORM?</li>
+        <li>checking return value; because who cares about data integrity?</li>
+      </ol>
+
+      <p>This list itself is an example of poorly encoded data.  Note how it’s
+inconsistent as to whether the items mentioned are the issues, or the fixes. <a href="#fnref:php-issue-register" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:encodeception" role="doc-endnote">
+
+      <p>Of course, note that these characters are of course embedded in <em>this</em> document with UTF-8. <a href="#fnref:encodeception" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:jquery-idempotency" role="doc-endnote">
+
+      <p>jQuery is special in that it’s never a mistake to rewrap in jQuery; the
+jQuery wrapper function is idempotent.  This is because you can
+unambiguously distinguish between an wrapped object and a not-wrapped
+object; note that the same does not hold of arbitrary strings without
+metadata attached to the string describing what encoding it should be.
+Ruby’s strings, for instance, have no issues, as they carry knowledge of
+their encoding.</p>
+
+      <p>A common practice is to prefix a variable name with a <code class="language-plaintext highlighter-rouge">$</code> if it’s known to
+be wrapped in jQuery—because you’ve guaranteed it at the point of naming
+the variable, typically.  This is a way of making the assertion about the
+encoding obvious. Because you can’t accidentally overwrap an object in
+JavaScript, usually an absence of <code class="language-plaintext highlighter-rouge">$</code> prefix implies no guarantee—it may
+be wrapped or unwrapped, and the only way to guarantee e.g. a DOM object,
+is by wrapping and then using <code class="language-plaintext highlighter-rouge">get</code>.  The point is that you can never
+mistakenly assume something to be jQuery wrapped when it isn’t; you’ll
+always know. <a href="#fnref:jquery-idempotency" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:array-what-array" role="doc-endnote">
+
+      <p>Hint: there is none.  I know where you can get a hash-table-y kinda thing,
+though. <a href="#fnref:array-what-array" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+</article>
+
+
+<aside class="related">
+  <h3>Related posts</h3>
+  <ul class="related-posts">
+    
+      <li>
+        <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/">
+          Breaking homegrown crypto
+          <small><time datetime="2016-02-20T02:56:00+02:00">20 Feb 2016</time></small>
+        </a>
+      </li>
+    
+      <li>
+        <a href="/2021/02/28/loader/">
+          Knowing when to look past your code
+          <small><time datetime="2021-02-28T00:00:00+02:00">28 Feb 2021</time></small>
+        </a>
+      </li>
+    
+      <li>
+        <a href="/2013/05/10/snapchat/">
+          Snapchat: not for state secrets
+          <small><time datetime="2013-05-10T13:44:00+03:00">10 May 2013</time></small>
+        </a>
+      </li>
+    
+  </ul>
+</aside>
+
+
+      </main>
+
+      <footer class="footer">
+        <a href="/archive/">Archived blog</a>
+        <small>Xx</small>
+      </footer>
+    </div>
+  </body>
+</html>

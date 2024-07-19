@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Being sorta useful in vim</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="alternate" href="/feed.xml" type="application/atom+xml">
+</head>
+<body>
+
+<div class="container">
+  <div class="site">
+    <div class="header">
+      <h1 class="title"><a href="/">kivikakk.ee</a></h1>
+      <a class="extra" href="/">home</a>
+    </div>
+
+    <h2>Being sorta useful in vim</h2>
+<p class="meta">19 Apr 2014</p>
+
+<div id="post">
+<h3 id="a-strange-guide">a strange guide</h3>
+
+<p>This is a semi-comprehensive, non-prosaic (but hardly poetic) reference to vim.  Approach with caution.</p>
+
+<p>Modes:</p>
+
+<ul>
+  <li><a href="#normal"><strong>normal</strong></a>: move the cursor, delete, enter insert mode, delete then insert, enter visual mode, yank and put (copy and paste)</li>
+  <li><a href="#insert"><strong>insert</strong></a>: type stuff, move the cursor, scroll, put</li>
+  <li><a href="#visual"><strong>visual</strong></a>: do things to the selected area, move your cursor about within it</li>
+</ul>
+
+<p>And more:</p>
+
+<ul>
+  <li><a href="#registers"><strong>registers</strong></a>: where your deleted and yanked text goes</li>
+  <li><a href="#text-objects"><strong>text objects</strong></a>: even more ways to select text</li>
+  <li><a href="#what-else"><strong>what else?</strong></a>: what haven’t I covered?</li>
+  <li><a href="#cc0"><strong>CC0</strong></a>: this text is in the public domain</li>
+</ul>
+
+<h3 id="normal">normal</h3>
+
+<p><a href="#move-the-cursor">move the cursor</a>, <a href="#delete">delete</a>, <a href="#enter-insert-mode">enter insert mode</a>, <a href="#delete-then-insert">delete then insert</a>, <a href="#enter-visual-mode">enter visual mode</a>, <a href="#yank-and-put">yank and put</a> (copy and paste)</p>
+
+<h4 id="move-the-cursor">move the cursor</h4>
+
+<p><code class="highlighter-rouge">hjkl</code> move the cursor left-down-up-right respectively.  It’s good to remember these, but no big deal if you don’t; cursor keys usually work too.  On Dvorak, you have <code class="highlighter-rouge">jk</code> on your left hand for vertical movement, and <code class="highlighter-rouge">hl</code> on your right for horizontal.</p>
+
+<p><code class="highlighter-rouge">w</code> moves a word forward.  <code class="highlighter-rouge">b</code> moves a word backward.  These stop at punctuation, too; if you want to skip a “word” where a word is just anything that’s not whitespace, <code class="highlighter-rouge">W</code> and <code class="highlighter-rouge">B</code> do the trick.</p>
+
+<p><code class="highlighter-rouge">e</code> moves forward until the end of a word, instead of the start of a word.  <code class="highlighter-rouge">E</code> has the same rule as above.</p>
+
+<p>These are a good start: using <code class="highlighter-rouge">wbWB</code> are pretty good for getting around quickly.</p>
+
+<p>You can prefix any command with a number; <code class="highlighter-rouge">5w</code> moves 5 words, <code class="highlighter-rouge">10B</code> moves backwards 10, uh, ‘big’, words.  These work on <code class="highlighter-rouge">hjkl</code> as well (and almost anything, honestly).</p>
+
+<p>Go to the start and end of the line with <code class="highlighter-rouge">^$</code>.</p>
+
+<p>Go anywhere by searching with regular expressions; type <code class="highlighter-rouge">/</code>, and then complete the regular expression in the buffer beneath.  <code class="highlighter-rouge">n</code> and <code class="highlighter-rouge">N</code> then find the next and previous match.  These all function as movement commands in the below contexts, too.  <code class="highlighter-rouge">?</code> is the same as <code class="highlighter-rouge">/</code>, but backwards.  Note that <code class="highlighter-rouge">n</code> and <code class="highlighter-rouge">N</code> are reversed when you’re in such a reverse search!</p>
+
+<p>You can also go quickly to the <em>following</em> given character on the current line; <code class="highlighter-rouge">f</code> followed by the character instantly goes there.  <code class="highlighter-rouge">fa</code> will put the cursor on the next <code class="highlighter-rouge">a</code>.  <code class="highlighter-rouge">Fa</code> goes backwards. You can also go <em>‘til</em> the next character, i.e. to the character immediately before, with <code class="highlighter-rouge">t</code>; <code class="highlighter-rouge">ta</code> puts the cursor just before the following <code class="highlighter-rouge">a</code>, and <code class="highlighter-rouge">Ta</code> just after the preceding one.</p>
+
+<p>(You’ll note here that uppercase commands <em>tend</em> to vary the lowercase equivalents, by degree, inversion, or other shift in meaning.  I do say “tend”, though, because there are plenty that don’t.)</p>
+
+<p><code class="highlighter-rouge">&lt;Enter&gt;</code> is another way of saying <code class="highlighter-rouge">j</code>, and <code class="highlighter-rouge">&lt;Space&gt;</code> another way of saying <code class="highlighter-rouge">l</code>.</p>
+
+<p><code class="highlighter-rouge">)</code> and <code class="highlighter-rouge">(</code> move a sentence forward and backward respectively.  <code class="highlighter-rouge">}</code> and <code class="highlighter-rouge">{</code> move by paragraphs instead.</p>
+
+<p><code class="highlighter-rouge">])</code> and <code class="highlighter-rouge">[(</code> move to the next and previous unmatched <code class="highlighter-rouge">)</code> and <code class="highlighter-rouge">(</code> respectively, as do <code class="highlighter-rouge">]}</code> and <code class="highlighter-rouge">[{</code> for <code class="highlighter-rouge">}</code> and <code class="highlighter-rouge">{</code>.  More understandably put: they move out to the next parenthesis or brace level in the given direction; they go “up” a level.</p>
+
+<p><code class="highlighter-rouge">%</code> moves to (and including) the matching token under the cursor; if your cursor is on a <code class="highlighter-rouge">(</code>, it’ll move to the matching <code class="highlighter-rouge">)</code>, etc.</p>
+
+<p><code class="highlighter-rouge">G</code> moves to the end of the document.  If you prefix a number, it moves to that numbered line; <code class="highlighter-rouge">1G</code> to the very top.</p>
+
+<h4 id="delete">delete</h4>
+
+<p><code class="highlighter-rouge">d</code> deletes stuff.  You have to tell it what by following with a movement command: it deletes from the cursor position up to where you tell it.  <code class="highlighter-rouge">dw</code> deletes the word you’re on, up to the start of the next word.  <code class="highlighter-rouge">dl</code> deletes up to the following character; i.e. the single character your cursor is on.</p>
+
+<p>Note that if you’ve hit <code class="highlighter-rouge">d</code> and change your mind, <code class="highlighter-rouge">&lt;Escape&gt;</code> will abort that command.</p>
+
+<p>Operations spanning lines are a bit different.  <code class="highlighter-rouge">dd</code> will delete the entirety of the current line.  This repetition of a command to mean ‘this line’ is a pattern.  You can use a number: <code class="highlighter-rouge">2dd</code> will delete this line and the one after it.  On that, <code class="highlighter-rouge">3dw</code> deletes 3 words.  (So does <code class="highlighter-rouge">d3w</code>.)</p>
+
+<p><code class="highlighter-rouge">dj</code> (delete down) will delete this <em>and</em> the next line.  <code class="highlighter-rouge">dk</code> will delete this <em>and</em> the previous line.</p>
+
+<p><code class="highlighter-rouge">D</code> is the same as <code class="highlighter-rouge">d$</code>; it deletes to the end of the line.</p>
+
+<p><code class="highlighter-rouge">d/blah&lt;Return&gt;</code> will delete from the cursor until the next <code class="highlighter-rouge">blah</code> in the file.  <code class="highlighter-rouge">d?blah&lt;Return&gt;</code> deletes back to the previous <code class="highlighter-rouge">blah</code>, including the entire matching word itself.</p>
+
+<p><code class="highlighter-rouge">dta</code> deletes from the cursor up to and not including the following <code class="highlighter-rouge">a</code>.  <code class="highlighter-rouge">dfa</code> would include the <code class="highlighter-rouge">a</code> in its deletion.  <code class="highlighter-rouge">2dta</code> deletes up to and not including the second following <code class="highlighter-rouge">a</code>, etc.</p>
+
+<p><code class="highlighter-rouge">x</code> deletes a single character, as a handy shorthand.  If you have the word <code class="highlighter-rouge">programmer</code> and the cursor positioned at the start, <code class="highlighter-rouge">10x</code> will delete the whole word.</p>
+
+<p><code class="highlighter-rouge">d)</code> will delete to the end of the sentence; as will <code class="highlighter-rouge">d}</code> the paragraph.  <code class="highlighter-rouge">d%</code> deletes the entirety of whatever the token under the cursor delimits; if your cursor is on a matched brace, the entire brace will be deleted, and so on.</p>
+
+<h4 id="enter-insert-mode">enter insert mode</h4>
+
+<p><code class="highlighter-rouge">i</code> will enter insert mode, leaving the cursor where it is.</p>
+
+<p><code class="highlighter-rouge">a</code> will enter insert mode, but places the cursor after the current character, i.e. appends.</p>
+
+<p><code class="highlighter-rouge">I</code> and <code class="highlighter-rouge">A</code> enter insert mode, but first move the cursor to the start or end of the line respectively.  (These are handy.)  They’re the same as <code class="highlighter-rouge">^i</code> or <code class="highlighter-rouge">$a</code> respectively.</p>
+
+<p>Note that numbers work with these too: <code class="highlighter-rouge">3i</code> will enter insert mode, and whatever you type will be inserted thrice in total, once you leave the mode.</p>
+
+<p><code class="highlighter-rouge">o</code> and <code class="highlighter-rouge">O</code> enter insert mode, “opening” a line as they do.  <code class="highlighter-rouge">o</code> opens a new line underneath (same as <code class="highlighter-rouge">A&lt;Return&gt;</code>), and <code class="highlighter-rouge">O</code> opens a line on the current line (same as <code class="highlighter-rouge">I&lt;Return&gt;&lt;Escape&gt;ki</code>, or just <code class="highlighter-rouge">ko</code> if there’s a line above).  You might need a mnemonic to remember which is which; <code class="highlighter-rouge">O</code> reaches higher up the screen than <code class="highlighter-rouge">o</code>, and so opens the line higher.</p>
+
+<p><code class="highlighter-rouge">R</code> enters replace mode; like insert, but overwriting text instead of inserting before it.</p>
+
+<h4 id="delete-then-insert">delete then insert</h4>
+
+<p>You can delete then insert in the same command; this is called “changing” text.  Just use <code class="highlighter-rouge">c</code> instead of <code class="highlighter-rouge">d</code>, and it functions nearly identically as for deleting, and then enters insert mode on the spot.  (<code class="highlighter-rouge">cw</code> is the same as <code class="highlighter-rouge">dei</code>; <code class="highlighter-rouge">cc</code> is the same as <code class="highlighter-rouge">^Di</code>; the differences are that the <em>whole</em> object isn’t removed, that is to say, trailing spaces or newlines are kept. <code class="highlighter-rouge">ce</code> and <code class="highlighter-rouge">cw</code> do the same thing.)</p>
+
+<p><code class="highlighter-rouge">C</code> functions as <code class="highlighter-rouge">Di</code>.  Change is often handy as <code class="highlighter-rouge">c/</code>, <code class="highlighter-rouge">ct</code>, <code class="highlighter-rouge">cT</code>, etc.</p>
+
+<p>Note that numbers before change commands affect <em>only</em> the delete portion of the command; <code class="highlighter-rouge">2cw</code> is literally like <code class="highlighter-rouge">2dei</code>, not <code class="highlighter-rouge">2dei2i</code>, in that it removes two words (excluding the trailing space), and then enters insert mode, but what you insert isn’t entered twice.  This is almost always what you want.</p>
+
+<p><code class="highlighter-rouge">s</code> is like <code class="highlighter-rouge">cl</code>; it’ll change a character on your cursor. <code class="highlighter-rouge">10s</code> erases the ten characters from under your cursor and enters insert.  <code class="highlighter-rouge">S</code> is the same as <code class="highlighter-rouge">cc</code> (since otherwise what would it do different to <code class="highlighter-rouge">C</code>?).</p>
+
+<p><code class="highlighter-rouge">r</code> is like <code class="highlighter-rouge">s</code> but only for a single character; it waits for you to enter the character, which the one under the cursor will be replaced with. <code class="highlighter-rouge">10ra</code> replaces the current and following 9 characters with the letter <code class="highlighter-rouge">a</code>.</p>
+
+<h4 id="enter-visual-mode">enter visual mode</h4>
+
+<p><code class="highlighter-rouge">v</code> enters visual mode.  The cursor position at the time of entering visual mode becomes one end of the selection, and now you move the other.</p>
+
+<p>Visual mode selects a range of text, traversing newlines as they occur sequentially in the text.</p>
+
+<p><code class="highlighter-rouge">V</code> enters visual line mode; this selects whole lines at a time, inclusive of both ends of the selection.</p>
+
+<p><code class="highlighter-rouge">CTRL-V</code> enters visual block mode; this selects a physical rectangular block of text.  It can be a bit weird at first, especially with its behaviour crossing lines and empty lines, but quite useful, especially in combination with <code class="highlighter-rouge">r</code>, <code class="highlighter-rouge">c</code>, and <code class="highlighter-rouge">s</code>.</p>
+
+<p><code class="highlighter-rouge">gv</code> will enter visual mode with the last selection you had already made.  (Note that your cursor won’t necessarily be anywhere near where it ends up.)</p>
+
+<h4 id="yank-and-put">yank and put</h4>
+
+<p><code class="highlighter-rouge">y</code> takes a movement like other commands; <code class="highlighter-rouge">yy</code> (copies) yanks the current line, <code class="highlighter-rouge">yj</code> the current and next, <code class="highlighter-rouge">y2w</code> (or <code class="highlighter-rouge">2yw</code>) the two words from the cursor position onward, etc.</p>
+
+<p><code class="highlighter-rouge">p</code> puts (pastes) what was yanked <em>after</em> the cursor position.  If you yanked <em>linewise</em> (like the first two examples above), the put is linewise: they are put as whole lines underneath the current one, as if you’d used <code class="highlighter-rouge">o</code> to open.</p>
+
+<p><code class="highlighter-rouge">P</code> yanks at the current cursor position, as if you used <code class="highlighter-rouge">i</code> to insert the text.  If you yanked linewise, it puts as if you used <code class="highlighter-rouge">O</code> to open.</p>
+
+<p>All delete commands, including change commands <code class="highlighter-rouge">c</code>, <code class="highlighter-rouge">s</code> and so on, actually have been the equivalent of “cut” operations.  If you e.g. use <code class="highlighter-rouge">cw</code> to change a word, <code class="highlighter-rouge">p</code> will then put the deleted word.</p>
+
+<p>See <a href="#registers">below</a> about different registers in case you want to save some text without it getting clobbered by subsequent yanks or deletes.</p>
+
+<h3 id="insert">insert</h3>
+
+<p><a href="#type-stuff">type stuff</a>, <a href="#move-the-cursor">move the cursor</a>, <a href="#scroll">scroll</a>, <a href="#put">put</a></p>
+
+<h4 id="type-stuff">type stuff</h4>
+
+<p>Type stuff!  Go on!</p>
+
+<h4 id="move-the-cursor-1">move the cursor</h4>
+
+<p>If cursor keys are enabled, they probably will let you move the cursor in vim without exiting insert mode.</p>
+
+<p><code class="highlighter-rouge">&lt;Escape&gt;</code> will leave insert mode, by the way.</p>
+
+<h4 id="scroll">scroll</h4>
+
+<p>There’s a submode of insert mode that seems to be called expand mode; <code class="highlighter-rouge">&lt;CTRL-X&gt;</code> enables it.  Any keypress not recognised by the mode will just be handled by regular insert mode and quit the expand mode; of note are <code class="highlighter-rouge">&lt;CTRL-E&gt;</code> and <code class="highlighter-rouge">&lt;CTRL-Y&gt;</code>, which scroll the window down and up respectively.  Just start typing to exit the mode.</p>
+
+<p>It’s worth noting these scroll in normal mode, too.</p>
+
+<h4 id="put">put</h4>
+
+<p>You can also put text while in insert mode.  <code class="highlighter-rouge">&lt;CTRL-R&gt;"</code> will put whatever you last deleted or yanked; see below about <a href="#registers">registers</a> for more on this; the <code class="highlighter-rouge">"</code> is specifying the register to put.</p>
+
+<p>You can get help on insert-mode keys, by they way, by typing something like <code class="highlighter-rouge">:help i_CTRL-R</code>.</p>
+
+<h3 id="visual">visual</h3>
+
+<p><a href="#do-things-to-the-selected-area">do things to the selected area</a>, <a href="#move-your-cursor-about-within-it">move your cursor about within it</a></p>
+
+<h4 id="do-things-to-the-selected-area">do things to the selected area</h4>
+
+<p>Any command, like <code class="highlighter-rouge">c</code> and <code class="highlighter-rouge">d</code>, will affect the selected mode en masse.</p>
+
+<h4 id="move-your-cursor-about-within-it">move your cursor about within it</h4>
+
+<p>Pressing <code class="highlighter-rouge">o</code> will change the end of the selection you’re moving to the other end; useful to adjust the selection.</p>
+
+<p>The three visual modes, accessed with <code class="highlighter-rouge">v</code>, <code class="highlighter-rouge">V</code> and <code class="highlighter-rouge">CTRL-V</code>, are exited by pressing the appropriate key again.  You can switch <em>between</em> visual modes by pressing the key for any other visual mode while already in one.</p>
+
+<h3 id="registers">registers</h3>
+
+<p>When you delete or yank text, it’s put in a register; a clipboard, essentially.  Each register is identified by a character, and they’re referred to by prefixing a <code class="highlighter-rouge">"</code>.  <code class="highlighter-rouge">"a</code> is the a register, <code class="highlighter-rouge">"F</code> the F register, etc.  There are special registers; the unnamed register, <code class="highlighter-rouge">""</code> (i.e. the register name is double-quote), is what’s used by default by yank, delete and put.</p>
+
+<p>To perform any register-affecting command with a given register, prefix the entire command with the register reference; <code class="highlighter-rouge">"ay$</code> yanks the rest of the line into the <code class="highlighter-rouge">"a</code> register.  <code class="highlighter-rouge">"ap</code> puts that.  (Note that <code class="highlighter-rouge">dcsxy</code> <em>always</em> affect the <code class="highlighter-rouge">""</code> register, <em>as well</em> as any specified one.)</p>
+
+<p><code class="highlighter-rouge">"_</code> is the blackhole register; it causes the command to affect <em>no</em> registers.  (This is the only exception to the parenthesis prior to this.  Ahem.)</p>
+
+<p>Per <a href="#put">put in insert</a>, <code class="highlighter-rouge">&lt;CTRL-R&gt;</code> waits for a register name; <code class="highlighter-rouge">&lt;CTRL-R&gt;a</code> in insert mode will put the contents of the <code class="highlighter-rouge">"a</code> register.</p>
+
+<p>Registers <code class="highlighter-rouge">"0</code> thru <code class="highlighter-rouge">"9</code> have special meaning; see <code class="highlighter-rouge">|quote_number|</code> (type <code class="highlighter-rouge">:help quote_number</code> in normal mode) for more information.</p>
+
+<p>If you specify a letter-named register with lowercase letters, you replace the contents; <code class="highlighter-rouge">"ayw</code> sets the contents of the <code class="highlighter-rouge">"a</code> register to the word from the cursor on.  The same register reference but uppercase causes that register to be appended to.</p>
+
+<p>More special registers exist; see <code class="highlighter-rouge">|registers|</code>.</p>
+
+<h3 id="text-objects">text objects</h3>
+
+<p>Text objects are another way to select areas of text.  They can’t be used as movement commands in normal mode in and of themselves, as they refer to regions; they may only be movement command arguments to commands that do something to regions, such as <code class="highlighter-rouge">d</code> and <code class="highlighter-rouge">c</code>.  They are, however, very useful.</p>
+
+<p>I lied, though: they can be used directly in visual mode, which selects the region they refer to.  Experimenting with this is a good way to see how they work.</p>
+
+<p>Text object commands start with either <code class="highlighter-rouge">i</code> or <code class="highlighter-rouge">a</code>; the former selects an object not including surrounding whitespace (“inner”), the latter includes surrounding whitespace.  (Much like <code class="highlighter-rouge">i</code> leaves the cursor put when entering insert mode, but <code class="highlighter-rouge">a</code> moves it forward.  It sort of makes sense.)</p>
+
+<p>After that, you specify the kind of object; they’re based roughly on movement commands.  <code class="highlighter-rouge">iw</code>, for instance, refers to the word your cursor is on top of.  <code class="highlighter-rouge">diw</code> deletes the word your cursor is on.  Note how this differs (usefully) from <code class="highlighter-rouge">dw</code>; <code class="highlighter-rouge">dw</code> deletes forwards from the cursor until the start of the next word, whereas <code class="highlighter-rouge">diw</code> deletes the entire word under the cursor, regardless of your cursor’s position.</p>
+
+<p>Some common use cases: change the word under the cursor: <code class="highlighter-rouge">ciw</code>.  Delete the word under the cursor entirely, closing any gaps: <code class="highlighter-rouge">daw</code>.  Same, but take any punctuation touching the word with it, too: <code class="highlighter-rouge">daW</code>.</p>
+
+<p>Sentences and paragraphs are accessed with <code class="highlighter-rouge">s</code> and <code class="highlighter-rouge">p</code>, again, following <code class="highlighter-rouge">i</code> or <code class="highlighter-rouge">a</code>.  Give some of these a try in visual mode to see what I mean: enter visual mode, then try <code class="highlighter-rouge">iw</code>, then <code class="highlighter-rouge">aw</code>.  Try <code class="highlighter-rouge">ip</code>, then <code class="highlighter-rouge">ap</code>.  (Note that these will put you in visual line mode.)</p>
+
+<p>Some of the most useful are the matching token operators: <code class="highlighter-rouge">i[</code> (or <code class="highlighter-rouge">i]</code> ­ there’s no difference) will select the contents of the nearest matching <code class="highlighter-rouge">[...]</code>, but not the <code class="highlighter-rouge">[]</code> themselves.  <code class="highlighter-rouge">a[</code> (or <code class="highlighter-rouge">a]</code>) include the tokens themselves.</p>
+
+<p>Same works for <code class="highlighter-rouge">{</code>, <code class="highlighter-rouge">(</code>, <code class="highlighter-rouge">&lt;</code>, <code class="highlighter-rouge">"</code>, <code class="highlighter-rouge">'</code>, <code>`</code>.  Changing a string or HTML attribute quickly?  <code class="highlighter-rouge">ci"</code>.  Want to quickly start a selection with a given block of code?  <code class="highlighter-rouge">va{</code>.</p>
+
+<p>Repetition works: <code class="highlighter-rouge">2di(</code> deletes everything in the second-closest pair of parentheses, but not those parentheses themselves.</p>
+
+<p>Editing HTML, <code class="highlighter-rouge">t</code> will work on HTML tags; <code class="highlighter-rouge">it</code> the contents of the nearest tag, <code class="highlighter-rouge">at</code> the contents and opening and closing tags themselves.</p>
+
+<p>These are really lovely.  See <code class="highlighter-rouge">|text-objects|</code> for more.</p>
+
+<h3 id="what-else">what else?</h3>
+
+<p>This is not even close to an exhaustive list of things in vim.</p>
+
+<p>There are recordings (macros), which can be extraordinarily powerful; see <code class="highlighter-rouge">|recording|</code>.  Note that they record and execute into and of the same registers that you paste in, meaning you can paste out a recording, modify in the text, then yank it back into the register for execution.</p>
+
+<p>There are even more movement commands: <code>*</code> and <code class="highlighter-rouge">#</code> search for the word under the cursor, <code class="highlighter-rouge">;</code> and <code class="highlighter-rouge">,</code> repeat your last <code class="highlighter-rouge">tTfF</code> command forward and backward (again with confusing reversing behaviour), <code>`</code> and <code class="highlighter-rouge">'</code> operate on marks set by <code class="highlighter-rouge">m</code> (see <code class="highlighter-rouge">|mark|</code>), and there are a million more commands prefixed by <code class="highlighter-rouge">g</code> (see <code class="highlighter-rouge">|g|</code>) that either modify the behaviour of the non <code class="highlighter-rouge">g</code>-prefixed command, or do something totally different.  It’s worth a look.</p>
+
+<p>Further, there’s the entire command-line mode, accessed by pressing <code class="highlighter-rouge">:</code> in normal mode.  There are an enormous number of commands, many operating on ranges (pressing <code class="highlighter-rouge">:</code> in visual will start the command-line with a range matching the visually-selected lines); a useful one is <code class="highlighter-rouge">s</code> (see <code class="highlighter-rouge">|:s|</code>), for search-and-replace.</p>
+
+<p>There’s <code class="highlighter-rouge">.</code>, which repeats your last command.  Learn how it behaves in different circumstances and use it.</p>
+
+<p>Keyword completion, triggered directly with <code class="highlighter-rouge">CTRL-N</code> and <code class="highlighter-rouge">CTRL-P</code> or through expand (<code class="highlighter-rouge">^X</code>) mode (see <code class="highlighter-rouge">|i_CTRL-N|</code>, <code class="highlighter-rouge">|i_CTRL-X_CTRL-N|</code>) just does a lookup based on tokens in open files.  There’s omnicomplete (<code class="highlighter-rouge">|compl-omni|</code>, <code class="highlighter-rouge">|i_CTRL-X_CTRL-O|</code>), which can use plugins to intelligently autocomplete (like IntelliSense).</p>
+
+<p>And a heck of a lot more, too.</p>
+
+<p>Good luck!</p>
+
+<h3 id="thanks">thanks</h3>
+
+<p>Thanks to Nethanel Elzas for emailing in fixes and suggestions!</p>
+
+<h3 id="cc0">CC0</h3>
+
+<p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
+  <a rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/">
+    <img src="https://i.creativecommons.org/p/zero/1.0/88x31.png" style="border-style: none;" alt="CC0" />
+  </a>
+  <br />
+  To the extent possible under law,
+  <a rel="dct:publisher" href="https://kivikakk.ee">
+    <span property="dct:title">kivikakk</span></a>
+  has waived all copyright and related or neighboring rights to
+  <span property="dct:title">&ldquo;Being sorta useful in vim&rdquo;</span>.
+  This work is published from:
+  <span property="vcard:Country" datatype="dct:ISO3166" content="AU" about="https://kivikakk.ee">
+    Australia</span>.
+</p>
+
+
+</div>
+
+
+    <div class="footer">
+      <div class="contact">
+        <p>
+          <img src="https://gravatar.com/avatar/c2a8564c05a7124ded58e86a6c86f6ca?s=70">
+        </p>
+      </div>
+
+      <div class="contact">
+        <p>
+	  <a href="https://kivikakk.ee">kivikakk.ee</a><br>
+	  <a href="https://github.com/kivikakk">github.com/kivikakk</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

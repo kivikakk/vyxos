@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>k6_bytea</title>
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="alternate" href="/feed.xml" type="application/atom+xml">
+</head>
+<body>
+
+<div class="container">
+  <div class="site">
+    <div class="header">
+      <h1 class="title"><a href="/">kivikakk.ee</a></h1>
+      <a class="extra" href="/">home</a>
+    </div>
+
+    <h2>k6_bytea</h2>
+<p class="meta">13 May 2013</p>
+
+<div id="post">
+<p>I’ve started a project in Erlang recently, and I needed a big block of mutable
+memory – a massive byte array, buffer, whatever you want to call it.  Erlang’s
+binary strings are immutable and so probably not suitable.</p>
+
+<p>I figured the core distribution must’ve had something like this … nope.
+Spending 30 minutes Googling and checking docs twice and thrice over, but
+there’s clearly no mutable byte array in Erlang itself.</p>
+
+<p>Is there a hack that approximates to this?  Search … <a href="http://stackoverflow.com/questions/1919594/binary-operations-on-erlang-binaries">this StackOverflow
+almost seems
+hopeful</a>
+at the end, referencing <code class="highlighter-rouge">hipe_bifs:bytearray/2</code> and
+<code class="highlighter-rouge">hipe_bifs:bytearray_update/3</code>, but alas, they are so-named because they are
+part of the HiPE native compiler, and not Erlang itself.  (I’m not currently
+using HiPE, and it would be nice to not be tied to it.)</p>
+
+<p>Then, I thought, surely someone else has extended Erlang to do this.  There are
+several modes of extending Erlang, but <a href="http://www.erlang.org/doc/man/erl_nif.html">native implemented functions
+(NIFs)</a> would be the obvious
+candidate for manipulating large chunks of memory.</p>
+
+<p>Googling this yielded complete failure: people just don’t seem to be doing
+it.  (If people <em>are</em> doing it and you know this, please, <a href="https://twitter.com/kivikakk">let me know</a>.)</p>
+
+<p>So I did it: <a href="https://github.com/kivikakk/k6_bytea">k6_bytea</a>.</p>
+
+<p>The interface is simple and fairly pleasant:</p>
+
+<figure class="highlight"><pre><code class="language-erlang" data-lang="erlang"><span class="mi">1</span><span class="o">&gt;</span> <span class="nv">Bytea</span> <span class="o">=</span> <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">from_binary</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="s">"Hello, world."</span><span class="o">&gt;&gt;</span><span class="p">).</span>
+<span class="o">&lt;&lt;&gt;&gt;</span>
+<span class="mi">2</span><span class="o">&gt;</span> <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">set</span><span class="p">(</span><span class="nv">Bytea</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="s">"Thomas"</span><span class="o">&gt;&gt;</span><span class="p">).</span>
+<span class="n">ok</span>
+<span class="mi">3</span><span class="o">&gt;</span> <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">to_binary</span><span class="p">(</span><span class="nv">Bytea</span><span class="p">).</span>
+<span class="o">&lt;&lt;</span><span class="s">"Hello, Thomas"</span><span class="o">&gt;&gt;</span>
+<span class="mi">4</span><span class="o">&gt;</span> <span class="nv">Gigabyte</span> <span class="o">=</span> <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="mi">1000000000</span><span class="p">).</span>
+<span class="o">&lt;&lt;&gt;&gt;</span>
+<span class="mi">5</span><span class="o">&gt;</span> <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">delete</span><span class="p">(</span><span class="nv">Gigabyte</span><span class="p">).</span>
+<span class="n">ok</span>
+<span class="mi">6</span><span class="o">&gt;</span></code></pre></figure>
+
+<p>The gigabyte allocation caused a small notch on my memory performance graph:</p>
+
+<p><img title="Ahem." src="/img/1gb.png" style="border: 1px solid #000; margin: 0px auto; display: block;" /></p>
+
+<h3 id="perf">perf</h3>
+
+<p>The obvious question remains: how does it perform, vis-à-vis binary strings?</p>
+
+<p>Let’s make a contrived benchmark: initialise a large buffer, write all over it
+in a deterministic fashion, and copy data all over it. Let’s do it in parallel,
+too.</p>
+
+<p>Here’s the benchmarking code for your perusal:</p>
+
+<figure class="highlight"><pre><code class="language-erlang" data-lang="erlang"><span class="p">-</span><span class="ni">module</span><span class="p">(</span><span class="n">k6_bytea_bench</span><span class="p">).</span>
+ 
+<span class="p">-</span><span class="ni">export</span><span class="p">([</span><span class="n">run</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="n">binary_strings</span><span class="o">/</span><span class="mi">1</span><span class="p">,</span> <span class="n">k6_bytea</span><span class="o">/</span><span class="mi">1</span><span class="p">]).</span>
+ 
+<span class="p">-</span><span class="ni">define</span><span class="p">(</span><span class="no">COUNT</span><span class="p">,</span> <span class="mi">1024</span><span class="p">).</span>   <span class="c">% Parallel operations.
+</span><span class="p">-</span><span class="ni">define</span><span class="p">(</span><span class="no">SIZE</span><span class="p">,</span> <span class="mi">102400</span><span class="p">).</span>  <span class="c">% Size of buffer to work on.
+</span> 
+<span class="nf">run</span><span class="p">()</span> <span class="o">-&gt;</span>
+    <span class="nf">measure</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="s">"Binary strings"</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="n">binary_strings</span><span class="p">),</span>
+    <span class="nf">measure</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="s">"k6_bytea"</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="o">?</span><span class="nv">MODULE</span><span class="p">,</span> <span class="n">k6_bytea</span><span class="p">).</span>
+ 
+<span class="nf">measure</span><span class="p">(</span><span class="nv">Name</span><span class="p">,</span> <span class="nv">M</span><span class="p">,</span> <span class="nv">F</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="p">{</span><span class="nv">SM</span><span class="p">,</span> <span class="nv">SS</span><span class="p">,</span> <span class="nv">SI</span><span class="p">}</span> <span class="o">=</span> <span class="nn">erlang</span><span class="p">:</span><span class="nf">now</span><span class="p">(),</span>
+    <span class="nf">spawn_many</span><span class="p">(</span><span class="o">?</span><span class="nv">COUNT</span><span class="p">,</span> <span class="nv">M</span><span class="p">,</span> <span class="nv">F</span><span class="p">,</span> <span class="p">[</span><span class="nf">self</span><span class="p">()]),</span>
+    <span class="nf">receive_many</span><span class="p">(</span><span class="o">?</span><span class="nv">COUNT</span><span class="p">,</span> <span class="n">done</span><span class="p">),</span>
+    <span class="p">{</span><span class="nv">EM</span><span class="p">,</span> <span class="nv">ES</span><span class="p">,</span> <span class="nv">EI</span><span class="p">}</span> <span class="o">=</span> <span class="nn">erlang</span><span class="p">:</span><span class="nf">now</span><span class="p">(),</span>
+    <span class="nv">Elapsed</span> <span class="o">=</span> <span class="p">((</span><span class="nv">EM</span> <span class="o">-</span> <span class="nv">SM</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000000</span> <span class="o">+</span> <span class="p">(</span><span class="nv">ES</span> <span class="o">-</span> <span class="nv">SS</span><span class="p">))</span> <span class="o">*</span> <span class="mi">1000</span> <span class="o">+</span> <span class="p">((</span><span class="nv">EI</span> <span class="o">-</span> <span class="nv">SI</span><span class="p">)</span> <span class="ow">div</span> <span class="mi">1000</span><span class="p">),</span>
+    <span class="nn">io</span><span class="p">:</span><span class="nf">format</span><span class="p">(</span><span class="s">"</span><span class="si">~s</span><span class="s"> [</span><span class="si">~p</span><span class="s"> ms]</span><span class="si">~n</span><span class="s">"</span><span class="p">,</span> <span class="p">[</span><span class="nv">Name</span><span class="p">,</span> <span class="nv">Elapsed</span><span class="p">]),</span>
+    <span class="n">ok</span><span class="p">.</span>
+ 
+<span class="nf">spawn_many</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">_,</span> <span class="p">_,</span> <span class="p">_)</span> <span class="o">-&gt;</span> <span class="n">ok</span><span class="p">;</span>
+<span class="nf">spawn_many</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="nv">M</span><span class="p">,</span> <span class="nv">F</span><span class="p">,</span> <span class="nv">A</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nb">spawn</span><span class="p">(</span><span class="nv">M</span><span class="p">,</span> <span class="nv">F</span><span class="p">,</span> <span class="nv">A</span><span class="p">),</span>
+    <span class="nf">spawn_many</span><span class="p">(</span><span class="nv">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">M</span><span class="p">,</span> <span class="nv">F</span><span class="p">,</span> <span class="nv">A</span><span class="p">).</span>
+ 
+<span class="nf">receive_many</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">_)</span> <span class="o">-&gt;</span> <span class="n">ok</span><span class="p">;</span>
+<span class="nf">receive_many</span><span class="p">(</span><span class="nv">N</span><span class="p">,</span> <span class="nv">M</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="k">receive</span> <span class="nv">M</span> <span class="o">-&gt;</span> <span class="nf">receive_many</span><span class="p">(</span><span class="nv">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">M</span><span class="p">)</span> <span class="k">end</span><span class="p">.</span>
+ 
+<span class="nf">binary_strings</span><span class="p">(</span><span class="nv">Done</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nv">B0</span> <span class="o">=</span> <span class="o">&lt;&lt;</span><span class="mi">0</span><span class="p">:(</span><span class="o">?</span><span class="nv">SIZE</span><span class="o">*</span><span class="mi">8</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="p">,</span>
+    <span class="nv">B1</span> <span class="o">=</span> <span class="nf">binary_strings_set_bits</span><span class="p">(</span><span class="nv">B0</span><span class="p">,</span> <span class="nn">lists</span><span class="p">:</span><span class="nf">seq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">?</span><span class="nv">SIZE</span> <span class="o">-</span> <span class="mi">1024</span><span class="p">,</span> <span class="o">?</span><span class="nv">SIZE</span> <span class="ow">div</span> <span class="mi">1024</span><span class="p">)),</span>
+    <span class="p">_</span> <span class="o">=</span> <span class="nf">binary_strings_copy_bits</span><span class="p">(</span><span class="nv">B1</span><span class="p">,</span> <span class="nn">lists</span><span class="p">:</span><span class="nf">seq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">?</span><span class="nv">SIZE</span> <span class="o">-</span> <span class="mi">1024</span><span class="p">,</span> <span class="o">?</span><span class="nv">SIZE</span> <span class="ow">div</span> <span class="mi">1024</span><span class="p">)),</span>
+    <span class="nv">Done</span> <span class="o">!</span> <span class="n">done</span><span class="p">.</span>
+ 
+<span class="nf">binary_strings_set_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nv">B</span><span class="p">;</span>
+<span class="nf">binary_strings_set_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="p">[</span><span class="nv">H</span><span class="p">|</span><span class="nv">T</span><span class="p">])</span> <span class="o">-&gt;</span>
+    <span class="o">&lt;&lt;</span><span class="nv">LHS</span><span class="p">:</span><span class="nv">H</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="p">_:</span><span class="mi">1</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="nv">RHS</span><span class="o">/</span><span class="n">binary</span><span class="o">&gt;&gt;</span> <span class="o">=</span> <span class="nv">B</span><span class="p">,</span>
+    <span class="nf">binary_strings_set_bits</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="nv">LHS</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="p">(</span><span class="nv">H</span> <span class="ow">rem</span> <span class="mi">255</span><span class="p">),</span> <span class="nv">RHS</span><span class="o">/</span><span class="n">binary</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="nv">T</span><span class="p">).</span>
+ 
+<span class="nf">binary_strings_copy_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nv">B</span><span class="p">;</span>
+<span class="nf">binary_strings_copy_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="p">[</span><span class="nv">H</span><span class="p">|</span><span class="nv">T</span><span class="p">])</span> <span class="o">-&gt;</span>
+    <span class="o">&lt;&lt;</span><span class="nv">LHS</span><span class="p">:</span><span class="nv">H</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="nv">Bit</span><span class="p">:</span><span class="mi">1</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="p">_:</span><span class="mi">1</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="nv">RHS</span><span class="o">/</span><span class="n">binary</span><span class="o">&gt;&gt;</span> <span class="o">=</span> <span class="nv">B</span><span class="p">,</span>
+    <span class="nf">binary_strings_copy_bits</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="nv">LHS</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="nv">Bit</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="nv">Bit</span><span class="o">/</span><span class="n">binary</span><span class="p">,</span> <span class="nv">RHS</span><span class="o">/</span><span class="n">binary</span><span class="o">&gt;&gt;</span><span class="p">,</span> <span class="nv">T</span><span class="p">).</span>
+ 
+<span class="nf">k6_bytea</span><span class="p">(</span><span class="nv">Done</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="nv">B</span> <span class="o">=</span> <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">new</span><span class="p">(</span><span class="o">?</span><span class="nv">SIZE</span><span class="p">),</span>
+    <span class="nf">k6_bytea_set_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="nn">lists</span><span class="p">:</span><span class="nf">seq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">?</span><span class="nv">SIZE</span> <span class="o">-</span> <span class="mi">1024</span><span class="p">,</span> <span class="o">?</span><span class="nv">SIZE</span> <span class="ow">div</span> <span class="mi">1024</span><span class="p">)),</span>
+    <span class="nf">k6_bytea_copy_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="nn">lists</span><span class="p">:</span><span class="nf">seq</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">?</span><span class="nv">SIZE</span> <span class="o">-</span> <span class="mi">1024</span><span class="p">,</span> <span class="o">?</span><span class="nv">SIZE</span> <span class="ow">div</span> <span class="mi">1024</span><span class="p">)),</span>
+    <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">delete</span><span class="p">(</span><span class="nv">B</span><span class="p">),</span>
+    <span class="nv">Done</span> <span class="o">!</span> <span class="n">done</span><span class="p">.</span>
+ 
+<span class="nf">k6_bytea_set_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nv">B</span><span class="p">;</span>
+<span class="nf">k6_bytea_set_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="p">[</span><span class="nv">H</span><span class="p">|</span><span class="nv">T</span><span class="p">])</span> <span class="o">-&gt;</span>
+    <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">set</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="nv">H</span><span class="p">,</span> <span class="o">&lt;&lt;</span><span class="p">(</span><span class="nv">H</span> <span class="ow">rem</span> <span class="mi">255</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="p">),</span>
+    <span class="nf">k6_bytea_set_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="nv">T</span><span class="p">).</span>
+ 
+<span class="nf">k6_bytea_copy_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="nv">B</span><span class="p">;</span>
+<span class="nf">k6_bytea_copy_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="p">[</span><span class="nv">H</span><span class="p">|</span><span class="nv">T</span><span class="p">])</span> <span class="o">-&gt;</span>
+    <span class="nv">Bit</span> <span class="o">=</span> <span class="nn">k6_bytea</span><span class="p">:</span><span class="nb">get</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="nv">H</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="nn">k6_bytea</span><span class="p">:</span><span class="nf">set</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="nv">H</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">Bit</span><span class="p">),</span>
+    <span class="nf">k6_bytea_copy_bits</span><span class="p">(</span><span class="nv">B</span><span class="p">,</span> <span class="nv">T</span><span class="p">).</span></code></pre></figure>
+
+<p>Over 3 runs, <code class="highlighter-rouge">binary_strings</code> averaged <strong>24,015ms</strong>, and <code class="highlighter-rouge">k6_bytea</code> <strong>198ms</strong>
+(0.83% time, or 121x speed).</p>
+
+<p>There’s nothing very surprising about this; it’s large, unwieldy immutable
+data-structures vs. one mutable data-structure.  It’s even the case that I have
+no idea if there are any better ways to simulate a byte array in Erlang, either
+with binary strings, or without!</p>
+
+<p>The binary string-manipulating code above is ugly and error-prone, as it’s
+clearly not the purpose it was built for.  If it should turn out that this
+really hasn’t been done better by someone else, then I encourage you to look to
+and improve <a href="https://github.com/kivikakk/k6_bytea">k6_bytea</a> for this purpose.</p>
+
+
+</div>
+
+
+    <div class="footer">
+      <div class="contact">
+        <p>
+          <img src="https://gravatar.com/avatar/c2a8564c05a7124ded58e86a6c86f6ca?s=70">
+        </p>
+      </div>
+
+      <div class="contact">
+        <p>
+	  <a href="https://kivikakk.ee">kivikakk.ee</a>
+	  <a href="https://github.com/kivikakk">github.com/kivikakk</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

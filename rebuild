@@ -1,0 +1,19 @@
+#!/usr/bin/env fish
+
+if [ (count $argv) -lt 1 ]
+  echo "usage: "(status -f)" verb [args ...]"
+  exit 1
+end
+
+set verb $argv[1]
+set -e argv[1]
+
+switch (uname)
+  case Linux
+    doas nixos-rebuild $verb --flake (readlink -f (dirname (status -f))) --impure $argv
+  case Darwin
+    darwin-rebuild $verb --flake (readlink -f (dirname (status -f)))\?submodules=1 --impure $argv
+  case '*'
+    echo "unknown uname: "(uname)
+    exit 1
+end

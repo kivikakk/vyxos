@@ -1,0 +1,193 @@
+<!DOCTYPE html><html lang="en"><head>
+    
+    
+    <meta charset="utf-8">
+    
+      <title>Amaranth to Chisel - lottia notes</title>
+      <meta property="og:title" content="Amaranth to Chisel">
+      <meta property="og:site_name" content="lottia notes">
+      <meta property="og:description" content="Learning your second HDL is kinda like learning your second programming language. Or just learning your second language.">
+    
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+
+    <meta name="author" content="Asherah Connor">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="stylesheet.css?v=1">
+    <link rel="stylesheet" href="syntax.css">
+
+    
+      <link href="atom.xml" rel="alternate" title="lottia notes" type="application/atom+xml">
+    
+    <meta name="generator" content="Nanoc 4.12.16">
+  </head>
+  <body id="top">
+    <div class="flex">
+      <main>
+        <h1>Amaranth to Chisel</h1>
+        
+          <p>
+            <span class="created-at">2024-05-09</span>
+            
+              (created),
+              <span class="updated-at">2024-06-24</span>
+              (updated)
+            
+          </p>
+        
+        <section id="top">
+<p>edit: A lot of the following doesn’t apply any more, though it’s all been very
+helpful in learning.</p>
+<hr>
+<p>My days of using Amaranth are over.&nbsp;I don’t feel able — nor do I <em>want</em> — to
+depend on something I’m not allowed(!) to contribute to, so I need a way to
+continue on with my FPGA studies without it. I don’t really view just trying
+to cobble together Verilog as viable for me right now; I’m rather dependent on
+having a decent higher-level thing going, and I already feel all the wind sucked
+out of my sails from having to make any change whatsoever.</p>
+<p>I’ve experimented with doing my own HDL using what I learned from working with
+and on Amaranth (and Yosys, which I’ll happily continue to depend on), but it’s
+way too much work. After surveying the scene, I’ve chosen <a href="https://www.chisel-lang.org/">Chisel</a>. Scala is not
+exactly my favourite, and this means really learning it properly, but y’know
+what? That’s how I felt about Python too, but I still did <a href="https://github.com/amaranth-lang/amaranth/pull/830">some cursed stuff</a>
+with it!</p>
+<p>I plan to bootstrap my way out of this hole by creating a small component in
+Amaranth, workbench it using CXXRTL, then duplicating that component in Chisel,
+using the same CXXRTL workbench to test it. This way I’m staying connected to
+“doing useful/measurable stuff” in a way I know. I’m also furthering my own <a href="https://github.com/kivikakk/eri">HDL
+experiments</a> while I go, letting Amaranth and Chisel combine in my head.</p>
+<p>Done so far:</p>
+<ul>
+<li>Bring <a href="https://github.com/kivikakk/hdx"><code>hdx</code></a>, <code>rainhdx</code>, and all their dependencies — including Amaranth
+— up to date.
+<ul>
+<li>New <code>abc</code> revision.</li>
+<li>Amaranth depends on a newer <code>pdm-backend</code>, which I <a href="https://github.com/kivikakk/hdx/commit/27c3609f5b90e97ed89ca11a7e5747d4b8d0d90b#diff-14a0b9fe455f18efa8eb5b66ab3f4818d6ef7c32">needed to
+package</a> since it’s not in nixpkgs.</li>
+<li>Had to unbreak rainhdx’s Nix, that last refactor was bad.</li>
+</ul>
+</li>
+<li>Add <a href="https://github.com/kivikakk/hdx/commit/d52075e49ac05a7297b8ed8cd6cdd8a2808e72b0">basic cxxsim support</a> to <code>rainhdx</code>. This was mostly pulled from <a href="https://github.com/kivikakk/i2c_obs">I²C, oh!
+Big stretch</a>, which I maintain is impeccably named.
+<ul>
+<li>There was also the option to pull the Zig–CXXRTL support from <a href="https://github.com/kivikakk/sh1107">sh1107</a>, but
+the extra toolchain weight doesn’t feel like it helps me move any faster
+here.</li>
+</ul>
+</li>
+<li>A basic <a href="https://github.com/kivikakk/kalaturg/commit/cd7b97cfb697ac7def0d5d0689da9c03f403d3e0">UART echo</a>, tested with Amaranth’s simulator.</li>
+<li>A clone of the Python simulator <a href="https://github.com/kivikakk/kalaturg/commit/d4c853a680c494fe9acc36aa91b83a7cd2d4d026">with CXXRTL</a>.</li>
+<li>Learn to do a <a href="https://github.com/kivikakk/kalaturg/commit/35a791d597e0f31a2affda72a9de2c3f21161e36">very basic Chisel module with tests</a> and Verilog
+output.</li>
+<li>Build the Chisel module with CXXRTL and integrate it into the simulator —
+it’ll be very <em>wrong</em>, but the key is the integration.</li>
+<li><a href="https://github.com/kivikakk/kalaturg/commit/9d704aa2968ab3d287fe23ccfad2bdf26a88d5e3">Write a little unbuffered UART pair, test them, integrate. <strong>Done.</strong></a></li>
+<li>Extend the test case to exercise the Amaranth version’s buffers on TX/RX.</li>
+<li><del>Write a FIFO in Chisel and buffer the TX/RX.</del></li>
+<li>Discover <code>Queue</code> and learn how to use <code>Decoupled</code> – use that in RX and TX.</li>
+<li>Redo the base UART module using <code>Queue</code>.</li>
+<li>Test it on the iCEBreaker!</li>
+<li>Mess around with SB_RGBA_DRV. Buffer the clock input with SB_GB.</li>
+<li>Drop all the Python; it’s no longer necessary.</li>
+<li>Actions CI for unit tests, cxxsim, synthesis.</li>
+<li>Introduce a “Platform” notion to build separately for iCE40 and CXXRTL.</li>
+<li>
+<a href="https://github.com/kivikakk/chryse">Split off the project-independent bits</a>.</li>
+<li>Redo the testbench to have the test unit as a blackboxed instance, rather than
+it driving everything through lines from the top. <del>Get it working first with
+Amaranth, then Chisel.</del>
+</li>
+</ul>
+<hr>
+<p>And now, 12 days later, I’m done! I have a fair bit more ground to re-cover in
+terms of (a) actually putting together more complex designs — I’ll start with
+an SPI OLED (maaaaaybe with a Zig counterpart, like <a href="https://github.com/kivikakk/sh1107">sh1107</a>) and then move onto
+a RISC-V core again — and (b) creating my own framework to iterate on
+different projects quickly, but I’ve moved really fast<sup class="footnote-ref"><a href="#fn-minimal" id="fnref-minimal" data-footnote-ref="">1</a></sup> and I’m quite
+happy with it.</p>
+<p>It’s been interesting to decompose “HDL and digital design, as I learned it
+through Amaranth” — the way I write things has become a lot more fluent, a lot
+less “eighty stage FSM”, and I spend a lot more time looking at Verilog, which I
+think is a good thing right now. I grok a lot more of what’s under the covers,
+especially having to reimplement some of it.</p>
+<p>I can re-archive all my Amaranth stuff again, now that I’ve finished leaning on
+it.</p>
+</section>
+<section class="footnotes" data-footnotes="" id="footnotes"><h2>Footnotes <a href="#footnotes" aria-hidden="true" title="Permalink to section" class="anchor">🔗</a> <a href="#top" aria-hidden="true" title="Back to top" class="anchor">↩</a></h2>
+<ol>
+<li id="fn-minimal">
+<p>With minimal tools! At the start of these 12 days I didn’t even have
+a desk, or an external monitor. Or a dev board! <a href="#fnref-minimal" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="1" aria-label="Back to reference 1">↩</a></p>
+</li>
+</ol>
+</section>
+
+      </main>
+      <div class="sidebar">
+        <div class="sidebar-inner">
+          <ul>
+            <li class=""><a href="./">Home</a></li>
+            <li><a rel="me" href="https://kivikakk.ee">Author</a></li>
+          </ul>
+
+          
+            <h2>Notes</h2>
+            <ul>
+              
+                <li class=""><a href="0009-time-travel-raw.html">Time travel, raw</a></li>
+              
+                <li class=""><a href="0008-time-travel.html">Time travel</a></li>
+              
+                <li class="active"><a href="0007-amaranth-to-chisel.html">Amaranth to Chisel</a></li>
+              
+                <li class=""><a href="0006-comrak-on-akkoma.html">Comrak on Akkoma</a></li>
+              
+                <li class=""><a href="0005-jambalam.html">Jambalam</a></li>
+              
+                <li class=""><a href="0004-happy-birthday.html">Happy birthday!</a></li>
+              
+                <li class=""><a href="0003-nix-revisited.html">Nix revisited</a></li>
+              
+                <li class=""><a href="0002-untangling-cycles.html">Untangling cycles</a></li>
+              
+                <li class=""><a href="0001-hdl-toolchain-source.html">Installing an HDL toolchain from source</a></li>
+              
+            </ul>
+          
+
+          
+        </div>
+
+        
+          <div class="toc">
+            <div class="toc-inner">
+              <h2>Table of contents</h2>
+
+              <ul>
+                <li>
+                  <a href="#top">Top</a>
+                  
+                    
+                      
+                        </li><li>
+                      
+                      <a href="#footnotes">Footnotes</a>
+                    
+                  
+                </li>
+              </ul>
+            </div>
+          </div>
+        
+      </div>
+    </div>
+    <footer>
+      <p>
+        Licensed under the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>
+        by its author.
+      </p>
+    </footer>
+    <script src="toc-highlight.js"></script>
+  
+
+</body></html>
