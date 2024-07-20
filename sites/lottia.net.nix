@@ -1,9 +1,8 @@
 {...}: {
   config.vyxos.nginx.vhosts = {
     "lottia.net" = {
-      publicLinks."notes" = ./notes;
       locations."/".return = "301 https://lottia.net/notes/";
-      locations."/notes".root = "/home/www/public";
+      locations."/notes".root = ./lottia.net;
 
       # Not running Mastodon/Akkoma anymore.
       locations."/notice/".return = "410";
