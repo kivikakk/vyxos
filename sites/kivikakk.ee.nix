@@ -1,10 +1,8 @@
 {...}: {
   config.vyxos.nginx.vhosts = {
     "kivikakk.ee" = {
-      publicLinks."kivikakk.ee" = ./kivikakk.ee;
-
       locations."/" = {
-        root = "/home/www/public/kivikakk.ee";
+        root = ./kivikakk.ee;
         tryFiles = "$uri $uri/index.html /archive$uri =404";
       };
       locations."/notes".return = "301 https://lottia.net$request_uri";
@@ -21,7 +19,7 @@
       locations."/users/".return = "410";
 
       locations."~* \\.(ico|pdf|jpg|jpeg|png|gif|js|css|ttf)$" = {
-        root = "/home/www/public/kivikakk.ee";
+        root = ./kivikakk.ee;
         extraConfig = ''
           expires 6h;
           add_header Cache-Control "public, no-transform";
