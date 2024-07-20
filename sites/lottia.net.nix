@@ -2,7 +2,13 @@
   config.vyxos.nginx.vhosts = {
     "lottia.net" = {
       locations."/".return = "301 https://lottia.net/notes/";
-      locations."/notes".root = ./lottia.net;
+      locations."/notes" = {
+        root = ./lottia.net;
+        extraConfig = ''
+          expires 6h;
+          add_header Cache-Control "public, no-transform";
+        '';
+      };
 
       # Not running Mastodon/Akkoma anymore.
       locations."/notice/".return = "410";

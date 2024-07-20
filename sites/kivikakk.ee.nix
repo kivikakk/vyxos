@@ -4,6 +4,10 @@
       locations."/" = {
         root = ./kivikakk.ee;
         tryFiles = "$uri $uri/index.html /archive$uri =404";
+        extraConfig = ''
+          expires 6h;
+          add_header Cache-Control "public, no-transform";
+        '';
       };
       locations."/notes".return = "301 https://lottia.net$request_uri";
 
@@ -17,14 +21,6 @@
       locations."/api/".return = "410";
       locations."/media/".return = "410";
       locations."/users/".return = "410";
-
-      locations."~* \\.(ico|pdf|jpg|jpeg|png|gif|js|css|ttf)$" = {
-        root = ./kivikakk.ee;
-        extraConfig = ''
-          expires 6h;
-          add_header Cache-Control "public, no-transform";
-        '';
-      };
     };
 
     "www.kivikakk.ee".locations."/".return = "301 https://kivikakk.ee$request_uri";
