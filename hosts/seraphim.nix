@@ -108,6 +108,7 @@
           "jitsi-meet"
           "signal"
           "telegram"
+          "messenger"
         ]
         ++ [
           # Darknet/cryptocurrency.
