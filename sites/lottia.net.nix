@@ -1,8 +1,7 @@
 {...}: {
   config.vyxos.nginx.vhosts = {
     "lottia.net" = {
-      locations."/".return = "301 https://lottia.net/notes/";
-      locations."/notes" = {
+      locations."/" = {
         root = ./lottia.net;
         extraConfig = ''
           expires 6h;
