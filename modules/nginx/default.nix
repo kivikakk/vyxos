@@ -48,6 +48,9 @@ in {
       nginx.extraGroups = ["acme"];
     };
 
+    # Needed for reading sites from /home/kinu.
+    systemd.services.nginx.serviceConfig.ProtectHome = "read-only";
+
     services.nginx = {
       enable = true;
 
