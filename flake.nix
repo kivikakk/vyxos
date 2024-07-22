@@ -116,12 +116,13 @@
           };
         })
       ];
+      vyxos-git-base = unstable-nixpkgs.legacyPackages.${system}.git;
     in
       specifics.nixSystem {
         inherit system;
         specialArgs = {
           inherit (specifics) nixpkgs;
-          inherit isDarwin hostName lib;
+          inherit isDarwin hostName lib vyxos-git-base;
         };
 
         modules =

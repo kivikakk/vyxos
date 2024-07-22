@@ -1,19 +1,22 @@
-commit 92a62a03692dd1792d5a1c7c0650d5794d25e16f
-Author: Asherah Connor <ashe@kivikakk.ee>
-Date:   Mon Sep 18 07:51:19 2023 +1000
+From 45ee8257476af77bde5ad47cd998e7250a575d2a Mon Sep 17 00:00:00 2001
+From: Charlotte <charlotte@lottia.net>
+Date: Mon, 18 Sep 2023 07:51:19 +1000
+Subject: [PATCH] pretty: add %cm/%cf.
 
-    pretty: add %cm/%cf.
+---
+ pretty.c | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
 diff --git a/pretty.c b/pretty.c
-index 718530bbab..8b40c08cdc 100644
+index 7ead078998..d6ddde5955 100644
 --- a/pretty.c
 +++ b/pretty.c
 @@ -775,13 +775,17 @@ static int mailmap_name(const char **email, size_t *email_len,
  
  static size_t format_person_part(struct strbuf *sb, char part,
  				 const char *msg, int len,
--				 const struct date_mode *dmode)
-+				 const struct date_mode *dmode,
+-				 struct date_mode dmode)
++				 struct date_mode dmode,
 +				 const char *ca_msg, int ca_len)
  {
  	/* currently all placeholders have same length */
@@ -65,19 +68,22 @@ index 718530bbab..8b40c08cdc 100644
  }
  
  static size_t parse_color(struct strbuf *sb, /* in UTF-8 */
-@@ -1650,11 +1667,13 @@ static size_t format_commit_one(struct strbuf *sb, /* in UTF-8 */
+@@ -1712,11 +1729,13 @@ static size_t format_commit_one(struct strbuf *sb, /* in UTF-8 */
  	case 'a':	/* author ... */
  		return format_person_part(sb, placeholder[1],
  				   msg + c->author.off, c->author.len,
--				   &c->pretty_ctx->date_mode);
-+				   &c->pretty_ctx->date_mode,
+-				   c->pretty_ctx->date_mode);
++				   c->pretty_ctx->date_mode,
 +				   NULL, 0);
  	case 'c':	/* committer ... */
  		return format_person_part(sb, placeholder[1],
  				   msg + c->committer.off, c->committer.len,
--				   &c->pretty_ctx->date_mode);
-+				   &c->pretty_ctx->date_mode,
+-				   c->pretty_ctx->date_mode);
++				   c->pretty_ctx->date_mode,
 +				   msg + c->author.off, c->author.len);
  	case 'e':	/* encoding */
  		if (c->commit_encoding)
  			strbuf_addstr(sb, c->commit_encoding);
+-- 
+2.44.1
+
