@@ -70,11 +70,12 @@
       brews = [
         "libftdi"
         "libyaml" # our asdf ruby build needs this
-        "llvm@17"
-        "llvm@18"
+        "llvm@17" # zig 0.12
+        "llvm@18" # zig 0.13
         "pkg-config"
         "postgresql@13"
         "verilator" # can't install via nixpkgs, broken systemc dep
+        "zstd" # zig
       ];
       casks =
         [
