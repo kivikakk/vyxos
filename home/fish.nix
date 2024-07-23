@@ -19,6 +19,7 @@
         nfu = "vyxnix flake update";
         nflui = "vyxnix flake lock --update-input";
         nr = "vyxnix run";
+        ns = "vyxnix shell";
       }
       // builtins.mapAttrs (name: _v: "git ${name}") config.programs.git.aliases
       // builtins.mapAttrs (name: _v: "ssh ${name}") config.programs.ssh.matchBlocks;
