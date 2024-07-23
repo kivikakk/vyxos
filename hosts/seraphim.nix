@@ -39,6 +39,7 @@
         pkgs.pulseview
         pkgs.gtkwave
         pkgs.rustup
+        pkgs.entr
       ];
 
       programs.fish = {
