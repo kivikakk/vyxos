@@ -191,11 +191,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1721373243,
-        "narHash": "sha256-jr7Hf/AxQ9hW4excQ6dE0RJezqwp62TMRUadmu509c0=",
+        "lastModified": 1721983933,
+        "narHash": "sha256-pr/xw1Dpmsz4wVU5FX2oiUVgOgxaec+xArBIbLBTeU4=",
         "ref": "refs/heads/main",
-        "rev": "397c7021cb5bb3fe886e7a82bcc7d9a6a4ce98e9",
-        "revCount": 8,
+        "rev": "8c6f0d2e3507a9015cc10fc5930b9106a3497ba1",
+        "revCount": 11,
         "type": "git",
         "url": "https://github.com/kivikakk/furpoll"
       },
