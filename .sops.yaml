@@ -3,12 +3,12 @@ keys:
   - &m_seraphim age1nf496q46q30r65hc9s4jzuku042l0d3n0fpldtm4dzxmlaukcstsgxn2q8
   - &m_orav age10xcxxq775cxur60fl2w2awj4jt82utt3m880fa7uafqdxv36qccsz0wz9f
 creation_rules:
-  - path_regex: secrets/seraphim/[^/]+$
+  - path_regex: private/secrets/seraphim/[^/]+$
     key_groups:
     - age:
       - *e_kivikakk
       - *m_seraphim
-  - path_regex: secrets/orav/[^/]+$
+  - path_regex: private/secrets/orav/[^/]+$
     key_groups:
     - age:
       - *e_kivikakk

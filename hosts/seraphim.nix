@@ -21,6 +21,9 @@
         "kivikakk-celica"
         "kivikakk-estrellita"
       ];
+      encrypted = {
+        "aerc-password" = {};
+      };
     };
 
     users = {
@@ -35,6 +38,8 @@
     };
 
     home-manager.users.${config.vyxos.vyxUser} = {
+      accounts.email.accounts.asherah.passwordCommand = "cat ${config.vyxos.secrets.decrypted."aerc-password".path}";
+
       home.packages = [
         pkgs.pulseview
         pkgs.gtkwave
@@ -43,6 +48,10 @@
       ];
 
       programs.fish = {
+        shellAliases = {
+          aerc = "XDG_CONFIG_HOME=$HOME/.config command aerc";
+        };
+
         interactiveShellInit = ''
           set -gx COLORTERM truecolor
           source $HOME/.asdf/asdf.fish

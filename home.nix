@@ -10,6 +10,7 @@
     ./home/tmux.nix
     ./home/git.nix
     ./home/ripgrep.nix
+    ./home/aerc.nix
   ];
 
   home = {
@@ -23,6 +24,7 @@
         sops
         ssh-to-age
         nix-tree
+        pandoc # aerc
       ]
       ++ [
         # Generally helpful.
