@@ -25,6 +25,7 @@ A description of the basic layout follows.
     * I used to be extremely Serious about not installing anything outside of Nix unless absolutely possible, but I loosened up a lot, so there's also things like sourcing `asdf`, adding `~/.cargo/bin` to PATH and stuff like that.
     * Homebrew is configured declaratively, which is really nice — I'll often `brew install` something manually just to try it out, and let my next rebuild GC it, or add it to the config if I decide to keep it.
     * [Comenzar] is enabled.
+  * [`hosts/seraphim-r.nix`](hosts/seraphim-r.nix) — additional configuration for working with a particular client.
   * [`hosts/orav.nix`](hosts/orav.nix) — configures my VPS (on NixOS).
     * Hardware config is stuffed up the top, pulled from a [`nixos-infect`]-generated `hardware-configuration.nix`.
     * Pulls in `sites/`, documented below.
@@ -37,8 +38,10 @@ A description of the basic layout follows.
   * [`home/ssh.nix`](home/ssh.nix) — configures SSH. Generates [ssh_config] blocks for each host defined in `hosts.toml`. (These in turn become [shell aliases](#ssh-aliases).)
   * [`home/helix.nix`](home/helix.nix) — sets up [Helix]. (I like typing `ZZ` to save and quit, and why `vgld` when `D` could do? Old habits die hard.)
   * [`home/tmux.nix`](home/tmux.nix) — configures tmux. The prefix is `C-t` on non-servers, and `C-r` on servers, so having a session on your **t**erminal and further sessions on various **r**emotes within that Just Work™. Their statusbars are also coloured differently. (`t` and `r` are also nicely placed on Dvorak.)
+  * [`home/git.nix`](home/git.nix) — personal baseline git configuration; pulls in [aliases](#git-aliases).
   * [`home/ripgrep.nix`](home/ripgrep.nix) — minimal rg config (`--hidden` to not exclude "hidden" things by default).
-* [`sites`](sites/) — web sites, and the services associated with them.
+  * [`home/aerc.nix`](home/aerc.nix) — [aerc] (and email account) config.
+* [`sites`](sites/default.nix) — web sites, and the services associated with them.
   * [`sites/kivikakk.ee.nix`](sites/kivikakk.ee.nix) — configures [kivikakk.ee]. There's some 301s for old URLs, 410s for when I used to host Fediverse things, and cache headers for my CDN to notice. The actual content is included in [`sites/kivikakk.ee/`](sites/kivikakk.ee/).
   * [`sites/lottia.net.nix`](sites/lottia.net.nix) — configures [lottia.net]. Mostly as above.
   * [`sites/eka.kivikakk.ee.nix`](sites/eka.kivikakk.ee.nix) — configures [eka.kivikakk.ee]. As minimal a definition as it gets.
@@ -181,6 +184,7 @@ The really nice thing about using Fish everywhere, too, is that `vyxnix` and ali
 [cowsay]: https://en.wikipedia.org/wiki/Cowsay
 [ssh_config]: https://man.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5&manpath=OpenBSD+3.4
 [helix]: https://helix-editor.com/
+[aerc]: https://aerc-mail.org/
 [Comenzar]: https://github.com/kivikakk/comenzar
 [furpoll]: https://github.com/kivikakk/furpoll
 [502]: https://orav.hrzn.ee
