@@ -4,5 +4,8 @@
   lib,
   ...
 }: {
-  homebrew.casks = ["mattermost"];
+  homebrew = {
+    brews = ["awscli"];
+    casks = ["mattermost"];
+  };
 }
