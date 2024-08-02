@@ -7,7 +7,10 @@
   ...
 }: {
   homebrew = {
-    brews = ["awscli"];
+    brews = [
+      "awscli"
+      "libmagic" # for ruby-filemagic
+    ];
     casks = ["mattermost"];
   };
 
