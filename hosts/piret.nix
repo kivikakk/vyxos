@@ -133,8 +133,18 @@
     # Install firefox.
     programs.firefox.enable = true;
 
-    # Allow unfree packages
-    nixpkgs.config.allowUnfree = true;
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) [
+        "1password-gui"
+        "1password-cli"
+        "1password"
+      ];
+
+    programs._1password.enable = true;
+    programs._1password-gui = {
+      enable = true;
+      polkitPolicyOwners = ["kivikakk"];
+    };
 
     # List packages installed in system profile. To search, run:
     # $ nix search wget
