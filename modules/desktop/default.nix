@@ -69,8 +69,14 @@ in {
       };
     };
 
-    environment.systemPackages = with pkgs; [
-      iosevka
-    ];
+    home-manager.users.${vyxUser} = {
+      home.packages = with pkgs; [
+        iosevka
+      ];
+
+      programs.alacritty = {
+        enable = true;
+      };
+    };
   };
 }
