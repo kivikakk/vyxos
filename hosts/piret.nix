@@ -43,10 +43,15 @@
     lib,
     ...
   }: {
-    vyxos.secrets.additionalAuthorizedKeys = [
-      "kivikakk-celica"
-      "kivikakk-estrellita"
-    ];
+    vyxos.secrets = {
+      additionalAuthorizedKeys = [
+        "kivikakk-celica"
+        "kivikakk-estrellita"
+      ];
+      encrypted = {
+        "aerc-password" = {};
+      };
+    };
 
     services.tailscale.enable = true;
 
@@ -182,5 +187,9 @@
     # Before changing this value read the documentation for this option
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
     system.stateVersion = "24.05"; # Did you read the comment?
+
+    home-manager.users.${config.vyxos.vyxUser} = {
+      accounts.email.accounts.asherah.passwordCommand = "cat ${config.vyxos.secrets.decrypted."aerc-password".path}";
+    };
   };
 }
