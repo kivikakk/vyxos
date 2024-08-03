@@ -69,13 +69,39 @@ in {
       };
     };
 
-    home-manager.users.${vyxUser} = {
-      home.packages = with pkgs; [
-        iosevka
-      ];
+    fonts.packages = with pkgs; [
+      (iosevka.override {
+        set = "TermSlab";
+        privateBuildPlan = {
+          family = "Iosevka Term Slab";
+          spacing = "term";
+          serifs = "slab";
+          noCvSs = false;
+          exportGlyphNames = true;
 
-      programs.alacritty = {
+          widths = {
+            Condensed = {
+              shape = 500;
+              menu = 3;
+              css = "condensed";
+            };
+            Normal = {
+              shape = 600;
+              menu = 5;
+              css = "normal";
+            };
+          };
+        };
+      })
+    ];
+
+    home-manager.users.${vyxUser} = {
+      home.packages = with pkgs; [];
+
+      programs.kitty = {
         enable = true;
+        theme = "Catppuccin-Mocha";
+        font.name = "Iosevka Term Slab";
       };
     };
   };
