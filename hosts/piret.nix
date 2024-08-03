@@ -61,7 +61,10 @@
           "kivikakk-estrellita"
         ];
         encrypted = {
-          "aerc-password" = {};
+          "aerc-password" = {
+            owner = config.vyxos.vyxUser;
+            group = config.users.users.${config.vyxos.vyxUser}.group;
+          };
         };
       };
     };
