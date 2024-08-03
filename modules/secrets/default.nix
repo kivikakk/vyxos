@@ -36,6 +36,7 @@ in {
       default = [
         "kivikakk-seraphim"
         "kivikakk-piret"
+        "asherah-Piret"
       ];
       description = "Base keys in ~/.ssh/authorized_keys.";
       apply = flip attrVals keys;

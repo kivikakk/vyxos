@@ -1,6 +1,7 @@
 keys:
   - &e_kivikakk age18cds75nyxzmny0m8yz032h507sl26mj7g2007qymqtv5lxpf3d3sw63s4j
   - &m_seraphim age1nf496q46q30r65hc9s4jzuku042l0d3n0fpldtm4dzxmlaukcstsgxn2q8
+  - &m_piret age1tqucdhpsth064lke5prmtrspfd9mgv8j526gzqnnkmann89lkatqjp7jal
   - &m_orav age10xcxxq775cxur60fl2w2awj4jt82utt3m880fa7uafqdxv36qccsz0wz9f
 creation_rules:
   - path_regex: private/secrets/seraphim/[^/]+$
@@ -8,6 +9,11 @@ creation_rules:
     - age:
       - *e_kivikakk
       - *m_seraphim
+  - path_regex: private/secrets/piret/[^/]+$
+    key_groups:
+    - age:
+      - *e_kivikakk
+      - *m_piret
   - path_regex: private/secrets/orav/[^/]+$
     key_groups:
     - age:

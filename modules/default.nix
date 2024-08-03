@@ -2,6 +2,7 @@
   config,
   lib,
   isDarwin,
+  isServer,
   hostName,
   ...
 }: let
@@ -18,7 +19,7 @@ in {
       ./nix
       ./cowsay
     ]
-    ++ optionals (!isDarwin) [
+    ++ optionals (hostData.server) [
       ./nginx
       ./net
     ];

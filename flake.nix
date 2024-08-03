@@ -98,7 +98,6 @@
             if (self ? rev)
             then self.rev
             else throw "refuse to build: git tree is dirty";
-          system.stateVersion = "23.11";
         }
         // hostConfig.root;
       homeManagerModules = [
@@ -145,6 +144,7 @@
     // {
       nixosConfigurations = {
         orav = mkHost "orav" "x86_64-linux";
+        piret = mkHost "piret" "x86_64-linux";
       };
       darwinConfigurations = {
         seraphim = mkHost "seraphim" "aarch64-darwin";

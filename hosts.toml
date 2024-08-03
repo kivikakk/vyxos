@@ -2,6 +2,10 @@
 user = "kivikakk"
 server = false
 
+[piret]
+user = "kivikakk"
+server = false
+
 [orav]
 user = "kivikakk"
 server = true

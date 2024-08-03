@@ -33,6 +33,8 @@
       ../sites
     ];
 
+    system.stateVersion = "23.11";
+
     nixpkgs = {
       config = {
         allowUnfreePredicate = pkg:
