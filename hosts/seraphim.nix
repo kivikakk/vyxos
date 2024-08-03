@@ -52,10 +52,6 @@
       ];
 
       programs.fish = {
-        shellAliases = {
-          aerc = "XDG_CONFIG_HOME=$HOME/.config command aerc";
-        };
-
         interactiveShellInit = ''
           set -gx COLORTERM truecolor
           source $HOME/.asdf/asdf.fish
