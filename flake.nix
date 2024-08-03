@@ -18,6 +18,7 @@
       inputs.nixpkgs.follows = "unstable-nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    unstable-nixos-hardware.url = github:NixOS/nixos-hardware;
 
     darwin-nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-24.05-darwin;
     darwin-nix-darwin = {
@@ -46,13 +47,14 @@
     unstable-home-manager,
     unstable-sops-nix,
     unstable-furpoll,
+    unstable-nixos-hardware,
     darwin-nixpkgs,
     darwin-nix-darwin,
     darwin-home-manager,
     darwin-sops-nix,
     darwin-comenzar,
   }: let
-    mkHost = hostName: system: let
+    mkHost = hostName: system: specifiedModules: let
       isDarwin = builtins.elem system unstable-nixpkgs.lib.platforms.darwin;
       specifics =
         {
@@ -135,7 +137,8 @@
             hostRootModule
             hostConfig.module
           ]
-          ++ homeManagerModules;
+          ++ homeManagerModules
+          ++ specifiedModules;
       };
   in
     flake-utils.lib.eachDefaultSystem (system: {
@@ -143,11 +146,13 @@
     })
     // {
       nixosConfigurations = {
-        orav = mkHost "orav" "x86_64-linux";
-        piret = mkHost "piret" "x86_64-linux";
+        orav = mkHost "orav" "x86_64-linux" [];
+        piret = mkHost "piret" "x86_64-linux" [
+          unstable-nixos-hardware.nixosModules.framework-16-7040-amd
+        ];
       };
       darwinConfigurations = {
-        seraphim = mkHost "seraphim" "aarch64-darwin";
+        seraphim = mkHost "seraphim" "aarch64-darwin" [];
       };
     };
 }
