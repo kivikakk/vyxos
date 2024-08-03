@@ -23,6 +23,9 @@
 
   programs.aerc = {
     enable = true;
+    # Starting with the default binds, to avoid aerc creating it itself and
+    # risking unmanaged configuration.
+    extraBinds = builtins.readFile ./aerc-binds.conf;
 
     extraConfig = {
       # https://github.com/nix-community/home-manager/blob/0f4e5b4999fd6a42ece5da8a3a2439a50e48e486/modules/programs/aerc.nix#L167-L177
