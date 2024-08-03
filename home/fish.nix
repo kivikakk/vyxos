@@ -6,6 +6,7 @@
       set __fish_git_prompt_showdirtystate 1
       set __fish_git_prompt_showstashstate 1
       set __fish_git_prompt_showuntrackedfiles 1
+      set fish_greeting 'Nyonk!'
     '';
     shellAliases =
       {
