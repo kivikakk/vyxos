@@ -18,6 +18,7 @@ in {
       ./git
       ./nix
       ./cowsay
+      ./desktop
     ]
     ++ optionals (hostData.server) [
       ./nginx
