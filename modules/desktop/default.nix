@@ -148,6 +148,7 @@ in {
     home-manager.users.${vyxUser} = {
       home.packages = with pkgs; [
         discord
+        dosbox-x
       ];
 
       programs.kitty = {
