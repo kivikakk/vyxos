@@ -161,5 +161,19 @@ in {
         font.name = "Iosevka Term Slab";
       };
     };
+
+    nixpkgs.config.packageOverrides = oldPkgs: {
+      kdePackages =
+        oldPkgs.kdePackages
+        // {
+          kio = oldPkgs.kdePackages.kio.overrideAttrs (prev: {
+            patches =
+              prev.patches
+              ++ [
+                ./0001-searchproviders-add-comenzar.desktop.patch
+              ];
+          });
+        };
+    };
   };
 }
