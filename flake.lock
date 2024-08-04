@@ -160,6 +160,7 @@
         "darwin-nixpkgs": "darwin-nixpkgs",
         "darwin-sops-nix": "darwin-sops-nix",
         "flake-utils": "flake-utils",
+        "unstable-comenzar": "unstable-comenzar",
         "unstable-furpoll": "unstable-furpoll",
         "unstable-home-manager": "unstable-home-manager",
         "unstable-nixos-hardware": "unstable-nixos-hardware",
@@ -180,6 +181,29 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "unstable-comenzar": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "unstable-nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1722758876,
+        "narHash": "sha256-H0ZMvVihjnugjBh+/mk8vOhPDcLqRWnYa2X44XLBX5I=",
+        "ref": "refs/heads/main",
+        "rev": "43c51ed7396ac3159cd3efe7611bf41d0f84e5ff",
+        "revCount": 39,
+        "type": "git",
+        "url": "https://github.com/kivikakk/comenzar"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://github.com/kivikakk/comenzar"
       }
     },
     "unstable-furpoll": {

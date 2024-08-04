@@ -19,6 +19,11 @@
       inputs.flake-utils.follows = "flake-utils";
     };
     unstable-nixos-hardware.url = github:NixOS/nixos-hardware;
+    unstable-comenzar = {
+      url = git+https://github.com/kivikakk/comenzar;
+      inputs.nixpkgs.follows = "unstable-nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
 
     darwin-nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-24.05-darwin;
     darwin-nix-darwin = {
@@ -48,6 +53,7 @@
     unstable-sops-nix,
     unstable-furpoll,
     unstable-nixos-hardware,
+    unstable-comenzar,
     darwin-nixpkgs,
     darwin-nix-darwin,
     darwin-home-manager,
@@ -65,6 +71,7 @@
               unstable-home-manager.nixosModules.home-manager
               unstable-sops-nix.nixosModules.sops
               unstable-furpoll.nixosModules.${system}.default
+              unstable-comenzar.nixosModules.${system}.default
             ];
             sops-nix-home-manager-module = unstable-sops-nix.homeManagerModules.sops;
           };

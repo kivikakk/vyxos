@@ -74,5 +74,6 @@
     };
 
     services.tailscale.enable = true;
+    services.comenzar.enable = true;
   };
 }
