@@ -153,6 +153,8 @@ in {
 
       home.file = {
         ".config/dosbox-x/dosbox-x-2024.07.01.conf".source = ./dosbox-x.conf;
+        ".config/kuriikwsfilterrc".source = ./kuriikwsfilterrc;
+        ".local/share/kf6/searchproviders/comenzar.desktop".source = ./comenzar.desktop;
       };
 
       programs.kitty = {
@@ -160,20 +162,6 @@ in {
         theme = "Catppuccin-Mocha";
         font.name = "Iosevka Term Slab";
       };
-    };
-
-    nixpkgs.config.packageOverrides = oldPkgs: {
-      kdePackages =
-        oldPkgs.kdePackages
-        // {
-          kio = oldPkgs.kdePackages.kio.overrideAttrs (prev: {
-            patches =
-              prev.patches
-              ++ [
-                ./0001-searchproviders-add-comenzar.desktop.patch
-              ];
-          });
-        };
     };
   };
 }

@@ -1,0 +1,6 @@
+[General]
+DefaultWebShortcut=comenzar
+EnableWebShortcuts=true
+KeywordDelimiter=:
+PreferredWebShortcuts=
+UsePreferredWebShortcutsOnly=false
