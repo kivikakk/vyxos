@@ -151,6 +151,10 @@ in {
         dosbox-x
       ];
 
+      home.file = {
+        ".config/dosbox-x/dosbox-x-2024.07.01.conf".source = ./dosbox-x.conf;
+      };
+
       programs.kitty = {
         enable = true;
         theme = "Catppuccin-Mocha";
