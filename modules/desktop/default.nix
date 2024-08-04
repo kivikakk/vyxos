@@ -157,6 +157,8 @@ in {
         ".local/share/kf6/searchproviders/comenzar.desktop".source = ./comenzar.desktop;
       };
 
+      # qdbus org.kde.krunner /App org.kde.krunner.App.displaySingleRunner krunner_webshortcuts
+
       programs.kitty = {
         enable = true;
         theme = "Catppuccin-Mocha";
