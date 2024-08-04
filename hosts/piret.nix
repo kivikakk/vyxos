@@ -75,5 +75,57 @@
 
     services.tailscale.enable = true;
     services.comenzar.enable = true;
+
+    services.syncthing = {
+      enable = true;
+      user = config.vyxos.vyxUser;
+      dataDir = "/home/${config.vyxos.vyxUser}";
+      overrideDevices = true;
+      overrideFolders = true;
+      settings = {
+        devices = {
+          "seraphim" = {id = "6Y34MJE-RJ6Q35O-ZN3PXPA-3RWUUBM-YJLHCOD-NTN66LP-2JDA6OA-MMWWPAS";};
+        };
+        folders = {
+          "avatars" = {
+            id = "d63jp-pvkb2";
+            path = "~/i/avatars";
+            devices = ["seraphim"];
+            ignorePerms = false;
+          };
+          "datasheets" = {
+            id = "f3wkx-m5ncg";
+            path = "~/d/datasheets";
+            devices = ["seraphim"];
+            ignorePerms = false;
+          };
+          "ZK" = {
+            id = "byk5p-fechc";
+            path = "~/d/ZK";
+            devices = ["seraphim"];
+            ignorePerms = false;
+          };
+          "m" = {
+            id = "nwhuq-pzsym";
+            path = "~/m";
+            devices = ["seraphim"];
+            ignorePerms = false;
+          };
+          "t" = {
+            id = "zffxt-z9epq";
+            path = "~/t";
+            devices = ["seraphim"];
+            ignorePerms = false;
+          };
+        };
+        options.urAccepted = -1; # Disable telemetry.
+      };
+    };
+
+    # iCEBreaker and OrangeCrab(?).
+    services.udev.extraRules = ''
+      ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6010", MODE="0660", GROUP="dialout", TAG+="uaccess"
+      ATTRS{idVendor}=="0925", ATTRS{idProduct}=="3881", MODE="0660", GROUP="dialout", TAG+="uaccess"
+    '';
   };
 }

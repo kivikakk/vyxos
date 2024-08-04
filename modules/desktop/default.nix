@@ -50,7 +50,7 @@ in {
       pulse.enable = true;
     };
 
-    users.users.${vyxUser}.extraGroups = ["networkmanager"];
+    users.users.${vyxUser}.extraGroups = ["networkmanager" "dialout"];
 
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
