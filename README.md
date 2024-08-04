@@ -20,12 +20,17 @@ A description of the basic layout follows.
   * [`modules/cowsay`](modules/cowsay/default.nix) — custom [Cowsay] build. For reasons.
   * [`modules/net`](modules/net/default.nix) — networking configuration for NixOS hosts. This sets the host up based on its `hosts.toml` data.
   * [`modules/nginx`](modules/nginx/default.nix) — a simple interface to configuring vhosts for Nginx, also allowing inclusion of site content as part of the Nix build. Also ensures all vhosts get great 502 behaviour.
+  * [`modules/desktop`](modules/desktop/default.nix) — configuration for "desktop" NixOS use.
+    * [Iosevka] Term Slab Extended thankyouverymuch.
 * [`hosts`](hosts/) — host-specific config.
-  * [`hosts/seraphim.nix`](hosts/seraphim.nix) — configures my laptop (on nix-darwin). Anything macOS-specific goes here.
+  * [`hosts/seraphim.nix`](hosts/seraphim.nix) — configures my Macbook (on nix-darwin). Anything macOS-specific goes here.
     * I used to be extremely Serious about not installing anything outside of Nix unless absolutely possible, but I loosened up a lot, so there's also things like sourcing `asdf`, adding `~/.cargo/bin` to PATH and stuff like that.
     * Homebrew is configured declaratively, which is really nice — I'll often `brew install` something manually just to try it out, and let my next rebuild GC it, or add it to the config if I decide to keep it.
     * [Comenzar] is enabled.
   * [`hosts/seraphim-r.nix`](hosts/seraphim-r.nix) — additional configuration for working with a particular client.
+  * [`hosts/piret.nix`](hosts/piret.nix) — configures my Framework (on NixOS).
+    * Compared to seraphim, devtools here are done entirely within Nix.
+    * [Comenzar] is enabled.
   * [`hosts/orav.nix`](hosts/orav.nix) — configures my VPS (on NixOS).
     * Hardware config is stuffed up the top, pulled from a [`nixos-infect`]-generated `hardware-configuration.nix`.
     * Pulls in `sites/`, documented below.
@@ -182,6 +187,7 @@ The really nice thing about using Fish everywhere, too, is that `vyxnix` and ali
 [extra dependencies]: https://search.nixos.org/options?channel=unstable&show=system.extraDependencies&from=0&size=50&sort=relevance&type=packages&query=system.extraDependencies
 [antifuchs]: https://github.com/LnL7/nix-darwin/issues/356
 [cowsay]: https://en.wikipedia.org/wiki/Cowsay
+[Iosevka]: https://typeof.net/Iosevka/
 [ssh_config]: https://man.freebsd.org/cgi/man.cgi?query=ssh_config&sektion=5&manpath=OpenBSD+3.4
 [helix]: https://helix-editor.com/
 [aerc]: https://aerc-mail.org/
