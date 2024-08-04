@@ -25,6 +25,7 @@
         ssh-to-age
         nix-tree
         pandoc # aerc
+        eza
       ]
       ++ [
         # Generally helpful.

@@ -10,7 +10,7 @@
     '';
     shellAliases =
       {
-        "." = "ls";
+        "." = "eza --git --git-repos";
         py = "python";
         nb = "vyxnix build";
         nd = "vyxnix develop";
