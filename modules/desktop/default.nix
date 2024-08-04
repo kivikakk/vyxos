@@ -57,6 +57,7 @@ in {
         "1password-gui"
         "1password-cli"
         "1password"
+        "discord"
       ];
 
     programs = {
@@ -96,7 +97,9 @@ in {
     ];
 
     home-manager.users.${vyxUser} = {
-      home.packages = with pkgs; [];
+      home.packages = with pkgs; [
+        discord
+      ];
 
       programs.kitty = {
         enable = true;
