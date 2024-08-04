@@ -44,11 +44,10 @@
     home-manager.users.${config.vyxos.vyxUser} = {
       accounts.email.accounts.asherah.passwordCommand = "cat ${config.vyxos.secrets.decrypted."aerc-password".path}";
 
-      home.packages = [
-        pkgs.pulseview
-        pkgs.gtkwave
-        pkgs.rustup
-        pkgs.entr
+      home.packages = with pkgs; [
+        pulseview
+        gtkwave
+        rustup
       ];
 
       programs.fish = {

@@ -28,7 +28,9 @@
       ]
       ++ [
         # Generally helpful.
+        _7zz
         dig
+        entr
         file
         htop
         httpie
