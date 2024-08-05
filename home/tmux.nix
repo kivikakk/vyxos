@@ -39,7 +39,7 @@
       bind -n M-S-Left previous-window
       bind -n M-S-Right next-window
 
-      set -g status-left ' #[fg=white,bold]#h #S#[default] '
+      set -g status-left ' #[fg=black,bold]#h #S#[default] '
       set -g status-left-length 20
       set -g status-bg ${
         if isServer
@@ -60,16 +60,16 @@
       set-window-option -g clock-mode-colour colour64 #green
 
       # default statusbar colors
-      set-option -g status-style fg=white,bg=default,default
+      set-option -g status-style fg=black,bg=default,default
 
       # default window title colors
-      set-window-option -g window-status-style fg=white,bg=default
+      set-window-option -g window-status-style fg=black,bg=default
 
       # active window title colors
-      set-window-option -g window-status-current-style fg=white,bg=default,bright
+      set-window-option -g window-status-current-style fg=black,bg=default,bright
 
       # command/message line colors
-      set-option -g message-style fg=white,bg=black,bright
+      set-option -g message-style fg=black,bg=black,bright
 
       set -g status-left-length 32
       set -g status-right-length 150
