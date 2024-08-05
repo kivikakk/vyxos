@@ -18,6 +18,8 @@ in {
       ./git
       ./nix
       ./cowsay
+    ]
+    ++ optionals (!isDarwin && hostData.server) [
       ./desktop
     ]
     ++ optionals (hostData.server) [
