@@ -9,6 +9,7 @@
       init.defaultBranch = "main";
       merge.conflictStyle = "zdiff3";
       pull.rebase = true;
+      advice.detachedHead = false;
     };
     ignores = [
       ".*.sw*"
