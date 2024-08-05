@@ -169,8 +169,6 @@ in {
 
       home.file = {
         ".config/dosbox-x/dosbox-x-2024.07.01.conf".source = ./dosbox-x.conf;
-        ".config/kuriikwsfilterrc".source = ./kuriikwsfilterrc;
-        ".local/share/kf6/searchproviders/comenzar.desktop".source = ./comenzar.desktop;
       };
 
       # qdbus org.kde.krunner /App org.kde.krunner.App.displaySingleRunner krunner_webshortcuts

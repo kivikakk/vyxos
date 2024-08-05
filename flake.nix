@@ -24,6 +24,11 @@
       inputs.nixpkgs.follows = "unstable-nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+    unstable-plasma-manager = {
+      url = github:nix-community/plasma-manager;
+      inputs.nixpkgs.follows = "unstable-nixpkgs";
+      inputs.home-manager.follows = "unstable-home-manager";
+    };
 
     darwin-nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-24.05-darwin;
     darwin-nix-darwin = {
@@ -54,6 +59,7 @@
     unstable-furpoll,
     unstable-nixos-hardware,
     unstable-comenzar,
+    unstable-plasma-manager,
     darwin-nixpkgs,
     darwin-nix-darwin,
     darwin-home-manager,
@@ -73,7 +79,10 @@
               unstable-furpoll.nixosModules.${system}.default
               unstable-comenzar.nixosModules.${system}.default
             ];
-            sops-nix-home-manager-module = unstable-sops-nix.homeManagerModules.sops;
+            hm-modules = [
+              unstable-sops-nix.homeManagerModules.sops
+              unstable-plasma-manager.homeManagerModules.plasma-manager
+            ];
           };
           darwin = {
             nixpkgs = darwin-nixpkgs;
@@ -82,7 +91,9 @@
               darwin-home-manager.darwinModules.home-manager
               darwin-comenzar.darwinModules.${system}.default
             ];
-            sops-nix-home-manager-module = darwin-sops-nix.homeManagerModules.sops;
+            hm-modules = [
+              darwin-sops-nix.homeManagerModules.sops
+            ];
           };
         }
         .${
@@ -115,10 +126,9 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             users.${config.vyxos.vyxUser} = import ./home.nix;
-            sharedModules = [
-              specifics.sops-nix-home-manager-module
-            ];
+            sharedModules = specifics.hm-modules;
             extraSpecialArgs = {
+              inherit isDarwin;
               inherit (config.vyxos) isServer;
             };
           };

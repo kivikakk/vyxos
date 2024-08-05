@@ -165,6 +165,7 @@
         "unstable-home-manager": "unstable-home-manager",
         "unstable-nixos-hardware": "unstable-nixos-hardware",
         "unstable-nixpkgs": "unstable-nixpkgs",
+        "unstable-plasma-manager": "unstable-plasma-manager",
         "unstable-sops-nix": "unstable-sops-nix"
       }
     },
@@ -277,6 +278,29 @@
         "owner": "NixOS",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "unstable-plasma-manager": {
+      "inputs": {
+        "home-manager": [
+          "unstable-home-manager"
+        ],
+        "nixpkgs": [
+          "unstable-nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1722804745,
+        "narHash": "sha256-l6N3QaiDqN2QmHDAxjczQPLPCTv+Kp7PsrtJBltmhTo=",
+        "owner": "nix-community",
+        "repo": "plasma-manager",
+        "rev": "61d9342fb471cd3c45a047406428fba7b6fb49ad",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "plasma-manager",
         "type": "github"
       }
     },

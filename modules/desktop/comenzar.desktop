@@ -1,7 +1,0 @@
-[Desktop Entry]
-Charset=
-Hidden=false
-Keys=comenzar
-Name=Comenzar
-Query=http://localhost:9292/?q=\\{@}
-Type=Service

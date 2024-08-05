@@ -1,17 +1,24 @@
 {
   config,
   pkgs,
+  lib,
+  isServer,
+  isDarwin,
   ...
 }: {
-  imports = [
-    ./home/fish.nix
-    ./home/ssh.nix
-    ./home/helix.nix
-    ./home/tmux.nix
-    ./home/git.nix
-    ./home/ripgrep.nix
-    ./home/aerc.nix
-  ];
+  imports =
+    [
+      ./home/fish.nix
+      ./home/ssh.nix
+      ./home/helix.nix
+      ./home/tmux.nix
+      ./home/git.nix
+      ./home/ripgrep.nix
+      ./home/aerc.nix
+    ]
+    ++ lib.optionals (!isServer && !isDarwin) [
+      ./home/plasma
+    ];
 
   home = {
     stateVersion = "23.05";
