@@ -2,6 +2,9 @@
   programs.plasma = {
     enable = true;
 
+    # TODO: describe more here.
+    # https://nix-community.github.io/plasma-manager/options.xhtml
+
     workspace = {
       lookAndFeel = "org.kde.breezedark.desktop";
     };
