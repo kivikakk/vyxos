@@ -84,6 +84,7 @@ in {
           initialHashedPassword = builtins.readFile ../private/secrets/hashedpassword-root;
         };
         ${cfg.vyxUser} = {
+          uid = 1000;
           isNormalUser = true;
           initialHashedPassword = builtins.readFile ../private/secrets/hashedpassword-vyxuser;
           description = cfg.vyxUser;

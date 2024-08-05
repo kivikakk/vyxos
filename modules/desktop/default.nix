@@ -50,6 +50,21 @@ in {
       alsa.support32Bit = true;
       pulse.enable = true;
     };
+    services.mpd = {
+      enable = true;
+      user = vyxUser;
+      musicDirectory = "/home/${vyxUser}/m";
+      extraConfig = ''
+        audio_output {
+          type "pipewire"
+          name "pipewire"
+        }
+      '';
+    };
+    systemd.services.mpd.environment = {
+      # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/609
+      XDG_RUNTIME_DIR = "/run/user/${toString config.users.users.${vyxUser}.uid}";
+    };
 
     users.users.${vyxUser}.extraGroups = ["networkmanager" "dialout"];
 
@@ -164,6 +179,10 @@ in {
         enable = true;
         theme = "Catppuccin-Mocha";
         font.name = "Iosevka Term Slab";
+      };
+
+      programs.ncmpcpp = {
+        enable = true;
       };
     };
   };
