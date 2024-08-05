@@ -26,10 +26,17 @@
     # Starting with the default binds, to avoid aerc creating it itself and
     # risking unmanaged configuration.
     extraBinds = builtins.readFile ./aerc-binds.conf;
+    stylesets = {catppuccin-mocha = builtins.readFile ./aerc-catppuccin-mocha;};
 
     extraConfig = {
       # https://github.com/nix-community/home-manager/blob/0f4e5b4999fd6a42ece5da8a3a2439a50e48e486/modules/programs/aerc.nix#L167-L177
       general.unsafe-accounts-conf = true;
+
+      ui = {
+        border-char-vertical = "│";
+        border-char-horizontal = "─";
+        styleset-name = "catppuccin-mocha";
+      };
 
       filters = {
         "text/plain" = "colorize";
