@@ -32,6 +32,7 @@ in {
     # services.xserver.desktopManager.gnome.enable = true;
     services.displayManager.sddm.enable = true;
     services.desktopManager.plasma6.enable = true;
+    environment.plasma6.excludePackages = [pkgs.kdePackages.plasma-browser-integration]; # pins a core to 100%
 
     services.xserver.xkb = {
       layout = "us";
