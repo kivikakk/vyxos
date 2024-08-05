@@ -69,7 +69,7 @@
       set-window-option -g window-status-current-style fg=black,bg=default,bright
 
       # command/message line colors
-      set-option -g message-style fg=black,bg=black,bright
+      set-option -g message-style fg=black,bg=white,bright
 
       set -g status-left-length 32
       set -g status-right-length 150
