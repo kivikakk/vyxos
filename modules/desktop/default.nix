@@ -170,6 +170,7 @@ in {
       home.packages = with pkgs; [
         discord
         dosbox-x
+        obsidian
       ];
 
       home.file = {
