@@ -32,7 +32,12 @@ in {
     # services.xserver.desktopManager.gnome.enable = true;
     services.displayManager.sddm.enable = true;
     services.desktopManager.plasma6.enable = true;
-    environment.plasma6.excludePackages = [pkgs.kdePackages.plasma-browser-integration]; # pins a core to 100%
+    environment.plasma6.excludePackages = with pkgs.kdePackages; [
+      plasma-browser-integration # pins a core to 100%
+      kate
+      elisa
+      konsole
+    ];
 
     services.xserver.xkb = {
       layout = "us";
@@ -170,8 +175,6 @@ in {
       home.file = {
         ".config/dosbox-x/dosbox-x-2024.07.01.conf".source = ./dosbox-x.conf;
       };
-
-      # qdbus org.kde.krunner /App org.kde.krunner.App.displaySingleRunner krunner_webshortcuts
 
       programs.kitty = {
         enable = true;
