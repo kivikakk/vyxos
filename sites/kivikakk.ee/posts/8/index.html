@@ -27,6 +27,7 @@
 <meta property="og:site_name" content="kivikakk.ee" />
 <meta property="og:type" content="website" />
 <link rel="prev" href="https://kivikakk.ee/posts/7/" />
+<link rel="next" href="https://kivikakk.ee/posts/9/" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Home" />
 <script type="application/ld+json">
@@ -56,6 +57,47 @@
 
       <main>
         <div class="posts">
+  
+  <article class="post">
+    <h1 class="post-title">
+      <a href="/2021/02/28/loader/">
+        Knowing when to look past your code
+      </a>
+    </h1>
+
+    <time datetime="2021-02-28T00:00:00+02:00" class="post-date">28 Feb 2021</time>
+
+    
+      <p>There’s a weird tension in programming — on the one hand, as you learn the
+ropes, you (hopefully) learn very quickly that the problem is almost <em>always</em>
+in your code, and not, say, the compiler, stdlib, kernel, etc.  This is usually
+very correct; the people who’ve worked on those things have many times the
+experience you did when you decided that there must be a bug in <code class="language-plaintext highlighter-rouge">printf</code> or
+something.</p>
+
+<p>You’ll later realise you tried to print something through a pointer to a
+stack-allocated variable that’s long since gone.  These accusations tend to
+wane as you gain familiarity with your subject matter, and wax as you step out
+into lands populated with ever more footguns, exposing more of the architecture
+than you ever suspected was there.  (See also: the emails from me to the libev
+mailing list in 2011.)</p>
+
+<p>At some point, though, your journies will take you to places where things
+aren’t so clear cut, and you’ll start to gain a sixth sense; a kind of visceral
+experience that <em>things are not as they have been promised to be</em>.</p>
+
+<p><a id="more"></a>A few weeks ago, that sixth sense whispered in my ear: “what
+if, instead of your cruddy bootloader written in a pre-1.0 systems language for
+a platform you don’t fully understand, it’s the 20 year-old project with 80,000
+commits that’s wrong?”  And it was right.</p>
+
+
+
+      
+        <a href="/2021/02/28/loader/#more">Read more</a>
+      
+    
+  </article>
   
   <article class="post">
     <h1 class="post-title">
@@ -207,54 +249,6 @@ downloaded by something else.  We decided to find out how.</p>
     
   </article>
   
-  <article class="post">
-    <h1 class="post-title">
-      <a href="/2012/04/18/escapology/">
-        Escapology: how, when and why to encode and escape
-      </a>
-    </h1>
-
-    <time datetime="2012-04-18T14:10:00+03:00" class="post-date">18 Apr 2012</time>
-
-    
-      <p>As programmers, we spend a lot of time just carting data from one place to
-another.  Sometimes that’s the entire purpose of a program or library (data
-conversion whatevers), but more often it’s just something that needs to happen
-in the course of getting a certain task done.  When we’re sending a request,
-using a library, executing templates or whatever, it’s important to be 100%
-clear on the format of the data, which is a fancy way of saying how the data is
-encoded.</p>
-
-<p>Let’s do the tacky dictionary thing:</p>
-
-<blockquote>
-  <p><strong><a href="http://en.wiktionary.org/wiki/encoding">encoding</a></strong> (<em>plural</em> encodings)</p>
-
-  <ol>
-    <li>
-      <p>(computing) The way in which symbols are mapped onto bytes, e.g. in the
-rendering of a particular font, or in the mapping from keyboard input into
-visual text.</p>
-    </li>
-    <li>
-      <p>A conversion of plain text into a code or cypher form (for decoding by the
-recipient).</p>
-    </li>
-  </ol>
-</blockquote>
-
-<p><a id="more"></a>I think these senses are a bit too specific—if your data is in a computer in
-any form, then it’s already encoded.  The keyboard doesn’t even have to come
-into it.</p>
-
-
-
-      
-        <a href="/2012/04/18/escapology/#more">Read more</a>
-      
-    
-  </article>
-  
 </div>
 
 <div class="pagination">
@@ -262,7 +256,7 @@ into it.</p>
     <a class="pagination-item newer" href="/posts/7/">Newer</a>
   
   
-    <span class="pagination-item older">Older</span>
+    <a class="pagination-item older" href="/posts/9/">Older</a>
   
 </div>
 
