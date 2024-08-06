@@ -102,7 +102,7 @@ function vyxnix -d "vyxos nix3 launcher"
     end
 
     if test "$state" = run
-        $nix $command $defaultargs $args --command fish -c (string escape -- $run | string join ' ')
+        $nix $command $defaultargs $args --command fish -c (string escape (string escape -- $run | string join ' '))
     else
         if test "$state" = args -a "$ds" -eq 1
             set -a args --command fish
