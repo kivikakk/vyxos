@@ -8,6 +8,12 @@
   inherit (config.vyxos) vyxUser;
   inherit (lib) mkIf mkEnableOption;
 in {
+  imports = [
+    ./gui.nix
+    ./mpd.nix
+    ./firefox.nix
+  ];
+
   options.vyxos.desktop = {
     enable = mkEnableOption "VyxOS desktop";
   };
@@ -26,52 +32,7 @@ in {
       LC_TIME = "et_EE.UTF-8";
     };
 
-    services.xserver.enable = true;
-
-    # services.xserver.displayManager.gdm.enable = true;
-    # services.xserver.desktopManager.gnome.enable = true;
-    services.displayManager.sddm.enable = true;
-    services.desktopManager.plasma6.enable = true;
-    environment.plasma6.excludePackages = with pkgs.kdePackages; [
-      plasma-browser-integration # pins a core to 100%
-      kate
-      elisa
-      konsole
-    ];
-
-    services.xserver.xkb = {
-      layout = "us";
-      variant = "dvorak";
-    };
-    console.keyMap = "dvorak";
-
-    services.printing.enable = true;
-
-    hardware.pulseaudio.enable = false;
-    security.rtkit.enable = true;
-    services.pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-    services.mpd = {
-      enable = true;
-      user = vyxUser;
-      musicDirectory = "/home/${vyxUser}/m";
-      extraConfig = ''
-        audio_output {
-          type "pipewire"
-          name "pipewire"
-        }
-      '';
-    };
-    systemd.services.mpd.environment = {
-      # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/609
-      XDG_RUNTIME_DIR = "/run/user/${toString config.users.users.${vyxUser}.uid}";
-    };
-
-    users.users.${vyxUser}.extraGroups = ["networkmanager" "dialout"];
+    users.users.${vyxUser}.extraGroups = ["dialout"];
 
     nixpkgs.config.allowUnfreePredicate = pkg:
       builtins.elem (lib.getName pkg) [
@@ -79,60 +40,10 @@ in {
         "1password-cli"
         "1password"
         "discord"
+        "obsidian"
       ];
 
     programs = {
-      firefox = {
-        enable = true;
-        # For SearchEngines: https://mozilla.github.io/policy-templates/#searchengines-this-policy-is-only-available-on-the-esr
-        package = pkgs.firefox-esr;
-        policies = {
-          AutofillAddressEnabled = false;
-          AutofillCreditCardEnabled = false;
-          DisableFirefoxAccounts = true;
-          DisableFirefoxStudies = true;
-          DisableMasterPasswordCreation = true;
-          DisablePocket = true;
-          DisableProfileImport = true;
-          DisableProfileRefresh = true;
-          DisableTelemetry = true;
-          DontCheckDefaultBrowser = true;
-          OfferToSaveLogins = false;
-          UserMessaging = {
-            ExtensionRecommendations = false;
-            FeatureRecommendations = false;
-            UrlbarInterventions = false;
-            SkipOnboarding = false;
-            MoreFromMozilla = false;
-          };
-          ExtensionSettings = {
-            "{d634138d-c276-4fc8-924b-40a0ea21d284}" = {
-              installation_mode = "normal_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/1password-x-password-manager/latest.xpi";
-            };
-            "{61a05c39-ad45-4086-946f-32adb0a40a9d}" = {
-              installation_mode = "normal_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/linkding-extension/latest.xpi";
-            };
-            "uBlock0@raymondhill.net" = {
-              installation_mode = "normal_installed";
-              install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-            };
-          };
-          SearchEngines = {
-            Add = [
-              {
-                Name = "Comenzar";
-                URLTemplate = "http://localhost:9292/?q={searchTerms}";
-                Method = "GET";
-                Alias = "comenzar";
-              }
-            ];
-            Default = "Comenzar";
-          };
-        };
-      };
-
       _1password.enable = true;
       _1password-gui = {
         enable = true;
