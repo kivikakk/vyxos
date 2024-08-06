@@ -82,6 +82,7 @@ in {
         discord
         dosbox-x
         obsidian
+        element-desktop
       ];
 
       home.file = {
