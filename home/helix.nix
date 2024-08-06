@@ -4,7 +4,7 @@
   programs.helix = {
     enable = true;
     settings = {
-      theme = "horizon-dark";
+      theme = "catppuccin_mocha";
       keys = {
         normal.Z.Z = ":write-quit";
         normal.C-q = ":reflow";
