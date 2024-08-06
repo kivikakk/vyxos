@@ -40,5 +40,8 @@ in {
     };
 
     users.users.${vyxUser}.extraGroups = ["networkmanager"];
+
+    hardware.bluetooth.enable = true;
+    hardware.bluetooth.powerOnBoot = true;
   };
 }
