@@ -36,6 +36,7 @@ in {
           '';
           shellAliases = {
             ZZ = "$VYXOS/rebuild switch";
+            VZ = "cd $VYXOS";
           };
         }
         // lib.optionalAttrs isDarwin {
