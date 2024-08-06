@@ -35,6 +35,12 @@ in {
         default = hostData.user;
         readOnly = true;
       };
+      vyxUserId = mkOption {
+        type = types.int;
+        example = 1000;
+        default = hostData.uid or 1000;
+        readOnly = true;
+      };
       hostName = mkOption {
         type = types.str;
         example = "exampleHost";
@@ -86,7 +92,7 @@ in {
           initialHashedPassword = builtins.readFile ../private/secrets/hashedpassword-root;
         };
         ${cfg.vyxUser} = {
-          uid = 1000;
+          uid = cfg.vyxUserId;
           isNormalUser = true;
           initialHashedPassword = builtins.readFile ../private/secrets/hashedpassword-vyxuser;
           description = cfg.vyxUser;

@@ -8,6 +8,7 @@ server = false
 
 [orav]
 user = "kivikakk"
+uid = 1001
 server = true
 hostId = "a1b2c3d4"
 [orav.net]
