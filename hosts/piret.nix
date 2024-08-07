@@ -50,6 +50,7 @@
 
     networking.useDHCP = lib.mkDefault true;
     networking.networkmanager.enable = true;
+    networking.search = ["ts.hrzn.ee"];
 
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
