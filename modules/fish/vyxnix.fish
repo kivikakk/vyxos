@@ -18,6 +18,7 @@ function vyxnix -d "vyxos nix3 launcher"
     set -f defaultargs -L --keep-going
 
     # Specify --vyx-dry-run to echo the command that would be executed.
+    set -f dryrun 0
 
     # $state: "args", "command", "run"
     #  - "args" is the initial state.
@@ -44,9 +45,6 @@ function vyxnix -d "vyxos nix3 launcher"
         set -f ds 0
     end
 
-    # $nix: ["nix"] normally, ["echo" "nix"] if we're doing a dry run
-    set -f nix nix
-
     for arg in $argv
         switch $state
             case args
@@ -56,7 +54,7 @@ function vyxnix -d "vyxos nix3 launcher"
                 end
 
                 if test "$arg" = --vyx-dry-run
-                    set -p nix echo
+                    set dryrun 1
                     continue
                 end
 
@@ -102,13 +100,19 @@ function vyxnix -d "vyxos nix3 launcher"
     end
 
     if test "$state" = run
-        $nix $command $defaultargs $args --command fish -c (string escape -- $run | string join ' ')
+        set cmd nix $command $defaultargs $args --command fish -c (string escape -- $run | string join ' ')
     else
         if test "$state" = args -a "$ds" -eq 1
             set -a args --command fish
         end
 
-        $nix $command $defaultargs $args
+        set cmd nix $command $defaultargs $args
+    end
+
+    if test "$dryrun" -eq 1
+        echo (string escape -- $cmd)
+    else
+        $cmd
     end
 end
 
