@@ -8,6 +8,7 @@
       github.token = builtins.readFile ../private/secrets/github-token;
       init.defaultBranch = "main";
       merge.conflictStyle = "zdiff3";
+      push.default = "upstream";
       pull.rebase = true;
       advice.detachedHead = false;
     };
