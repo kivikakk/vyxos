@@ -22,6 +22,8 @@ in {
       konsole
     ];
 
+    environment.systemPackages = [pkgs.wl-clipboard];
+
     services.xserver.xkb = {
       layout = "us";
       variant = "dvorak";
