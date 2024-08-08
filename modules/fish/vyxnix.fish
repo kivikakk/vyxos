@@ -84,11 +84,14 @@ function vyxnix -d "vyxos nix3 launcher"
                     else if test "$arg" = '.'
                         # nr . ...
                         set -a args $arg
+                    else if test "$arg" = --
+                        # nr ... -- ...
+                        set -a args $arg
+                        set state command
                     else
                         # nr abc ...
                         # ns abc ...
                         set -a args "nixpkgs#$arg"
-                        set state command
                     end
                 else
                     set -a args $arg
