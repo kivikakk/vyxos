@@ -93,6 +93,7 @@ in {
         enable = true;
         theme = "Catppuccin-Mocha";
         font.name = "Iosevka Term Slab";
+        settings.disable_ligatures = "cursor";
       };
 
       programs.ncmpcpp = {
