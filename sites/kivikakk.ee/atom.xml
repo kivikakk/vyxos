@@ -4,7 +4,7 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-08-07T10:03:35+03:00</updated>
+ <updated>2024-08-09T11:33:52+03:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
@@ -13,7 +13,7 @@
 
  
  <entry>
-   <title>Tüüpiautomaat</title>
+   <title>Tüüpiautomaat: automated testing of a compiler and target against each other</title>
    <updated>2024-08-06T00:00:00+03:00</updated>
    <id>https://kivikakk.ee/zig/2024/08/06/tüüpiautomaat</id>
     
