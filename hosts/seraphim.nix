@@ -53,15 +53,7 @@
       programs.fish = {
         interactiveShellInit = ''
           set -gx COLORTERM truecolor
-          source $HOME/.asdf/asdf.fish
           fish_add_path /opt/homebrew/opt/postgresql@13/bin
-          fish_add_path /opt/homebrew/bin
-          fish_add_path $HOME/.cargo/bin
-          fish_add_path $HOME/g/zig/build/stage3/bin
-          fish_add_path $HOME/.local/bin
-          fish_add_path $HOME/.ghcup/bin
-          fish_add_path $HOME/.cabal/bin
-          fish_add_path $HOME/g/zls/zig-out/bin
           alias surfer $HOME/g/surfer/target/release/surfer
         '';
       };
@@ -78,12 +70,10 @@
       ];
       brews = [
         "libftdi"
-        "libyaml" # our asdf ruby build needs this
         "llvm@17" # zig 0.12
         "llvm@18" # zig 0.13
         "pkg-config"
         "postgresql@13"
-        "verilator" # can't install via nixpkgs, broken systemc dep
         "zstd" # zig
       ];
       casks =
