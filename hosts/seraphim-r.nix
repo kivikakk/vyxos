@@ -15,10 +15,9 @@
   };
 
   home-manager.users.${config.vyxos.vyxUser} = let
-    inherit (config) vyxos;
+    inherit (config) vyxos; # `config` below isn't this one.
   in
     {config, ...}: {
-      home.packages = [pkgs.fzf];
       # XXX: Hecc this
       home.file.".ssh/radiopaedia.pem".source = config.lib.file.mkOutOfStoreSymlink "/Users/kivikakk/.ssh/id_ed25519";
       # XXX: This may or may not correctly instantiate correctly without first
