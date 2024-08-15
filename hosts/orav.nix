@@ -63,6 +63,8 @@
       };
     };
 
+    networking.firewall.allowedTCPPorts = [22];
+
     users.users = {
       kinu = {
         isNormalUser = true;
