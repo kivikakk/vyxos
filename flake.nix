@@ -160,6 +160,7 @@
   in
     flake-utils.lib.eachDefaultSystem (system: {
       formatter = unstable-nixpkgs.legacyPackages.${system}.alejandra;
+      checks.vyxnix = import ./tests/vyxnix.nix {inherit system unstable-nixpkgs;};
     })
     // {
       nixosConfigurations = {
