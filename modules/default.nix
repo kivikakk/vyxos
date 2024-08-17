@@ -26,6 +26,7 @@ in {
       ./desktop
     ]
     ++ optionals (hostData.server) [
+      ./fxsync
       ./nginx
       ./net
     ];

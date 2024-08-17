@@ -61,6 +61,7 @@
           };
         };
       };
+      fxsync.enable = true;
     };
 
     # Note that public 22 is still restricted at the cloud provider to only
