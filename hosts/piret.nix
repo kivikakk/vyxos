@@ -89,21 +89,15 @@
           "seraphim" = {id = "6Y34MJE-RJ6Q35O-ZN3PXPA-3RWUUBM-YJLHCOD-NTN66LP-2JDA6OA-MMWWPAS";};
         };
         folders = {
-          "avatars" = {
-            id = "d63jp-pvkb2";
-            path = "~/i/avatars";
+          "d" = {
+            id = "3arpa-gzuah";
+            path = "~/d";
             devices = ["seraphim"];
             ignorePerms = false;
           };
-          "datasheets" = {
-            id = "f3wkx-m5ncg";
-            path = "~/d/datasheets";
-            devices = ["seraphim"];
-            ignorePerms = false;
-          };
-          "ZK" = {
-            id = "byk5p-fechc";
-            path = "~/d/ZK";
+          "a" = {
+            id = "kvd7y-fmzxq";
+            path = "~/a";
             devices = ["seraphim"];
             ignorePerms = false;
           };
