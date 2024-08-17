@@ -51,7 +51,7 @@ in {
 
             borg() {
               returnCode=0
-              "$realBorg" "$@" || returnCode=$?
+              systemd-inhibit "$realBorg" "$@" || returnCode=$?
 
               if [[ $returnCode -eq 1 ]]; then
                 return 0
