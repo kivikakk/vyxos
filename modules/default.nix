@@ -19,7 +19,10 @@ in {
       ./nix
       ./cowsay
     ]
-    ++ optionals (!(isDarwin || hostData.server)) [
+    ++ optionals (!isDarwin) [
+      ./borg
+    ]
+    ++ optionals (!isDarwin && !hostData.server) [
       ./desktop
     ]
     ++ optionals (hostData.server) [

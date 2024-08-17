@@ -68,6 +68,7 @@
           };
         };
       };
+      borg.enable = true;
     };
 
     home-manager.users.${config.vyxos.vyxUser} = {
