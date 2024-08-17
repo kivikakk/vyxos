@@ -15,7 +15,8 @@ in {
         # For SearchEngines: https://mozilla.github.io/policy-templates/#searchengines-this-policy-is-only-available-on-the-esr
         package = pkgs.firefox-esr;
         preferences = {
-          "identity.sync.tokenserver.uri" = "http://fxsync.hrzn.ee/1.0/sync/1.5";
+          # "Unable to set preference identity.sync.tokenserver.uri. Preference not allowed for stability reasons." T_T
+          # "identity.sync.tokenserver.uri" = "http://fxsync.hrzn.ee/1.0/sync/1.5";
         };
         policies = {
           AutofillAddressEnabled = false;
