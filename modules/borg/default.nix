@@ -36,7 +36,7 @@ in {
           };
           doInit = false;
           compression = "auto,lzma";
-          startAt = "*-*-* 01/10:25:00"; # Every 4 hours, starting 10:25:00.
+          startAt = "*-*-* 10/4:25:00"; # Every 4 hours, starting 10:25:00.
           prune.keep = {
             within = "1d";
             daily = 7;
