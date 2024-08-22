@@ -47,7 +47,6 @@
       home.packages = with pkgs; [
         pulseview
         gtkwave
-        rustup
       ];
 
       programs.fish = {
