@@ -33,6 +33,8 @@ in {
           enable = true;
           shellInit = ''
             set VYXOS $HOME/g/vyxos
+            # Don't allow state to accumulate.
+            rm -f $HOME/.config/fish/fish_variables &>/dev/null
           '';
           shellAliases = {
             ZZ = "$VYXOS/rebuild switch";
