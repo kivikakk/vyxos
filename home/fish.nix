@@ -26,6 +26,7 @@
       // builtins.mapAttrs (name: _v: "ssh ${name}") config.programs.ssh.matchBlocks;
   };
   home.file = {
+    ".config/fish/fish_variables".source = ./fish_variables;  # Don't allow state to accumulate.
     ".config/fish/functions/blognew.fish".source = ./blognew.fish;
     ".config/fish/functions/blogserve.fish".source = ./blogserve.fish;
   };
