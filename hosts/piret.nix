@@ -53,6 +53,7 @@
     networking.search = ["ts.hrzn.ee"];
 
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    time.hardwareClockInLocalTime = true;
 
     vyxos = {
       desktop.enable = true;
