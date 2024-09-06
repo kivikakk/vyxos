@@ -52,7 +52,6 @@
       programs.fish = {
         interactiveShellInit = ''
           set -gx COLORTERM truecolor
-          fish_add_path /opt/homebrew/opt/postgresql@13/bin
           alias surfer $HOME/g/surfer/target/release/surfer
         '';
       };
@@ -72,7 +71,6 @@
         "llvm@17" # zig 0.12
         "llvm@18" # zig 0.13
         "pkg-config"
-        "postgresql@13"
         "zstd" # zig
       ];
       casks =
