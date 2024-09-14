@@ -32,6 +32,7 @@
             nbsp = "all";
           };
         };
+        lsp.display-messages = true;
       };
     };
     languages = {
