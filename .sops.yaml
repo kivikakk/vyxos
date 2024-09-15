@@ -3,7 +3,6 @@ keys:
   - &e_kivikakk_piret age1dhn32kuu84zhzr6a5jzyfnkls5xjug24skmam954fqz4j8058gksatrsp6
   - &m_seraphim age1nf496q46q30r65hc9s4jzuku042l0d3n0fpldtm4dzxmlaukcstsgxn2q8
   - &m_piret age1tqucdhpsth064lke5prmtrspfd9mgv8j526gzqnnkmann89lkatqjp7jal
-  - &m_orav age10xcxxq775cxur60fl2w2awj4jt82utt3m880fa7uafqdxv36qccsz0wz9f
   - &m_kala age1vwj6lqdmwcxapz5hkgg4r36tmvunmsdmhnyrp25wrlnnk9yavqmsnzt0vu
 creation_rules:
   - path_regex: private/secrets/seraphim/[^/]+$
@@ -18,12 +17,6 @@ creation_rules:
       - *e_kivikakk_sera
       - *e_kivikakk_piret
       - *m_piret
-  - path_regex: private/secrets/orav/[^/]+$
-    key_groups:
-    - age:
-      - *e_kivikakk_sera
-      - *e_kivikakk_piret
-      - *m_orav
   - path_regex: private/secrets/kala/[^/]+$
     key_groups:
     - age:

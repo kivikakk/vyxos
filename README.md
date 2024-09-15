@@ -31,7 +31,7 @@ A description of the basic layout follows.
   * [`hosts/piret.nix`](hosts/piret.nix) — configures my Framework (on NixOS).
     * Compared to seraphim, devtools here are done entirely within Nix.
     * [Comenzar] is enabled.
-  * [`hosts/orav.nix`](hosts/orav.nix) — configures my VPS (on NixOS).
+  * [`hosts/kala.nix`](hosts/kala.nix) — configures my VPS (on NixOS).
     * Hardware config is stuffed up the top, pulled from a [`nixos-infect`]-generated `hardware-configuration.nix`.
     * Pulls in `sites/`, documented below.
     * [furpoll] is enabled and configured.
@@ -138,7 +138,7 @@ Have a look at [`home/git-aliases.nix`](home/git-aliases.nix). Everything's spli
 
 ## SSH aliases
 
-Similar to above, a [shell alias is created][ssh alias line] for every host defined in `hosts.toml`; i.e. typing `orav` is enough to `ssh orav`.
+Similar to above, a [shell alias is created][ssh alias line] for every host defined in `hosts.toml`; i.e. typing `kala` is enough to `ssh kala`.
 
 [ssh alias line]: https://github.com/kivikakk/vyxos/blob/aed7f16d432f5b0a73268aa34521fed07f24e7c1/home/fish.nix#L24
 
@@ -193,7 +193,7 @@ The really nice thing about using Fish everywhere, too, is that `vyxnix` and ali
 [aerc]: https://aerc-mail.org/
 [Comenzar]: https://github.com/kivikakk/comenzar
 [furpoll]: https://github.com/kivikakk/furpoll
-[502]: https://orav.hrzn.ee
+[502]: https://kala.hrzn.ee
 [OpenSMTPD]: https://www.opensmtpd.org/
 [`nixos-infect`]: https://github.com/elitak/nixos-infect
 [kivikakk.ee]: https://kivikakk.ee

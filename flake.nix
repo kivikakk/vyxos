@@ -1,5 +1,5 @@
 {
-  description = "seraphim + orav";
+  description = "seraphim, piret + kala";
 
   inputs = {
     flake-utils.url = github:numtide/flake-utils;
@@ -164,7 +164,6 @@
     })
     // {
       nixosConfigurations = {
-        orav = mkHost "orav" "x86_64-linux" [];
         kala = mkHost "kala" "x86_64-linux" [];
         piret = mkHost "piret" "x86_64-linux" [
           unstable-nixos-hardware.nixosModules.framework-16-7040-amd
