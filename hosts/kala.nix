@@ -61,11 +61,6 @@
       # fxsync.enable = true;
     };
 
-    # TODO: reinstate this!
-    # Note that public 22 is still restricted at the cloud provider to only
-    # allow connections from our home /64. v4 is not permitted.
-    networking.firewall.allowedTCPPorts = [22];
-
     users.users = {
       kinu = {
         isNormalUser = true;
