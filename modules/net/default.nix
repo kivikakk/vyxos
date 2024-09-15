@@ -105,8 +105,6 @@ in {
       {
         inherit (cfg) hostId;
         nameservers = ["1.1.1.1" "1.0.0.1"];
-        # Note to self: please remember we also have a default-deny enabled at
-        # our cloud provider.
         firewall = {
           enable = mkDefault true;
           allowedTCPPorts = [];
