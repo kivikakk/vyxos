@@ -21,7 +21,7 @@ gwv6 = "fe80::1#eth0"
 [kala]
 user = "charlotte"
 server = true
-hostId = "xmzp8fpk"
+hostId = "6fcf22f5"
 [kala.net]
 dev = "ens3"
 ipv4 = "51.161.134.17/32"
