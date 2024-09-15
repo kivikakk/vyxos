@@ -29,16 +29,7 @@
     lib,
     ...
   }: {
-    imports = [
-      ../sites
-    ];
-
     system.stateVersion = "23.11";
-
-    nixpkgs.config.allowUnfreePredicate = pkg:
-      builtins.elem (lib.getName pkg) [
-        "outline"
-      ];
 
     vyxos = {
       secrets = {
