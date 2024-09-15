@@ -17,3 +17,14 @@ ipv4 = "95.217.1.49/32"
 gwv4 = "172.31.1.1/32"
 ipv6 = "2a01:4f9:c012:6a55::1/64"
 gwv6 = "fe80::1#eth0"
+
+[kala]
+user = "charlotte"
+server = true
+hostId = "xmzp8fpk"
+[kala.net]
+dev = "ens3"
+ipv4 = "51.161.134.17/32"
+gwv4 = "51.161.134.1/32"
+ipv6 = "2402:1f00:8100:400::17b4/64"
+gwv6 = "fe80::1#ens3"
