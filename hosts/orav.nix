@@ -47,9 +47,6 @@
           "kivikakk-estrellita"
         ];
         encrypted = {
-          "furpoll-cookie" = {
-            owner = config.services.furpoll.user;
-          };
           "smtpd-auth-table" = {};
         };
       };
@@ -91,15 +88,6 @@
     services = {
       tailscale.enable = true;
       postgresql.package = pkgs.postgresql_14;
-
-      furpoll = {
-        enable = true;
-        calendar = "*-*-* 7,10,13,18,21,23:07:00";
-        from = "furpoll <furpoll@kivikakk.ee>";
-        to = "Ashe <ashe@kivikakk.ee>";
-
-        cookieFile = config.vyxos.secrets.decrypted."furpoll-cookie".path;
-      };
 
       opensmtpd = {
         enable = true;

@@ -90,29 +90,29 @@
       tailscale.enable = true;
       postgresql.package = pkgs.postgresql_14;
 
-      # furpoll = {
-      #   enable = true;
-      #   calendar = "*-*-* 7,10,13,18,21,23:07:00";
-      #   from = "furpoll <furpoll@kivikakk.ee>";
-      #   to = "Ashe <ashe@kivikakk.ee>";
+      furpoll = {
+        enable = true;
+        calendar = "*-*-* 7,10,13,18,21,23:07:00";
+        from = "furpoll <furpoll@kivikakk.ee>";
+        to = "Ashe <ashe@kivikakk.ee>";
 
-      #   cookieFile = config.vyxos.secrets.decrypted."furpoll-cookie".path;
-      # };
+        cookieFile = config.vyxos.secrets.decrypted."furpoll-cookie".path;
+      };
 
-      # opensmtpd = {
-      #   enable = true;
-      #   serverConfiguration = ''
-      #     queue compression
+      opensmtpd = {
+        enable = true;
+        serverConfiguration = ''
+          queue compression
 
-      #     table fastmail file:${config.vyxos.secrets.decrypted."smtpd-auth-table".path}
+          table fastmail file:${config.vyxos.secrets.decrypted."smtpd-auth-table".path}
 
-      #     listen on lo
+          listen on lo
 
-      #     action "fastmail" relay host "smtps://kala@smtp.fastmail.com:565" auth <fastmail>
+          action "fastmail" relay host "smtps://kala@smtp.fastmail.com:565" auth <fastmail>
 
-      #     match for any from local action "fastmail"
-      #   '';
-      # };
+          match for any from local action "fastmail"
+        '';
+      };
     };
   };
 }
