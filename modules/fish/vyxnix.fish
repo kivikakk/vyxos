@@ -14,6 +14,8 @@ function vyxnix -d "vyxos nix3 launcher"
     # vyxnix shell uvw -- nyonk       -> nix shell nixpkgs#uvw -- nyonk
     #
     # !x=y translates to --override-input x y.
+    # !! translates to --offline.
+
     # Default options (specify --vyx-no-defaults to omit):
     set -f defaultargs -L --keep-going
 
@@ -60,6 +62,11 @@ function vyxnix -d "vyxos nix3 launcher"
 
                 if string match -qr '\A!(?<input>[^=]+)=(?<override>.+)\z' -- "$arg"
                     set -a args --override-input "$input" "$override"
+                    continue
+                end
+
+                if test "$arg" = "!!"
+                    set -a args --offline
                     continue
                 end
 

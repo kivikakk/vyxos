@@ -42,4 +42,7 @@ assert shell nixpkgs#helix nixpkgs#vim --command fish
 check_ shell helix vim -- make
 assert shell nixpkgs#helix nixpkgs#vim --command fish -c make
 
+check_ develop !xyz=../abc !! -- bundle exec xyz
+assert develop --override-input xyz ../abc --offline --command fish -c bundle exec xyz
+
 # TODO: be able to check quoted args.
