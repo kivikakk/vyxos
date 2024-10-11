@@ -55,6 +55,9 @@
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     time.hardwareClockInLocalTime = true;
 
+    # For delayed login issue: https://github.com/NixOS/nixpkgs/issues/239770#issuecomment-1868508908
+    security.pam.services.kde.fprintAuth = false;
+
     vyxos = {
       desktop.enable = true;
       secrets = {
