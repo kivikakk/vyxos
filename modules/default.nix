@@ -60,7 +60,7 @@ in {
     // optionalAttrs (!isDarwin) {
       timeZone = mkOption {
         type = types.str;
-        default = "Europe/Tallinn";
+        default = "Australia/Melbourne";
       };
       hostId = mkOption {
         type = types.str;
