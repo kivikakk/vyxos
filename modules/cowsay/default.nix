@@ -2,7 +2,7 @@
 {...}: {
   config.nixpkgs.config.packageOverrides = oldPkgs: {
     cowsay = oldPkgs.cowsay.overrideAttrs (prev: {
-      patches = prev.patches ++ [./bovine.patch];
+      patches = (prev.patches or []) ++ [./bovine.patch];
     });
   };
 }
