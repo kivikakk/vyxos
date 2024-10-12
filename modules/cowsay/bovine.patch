@@ -4,15 +4,15 @@ Date: Tue, 23 Jan 2024 18:14:11 +1100
 Subject: [PATCH] bovine: add.
 
 ---
- cowsay                | 2 +-
- share/cows/bovine.cow | 6 ++++++
+ bin/cowsay                   | 2 +-
+ share/cowsay/cows/bovine.cow | 6 ++++++
  2 files changed, 7 insertions(+), 1 deletion(-)
- create mode 100644 share/cows/bovine.cow
+ create mode 100644 share/cowsay/cows/bovine.cow
 
-diff --git a/cowsay b/cowsay
+diff --git a/bin/cowsay b/bin/cowsay
 index 3f75c5c..3d04ade 100755
---- a/cowsay
-+++ b/cowsay
+--- a/bin/cowsay
++++ b/bin/cowsay
 @@ -31,7 +31,7 @@ $Text::Wrap::tabstop = 8;
  
  %opts = (
@@ -22,11 +22,11 @@ index 3f75c5c..3d04ade 100755
      'n'         =>      0,
      'T'         =>      '  ',
      'W'         =>      40,
-diff --git a/share/cows/bovine.cow b/share/cows/bovine.cow
+diff --git a/share/cowsay/cows/bovine.cow b/share/cowsay/cows/bovine.cow
 new file mode 100644
 index 0000000..9552563
 --- /dev/null
-+++ b/share/cows/bovine.cow
++++ b/share/cowsay/cows/bovine.cow
 @@ -0,0 +1,6 @@
 +$the_cow = <<"EOC";
 +        $thoughts     (__) __ (  )
