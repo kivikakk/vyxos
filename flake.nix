@@ -4,95 +4,77 @@
   inputs = {
     flake-utils.url = github:numtide/flake-utils;
 
-    unstable-nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
-    unstable-home-manager = {
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    home-manager = {
       url = github:nix-community/home-manager;
-      inputs.nixpkgs.follows = "unstable-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    unstable-sops-nix = {
+    sops-nix = {
       url = github:Mic92/sops-nix;
-      inputs.nixpkgs.follows = "unstable-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    unstable-furpoll = {
+    furpoll = {
       url = git+https://github.com/kivikakk/furpoll;
-      inputs.nixpkgs.follows = "unstable-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    unstable-nixos-hardware.url = github:NixOS/nixos-hardware;
-    unstable-comenzar = {
+    nixos-hardware.url = github:NixOS/nixos-hardware;
+    comenzar = {
       url = git+https://github.com/kivikakk/comenzar;
-      inputs.nixpkgs.follows = "unstable-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
-    unstable-plasma-manager = {
+    plasma-manager = {
       url = github:nix-community/plasma-manager;
-      inputs.nixpkgs.follows = "unstable-nixpkgs";
-      inputs.home-manager.follows = "unstable-home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
 
-    darwin-nixpkgs.url = github:NixOS/nixpkgs/nixpkgs-24.05-darwin;
-    darwin-nix-darwin = {
+    nix-darwin = {
       url = github:LnL7/nix-darwin/master;
-      inputs.nixpkgs.follows = "darwin-nixpkgs";
-    };
-    darwin-home-manager = {
-      url = github:nix-community/home-manager/release-24.05;
-      inputs.nixpkgs.follows = "darwin-nixpkgs";
-    };
-    darwin-sops-nix = {
-      url = github:Mic92/sops-nix;
-      inputs.nixpkgs.follows = "darwin-nixpkgs";
-    };
-    darwin-comenzar = {
-      url = git+https://github.com/kivikakk/comenzar;
-      inputs.nixpkgs.follows = "darwin-nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
   outputs = inputs @ {
     self,
     flake-utils,
-    unstable-nixpkgs,
-    unstable-home-manager,
-    unstable-sops-nix,
-    unstable-furpoll,
-    unstable-nixos-hardware,
-    unstable-comenzar,
-    unstable-plasma-manager,
-    darwin-nixpkgs,
-    darwin-nix-darwin,
-    darwin-home-manager,
-    darwin-sops-nix,
-    darwin-comenzar,
+    nixpkgs,
+    home-manager,
+    sops-nix,
+    furpoll,
+    nixos-hardware,
+    comenzar,
+    plasma-manager,
+    nix-darwin,
   }: let
     mkHost = hostName: system: specifiedModules: let
-      isDarwin = builtins.elem system unstable-nixpkgs.lib.platforms.darwin;
+      isDarwin = builtins.elem system nixpkgs.lib.platforms.darwin;
       specifics =
         {
           nixos = {
-            nixpkgs = unstable-nixpkgs;
-            nixSystem = unstable-nixpkgs.lib.nixosSystem;
+            nixpkgs = nixpkgs;
+            nixSystem = nixpkgs.lib.nixosSystem;
             modules = [
-              unstable-home-manager.nixosModules.home-manager
-              unstable-sops-nix.nixosModules.sops
-              unstable-furpoll.nixosModules.${system}.default
-              unstable-comenzar.nixosModules.${system}.default
+              home-manager.nixosModules.home-manager
+              sops-nix.nixosModules.sops
+              furpoll.nixosModules.${system}.default
+              comenzar.nixosModules.${system}.default
             ];
             hm-modules = [
-              unstable-sops-nix.homeManagerModules.sops
-              unstable-plasma-manager.homeManagerModules.plasma-manager
+              sops-nix.homeManagerModules.sops
+              plasma-manager.homeManagerModules.plasma-manager
             ];
           };
           darwin = {
-            nixpkgs = darwin-nixpkgs;
-            nixSystem = darwin-nix-darwin.lib.darwinSystem;
+            nixpkgs = nixpkgs;
+            nixSystem = nix-darwin.lib.darwinSystem;
             modules = [
-              darwin-home-manager.darwinModules.home-manager
-              darwin-comenzar.darwinModules.${system}.default
+              home-manager.darwinModules.home-manager
+              comenzar.darwinModules.${system}.default
             ];
             hm-modules = [
-              darwin-sops-nix.homeManagerModules.sops
+              sops-nix.homeManagerModules.sops
             ];
           };
         }
@@ -134,7 +116,7 @@
           };
         })
       ];
-      vyxos-git-base = unstable-nixpkgs.legacyPackages.${system}.git;
+      vyxos-git-base = nixpkgs.legacyPackages.${system}.git;
     in
       specifics.nixSystem {
         inherit system;
@@ -159,14 +141,14 @@
       };
   in
     flake-utils.lib.eachDefaultSystem (system: {
-      formatter = unstable-nixpkgs.legacyPackages.${system}.alejandra;
-      checks.vyxnix = import ./tests/vyxnix.nix {inherit system unstable-nixpkgs;};
+      formatter = nixpkgs.legacyPackages.${system}.alejandra;
+      checks.vyxnix = import ./tests/vyxnix.nix {inherit system nixpkgs;};
     })
     // {
       nixosConfigurations = {
         kala = mkHost "kala" "x86_64-linux" [];
         piret = mkHost "piret" "x86_64-linux" [
-          unstable-nixos-hardware.nixosModules.framework-16-7040-amd
+          nixos-hardware.nixosModules.framework-16-7040-amd
         ];
       };
       darwinConfigurations = {

@@ -1,107 +1,5 @@
 {
   "nodes": {
-    "darwin-comenzar": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "darwin-nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1722758876,
-        "narHash": "sha256-H0ZMvVihjnugjBh+/mk8vOhPDcLqRWnYa2X44XLBX5I=",
-        "ref": "refs/heads/main",
-        "rev": "43c51ed7396ac3159cd3efe7611bf41d0f84e5ff",
-        "revCount": 39,
-        "type": "git",
-        "url": "https://github.com/kivikakk/comenzar"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://github.com/kivikakk/comenzar"
-      }
-    },
-    "darwin-home-manager": {
-      "inputs": {
-        "nixpkgs": [
-          "darwin-nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1726989464,
-        "narHash": "sha256-Vl+WVTJwutXkimwGprnEtXc/s/s8sMuXzqXaspIGlwM=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "2f23fa308a7c067e52dfcc30a0758f47043ec176",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "ref": "release-24.05",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "darwin-nix-darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "darwin-nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1727003835,
-        "narHash": "sha256-Cfllbt/ADfO8oxbT984MhPHR6FJBaglsr1SxtDGbpec=",
-        "owner": "LnL7",
-        "repo": "nix-darwin",
-        "rev": "bd7d1e3912d40f799c5c0f7e5820ec950f1e0b3d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "LnL7",
-        "ref": "master",
-        "repo": "nix-darwin",
-        "type": "github"
-      }
-    },
-    "darwin-nixpkgs": {
-      "locked": {
-        "lastModified": 1727355657,
-        "narHash": "sha256-KnZn9XzT6m1S0ZwK+mHjHZqtf/dvK+1l8XPaQtTEXx4=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "8f7b5c93796b5502f4b877f9bb118a741e98ae78",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-24.05-darwin",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "darwin-sops-nix": {
-      "inputs": {
-        "nixpkgs": [
-          "darwin-nixpkgs"
-        ],
-        "nixpkgs-stable": "nixpkgs-stable"
-      },
-      "locked": {
-        "lastModified": 1727423009,
-        "narHash": "sha256-+4B/dQm2EnORIk0k2wV3aHGaE0WXTBjColXjj7qWh10=",
-        "owner": "Mic92",
-        "repo": "sops-nix",
-        "rev": "127a96f49ddc377be6ba76964411bab11ae27803",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mic92",
-        "repo": "sops-nix",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -136,37 +34,17 @@
         "type": "github"
       }
     },
-    "nixpkgs-stable_2": {
-      "locked": {
-        "lastModified": 1725762081,
-        "narHash": "sha256-vNv+aJUW5/YurRy1ocfvs4q/48yVESwlC/yHzjkZSP8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "dc454045f5b5d814e5862a6d057e7bb5c29edc05",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "release-24.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
-        "darwin-comenzar": "darwin-comenzar",
-        "darwin-home-manager": "darwin-home-manager",
-        "darwin-nix-darwin": "darwin-nix-darwin",
-        "darwin-nixpkgs": "darwin-nixpkgs",
-        "darwin-sops-nix": "darwin-sops-nix",
         "flake-utils": "flake-utils",
-        "unstable-comenzar": "unstable-comenzar",
-        "unstable-furpoll": "unstable-furpoll",
-        "unstable-home-manager": "unstable-home-manager",
-        "unstable-nixos-hardware": "unstable-nixos-hardware",
-        "unstable-nixpkgs": "unstable-nixpkgs",
-        "unstable-plasma-manager": "unstable-plasma-manager",
-        "unstable-sops-nix": "unstable-sops-nix"
+        "comenzar": "comenzar",
+        "furpoll": "furpoll",
+        "home-manager": "home-manager",
+        "nix-darwin": "nix-darwin",
+        "nixos-hardware": "nixos-hardware",
+        "nixpkgs": "nixpkgs",
+        "plasma-manager": "plasma-manager",
+        "sops-nix": "sops-nix"
       }
     },
     "systems": {
@@ -184,13 +62,13 @@
         "type": "github"
       }
     },
-    "unstable-comenzar": {
+    "comenzar": {
       "inputs": {
         "flake-utils": [
           "flake-utils"
         ],
         "nixpkgs": [
-          "unstable-nixpkgs"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -207,13 +85,13 @@
         "url": "https://github.com/kivikakk/comenzar"
       }
     },
-    "unstable-furpoll": {
+    "furpoll": {
       "inputs": {
         "flake-utils": [
           "flake-utils"
         ],
         "nixpkgs": [
-          "unstable-nixpkgs"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -230,10 +108,10 @@
         "url": "https://github.com/kivikakk/furpoll"
       }
     },
-    "unstable-home-manager": {
+    "home-manager": {
       "inputs": {
         "nixpkgs": [
-          "unstable-nixpkgs"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -250,7 +128,28 @@
         "type": "github"
       }
     },
-    "unstable-nixos-hardware": {
+    "nix-darwin": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1728385805,
+        "narHash": "sha256-mUd38b0vhB7yzgAjNOaFz7VY9xIVzlbn3P2wjGBcVV0=",
+        "owner": "LnL7",
+        "repo": "nix-darwin",
+        "rev": "48b50b3b137be5cfb9f4d006835ce7c3fe558ccc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "LnL7",
+        "ref": "master",
+        "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
+    "nixos-hardware": {
       "locked": {
         "lastModified": 1727437159,
         "narHash": "sha256-v4qLwEw5OmprgQZTT7KZMNU7JjXJzRypw8+Cw6++fWk=",
@@ -265,7 +164,7 @@
         "type": "github"
       }
     },
-    "unstable-nixpkgs": {
+    "nixpkgs": {
       "locked": {
         "lastModified": 1727348695,
         "narHash": "sha256-J+PeFKSDV+pHL7ukkfpVzCOO7mBSrrpJ3svwBFABbhI=",
@@ -281,13 +180,13 @@
         "type": "github"
       }
     },
-    "unstable-plasma-manager": {
+    "plasma-manager": {
       "inputs": {
         "home-manager": [
-          "unstable-home-manager"
+          "home-manager"
         ],
         "nixpkgs": [
-          "unstable-nixpkgs"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -304,12 +203,12 @@
         "type": "github"
       }
     },
-    "unstable-sops-nix": {
+    "sops-nix": {
       "inputs": {
         "nixpkgs": [
-          "unstable-nixpkgs"
+          "nixpkgs"
         ],
-        "nixpkgs-stable": "nixpkgs-stable_2"
+        "nixpkgs-stable": "nixpkgs-stable"
       },
       "locked": {
         "lastModified": 1727423009,
