@@ -70,6 +70,11 @@
             owner = config.vyxos.vyxUser;
             group = config.users.users.${config.vyxos.vyxUser}.group;
           };
+          "charlottia-id_ed25519" = {
+            path = "/home/${config.vyxos.vyxUser}/.ssh/charlottia-id_ed25519";
+            owner = config.vyxos.vyxUser;
+            group = config.users.users.${config.vyxos.vyxUser}.group;
+          };
         };
       };
       borg.enable = true;
@@ -77,6 +82,8 @@
 
     home-manager.users.${config.vyxos.vyxUser} = {
       accounts.email.accounts.asherah.passwordCommand = "cat ${config.vyxos.secrets.decrypted."aerc-password".path}";
+
+      home.file.".ssh/charlottia-id_ed25519.pub".source = ../sources/charlottia-id_ed25519.pub;
     };
 
     services.tailscale.enable = true;
