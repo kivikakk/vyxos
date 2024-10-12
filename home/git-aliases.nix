@@ -1,6 +1,8 @@
 let
   log = "log --show-notes='*' --abbrev-commit --pretty=format:'%Cred%h %Cgreen(%aD)%Creset -%C(bold red)%d%Creset %s %C(bold blue)<%an>% cm%Creset' --graph";
 in {
+  lc = "!git -c user.name='Lotte' -c user.email='charlotte@lottia.net'";
+
   cl = "clone";
 
   co = "checkout";

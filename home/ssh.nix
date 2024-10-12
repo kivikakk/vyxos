@@ -11,6 +11,13 @@ in {
       f = acc: host: hostConf:
         acc // {${host} = {user = hostConf.user;};};
     in
-      lib.foldlAttrs f {} allHostData;
+      lib.foldlAttrs f {} allHostData
+      // {
+        ghc = {
+          user = "git";
+          hostname = "github.com";
+          identityFile = "~/.ssh/charlottia-id_ed25519";
+        };
+      };
   };
 }
