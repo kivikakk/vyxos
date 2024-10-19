@@ -21,6 +21,7 @@
         nflui = "vyxnix flake lock --update-input";
         nr = "vyxnix run";
         ns = "vyxnix shell";
+        # TODO: fix broken wraps, and this workflow in general.
         aj = "command jj --config-toml 'user = {\"name\" = \"Asherah Connor\", \"email\" = \"ashe@kivikakk.ee\"}'";
         cj = "command jj --config-toml 'user = {\"name\" = \"Charlotte\", \"email\" = \"charlotte@lottia.net\"}'";
         jj = "echo use aj/cj";
