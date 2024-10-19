@@ -3,7 +3,8 @@
     enable = true;
     settings = {
       ui = {
-        default-command = ["status" "--no-pager"];
+        default-command = ["status"];
+        paginate = "never";
       };
     };
   };
