@@ -15,6 +15,7 @@
       ./home/git.nix
       ./home/ripgrep.nix
       ./home/aerc.nix
+      ./home/jujutsu.nix
     ]
     ++ lib.optionals (!isServer && !isDarwin) [
       ./home/plasma
