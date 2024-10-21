@@ -6,7 +6,7 @@
   <link rel="alternate" href="https://lottia.net/notes/" type="text/html"/>
   <link rel="self" href="https://lottia.net/notes/atom.xml" type="application/atom+xml"/>
   <author>
-    <name>Asherah/Charlotte Connor</name>
+    <name>Charlotte</name>
     <uri>https://lottia.net/notes</uri>
   </author>
   <entry>
@@ -441,7 +441,7 @@ gave outside the HDL itself. I had a project framework for Amaranth, &lt;a href=
 Chryse was like Amaranth build’n’platform plus Rain.)&lt;/p&gt;
 &lt;p&gt;Three-ish weeks ago, I started using Amaranth again, and it was time to see
 where my old work was at. First, I ported everything new from Chryse back to
-Rain, freeing it from its weird Nix flake and so giving it a new name, &lt;a href="https://github.com/kivikakk/niar"&gt;Niar&lt;/a&gt;.
+Rain, freeing it from its weird Nix flake and so giving it a new name, &lt;a href="https://github.com/charlottia/niar"&gt;Niar&lt;/a&gt;.
 Then I ported my last Chisel project back to Amaranth, &lt;a href="https://github.com/kivikakk/ili9341spi"&gt;ili9341spi&lt;/a&gt;, using it as
 the basis for testing Niar. (It’s just a TFT LCD controller, rendering Conway’s
 Game of Life.)&lt;/p&gt;
