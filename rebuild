@@ -10,7 +10,7 @@ set -e argv[1]
 
 switch (uname)
     case Linux
-        doas nixos-rebuild $verb --flake git+file://(readlink -f (dirname (status -f)))\?submodules=1 --impure $argv
+        nixos-rebuild $verb --use-remote-sudo --flake git+file://(readlink -f (dirname (status -f)))\?submodules=1 --impure $argv
     case Darwin
         darwin-rebuild $verb --flake git+file://(readlink -f (dirname (status -f)))\?submodules=1 --impure $argv
     case '*'
