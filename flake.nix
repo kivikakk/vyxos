@@ -5,34 +5,45 @@
     flake-utils.url = github:numtide/flake-utils;
 
     nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+
+    nix-darwin = {
+      url = github:LnL7/nix-darwin/master;
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = github:nix-community/home-manager;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     sops-nix = {
       url = github:Mic92/sops-nix;
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     furpoll = {
       url = git+https://github.com/kivikakk/furpoll;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+
     nixos-hardware.url = github:NixOS/nixos-hardware;
+
     comenzar = {
       url = git+https://github.com/kivikakk/comenzar;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+
     plasma-manager = {
       url = github:nix-community/plasma-manager;
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
 
-    nix-darwin = {
-      url = github:LnL7/nix-darwin/master;
-      inputs.nixpkgs.follows = "nixpkgs";
+    jj = {
+      url = github:charlottia/jj/ssh-openssh;
+      inputs.flake-utils.follows = "flake-utils";
     };
   };
 
@@ -40,13 +51,14 @@
     self,
     flake-utils,
     nixpkgs,
+    nix-darwin,
     home-manager,
     sops-nix,
     furpoll,
     nixos-hardware,
     comenzar,
     plasma-manager,
-    nix-darwin,
+    jj,
   }: let
     mkHost = hostName: system: specifiedModules: let
       isDarwin = builtins.elem system nixpkgs.lib.platforms.darwin;
@@ -137,7 +149,8 @@
             hostConfig.module
           ]
           ++ homeManagerModules
-          ++ specifiedModules;
+          ++ specifiedModules
+          ++ [{nixpkgs.overlays = [jj.overlays.default];}];
       };
   in
     flake-utils.lib.eachDefaultSystem (system: {

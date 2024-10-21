@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  vyxos-git-base,
-  ...
-}: {
+{vyxos-git-base, ...}: {
   config = {
     nixpkgs.config.packageOverrides = oldPkgs: {
       vyxos-git = vyxos-git-base.overrideAttrs {
