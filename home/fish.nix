@@ -33,6 +33,7 @@
           "l" = "log";
           "m" = "describe -m";
           "n" = "new";
+          "e" = "edit";
           "a" = "abandon";
           "q" = "squash";
           "p" = "split";
