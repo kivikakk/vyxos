@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  lib,
+  ...
+}: {
   programs.fish = {
     interactiveShellInit = ''
       set __fish_git_prompt_show_informative_status 1
@@ -22,6 +26,27 @@
         ns = "vyxnix shell";
         jj = "echo use aj/cj";
       }
+      // (let
+        jjAliases = {
+          "d" = "diff";
+          "h" = "show";
+          "l" = "log";
+          "m" = "describe -m";
+          "n" = "new";
+          "a" = "abandon";
+          "q" = "squash";
+          "p" = "split";
+          "r" = "rebase";
+          "b" = "bookmark set";
+          "gp" = "git push";
+          "gf" = "git fetch";
+        };
+      in
+        lib.concatMapAttrs (lhs: rhs: {
+          "aj${lhs}" = "aj ${rhs}";
+          "cj${lhs}" = "cj ${rhs}";
+        })
+        jjAliases)
       // builtins.mapAttrs (name: _v: "git ${name}") config.programs.git.aliases
       // builtins.mapAttrs (name: _v: "ssh ${name}") config.programs.ssh.matchBlocks;
   };
