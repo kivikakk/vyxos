@@ -1,3 +1,3 @@
-function cj --wraps=jj
+function C --wraps=jj
     env JJ_USER='Charlotte' JJ_EMAIL='charlotte@lottia.net' jj $argv
 end

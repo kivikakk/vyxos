@@ -24,7 +24,7 @@
         nfu = "vyxnix flake update";
         nr = "vyxnix run";
         ns = "vyxnix shell";
-        jj = "echo use aj/cj";
+        jj = "echo use A/C";
       }
       // (let
         jjAliases = {
@@ -44,8 +44,8 @@
         };
       in
         lib.concatMapAttrs (lhs: rhs: {
-          "aj${lhs}" = "aj ${rhs}";
-          "cj${lhs}" = "cj ${rhs}";
+          "A${lhs}" = "A ${rhs}";
+          "C${lhs}" = "C ${rhs}";
         })
         jjAliases)
       // builtins.mapAttrs (name: _v: "git ${name}") config.programs.git.aliases
@@ -54,7 +54,7 @@
   home.file = {
     ".config/fish/functions/blognew.fish".source = ./blognew.fish;
     ".config/fish/functions/blogserve.fish".source = ./blogserve.fish;
-    ".config/fish/functions/aj.fish".source = ./aj.fish;
-    ".config/fish/functions/cj.fish".source = ./cj.fish;
+    ".config/fish/functions/A.fish".source = ./A.fish;
+    ".config/fish/functions/C.fish".source = ./C.fish;
   };
 }
