@@ -18,7 +18,6 @@
         nf = "vyxnix fmt";
         nfc = "vyxnix flake check";
         nfu = "vyxnix flake update";
-        nflui = "vyxnix flake lock --update-input";
         nr = "vyxnix run";
         ns = "vyxnix shell";
         jj = "echo use aj/cj";
