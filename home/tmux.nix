@@ -21,6 +21,10 @@
     clock24 = true;
 
     extraConfig = ''
+      # Per https://github.com/nix-community/home-manager/issues/5952#issuecomment-2409056750.
+      set -gu default-command
+      set -g default-shell "$SHELL"
+
       ${
         if isServer
         then ""
