@@ -79,7 +79,11 @@
     environment.systemPackages = [
       # For sendmail or something?
       config.services.opensmtpd.package
+
+      pkgs.doas-sudo-shim
     ];
+
+    security.sudo.enable = false;
 
     services = {
       tailscale.enable = true;
