@@ -35,6 +35,7 @@
           "n" = "new";
           "e" = "edit";
           "a" = "abandon";
+          "z" = "restore";
           "q" = "squash";
           "p" = "split";
           "r" = "rebase";
