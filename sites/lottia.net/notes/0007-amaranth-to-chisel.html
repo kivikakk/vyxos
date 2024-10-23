@@ -59,19 +59,19 @@ using the same CXXRTL workbench to test it. This way I’m staying connected to
 experiments</a> while I go, letting Amaranth and Chisel combine in my head.</p>
 <p>Done so far:</p>
 <ul>
-<li>Bring <a href="https://github.com/kivikakk/hdx"><code>hdx</code></a>, <code>rainhdx</code>, and all their dependencies — including Amaranth
+<li>Bring <a href="https://github.com/charlottia/hdx"><code>hdx</code></a>, <code>rainhdx</code>, and all their dependencies — including Amaranth
 — up to date.
 <ul>
 <li>New <code>abc</code> revision.</li>
-<li>Amaranth depends on a newer <code>pdm-backend</code>, which I <a href="https://github.com/kivikakk/hdx/commit/27c3609f5b90e97ed89ca11a7e5747d4b8d0d90b#diff-14a0b9fe455f18efa8eb5b66ab3f4818d6ef7c32">needed to
+<li>Amaranth depends on a newer <code>pdm-backend</code>, which I <a href="https://github.com/charlottia/hdx/commit/27c3609f5b90e97ed89ca11a7e5747d4b8d0d90b#diff-14a0b9fe455f18efa8eb5b66ab3f4818d6ef7c32">needed to
 package</a> since it’s not in nixpkgs.</li>
 <li>Had to unbreak rainhdx’s Nix, that last refactor was bad.</li>
 </ul>
 </li>
-<li>Add <a href="https://github.com/kivikakk/hdx/commit/d52075e49ac05a7297b8ed8cd6cdd8a2808e72b0">basic cxxsim support</a> to <code>rainhdx</code>. This was mostly pulled from <a href="https://github.com/kivikakk/i2c_obs">I²C, oh!
+<li>Add <a href="https://github.com/charlottia/hdx/commit/d52075e49ac05a7297b8ed8cd6cdd8a2808e72b0">basic cxxsim support</a> to <code>rainhdx</code>. This was mostly pulled from <a href="https://github.com/charlottia/i2c_obs">I²C, oh!
 Big stretch</a>, which I maintain is impeccably named.
 <ul>
-<li>There was also the option to pull the Zig–CXXRTL support from <a href="https://github.com/kivikakk/sh1107">sh1107</a>, but
+<li>There was also the option to pull the Zig–CXXRTL support from <a href="https://github.com/charlottia/sh1107">sh1107</a>, but
 the extra toolchain weight doesn’t feel like it helps me move any faster
 here.</li>
 </ul>
@@ -102,7 +102,7 @@ Amaranth, then Chisel.</del>
 <hr>
 <p>And now, 12 days later, I’m done! I have a fair bit more ground to re-cover in
 terms of (a) actually putting together more complex designs — I’ll start with
-an SPI OLED (maaaaaybe with a Zig counterpart, like <a href="https://github.com/kivikakk/sh1107">sh1107</a>) and then move onto
+an SPI OLED (maaaaaybe with a Zig counterpart, like <a href="https://github.com/charlottia/sh1107">sh1107</a>) and then move onto
 a RISC-V core again — and (b) creating my own framework to iterate on
 different projects quickly, but I’ve moved really fast<sup class="footnote-ref"><a href="#fn-minimal" id="fnref-minimal" data-footnote-ref="">1</a></sup> and I’m quite
 happy with it.</p>

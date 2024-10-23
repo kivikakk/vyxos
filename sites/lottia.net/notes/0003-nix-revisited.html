@@ -33,7 +33,7 @@
           </p>
         
         <p>I realized I was in error in not using <a href="https://nixos.org/">Nix</a>, and have been addressing that.
-(The primary artifact so far that is public is <a href="https://github.com/kivikakk/hdx"><code>hdx</code></a>, a response to
+(The primary artifact so far that is public is <a href="https://github.com/charlottia/hdx"><code>hdx</code></a>, a response to
 <a href="0001-hdl-toolchain-source.html">Installing an HDL toolchain from source</a>.)  I have some knowledge of it from
 previous experiments.  Some observations:</p>
 <ul>
@@ -127,7 +127,7 @@ this means <code>/nix/var/nix/profiles/per-user/root/channels/nixpkgs/</code>.</
 </li>
 <li>
 <p>Builds may <em>not</em> generally be reproducible between NixOS and Nix on a
-different platform.  <a href="https://github.com/kivikakk/hdx/commit/b3af8a0bc323931b4866475d72352ea2f00605c1">Ahem</a>.</p>
+different platform.  <a href="https://github.com/charlottia/hdx/commit/b3af8a0bc323931b4866475d72352ea2f00605c1">Ahem</a>.</p>
 <p>I think this implies building <a href="https://github.com/NixOS/nixpkgs/blob/23.05/pkgs/development/embedded/fpga/icestorm/default.nix">Nixpkgs 23.05’s
 icestorm</a> on macOS today would fail.</p>
 <p>Let’s verify.  We want to use <code>nix-build --option substitute false</code> to

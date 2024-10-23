@@ -437,7 +437,7 @@ of design changed a lot too. I’d taught myself HDL with Amaranth, and I sort
 of retaught myself it with Chisel, grasping the fundamentals more clearly.&lt;/p&gt;
 &lt;p&gt;(I also wrote a framework for Chisel in this time, &lt;a href="https://github.com/kivikakk/chryse"&gt;Chryse&lt;/a&gt;, which is where all
 my non-project-specific bits went, including the replacements for what Amaranth
-gave outside the HDL itself. I had a project framework for Amaranth, &lt;a href="https://github.com/kivikakk/hdx#rain"&gt;Rain&lt;/a&gt;, so
+gave outside the HDL itself. I had a project framework for Amaranth, &lt;a href="https://github.com/charlottia/hdx#rain"&gt;Rain&lt;/a&gt;, so
 Chryse was like Amaranth build’n’platform plus Rain.)&lt;/p&gt;
 &lt;p&gt;Three-ish weeks ago, I started using Amaranth again, and it was time to see
 where my old work was at. First, I ported everything new from Chryse back to
@@ -581,19 +581,19 @@ using the same CXXRTL workbench to test it. This way I’m staying connected to
 experiments&lt;/a&gt; while I go, letting Amaranth and Chisel combine in my head.&lt;/p&gt;
 &lt;p&gt;Done so far:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Bring &lt;a href="https://github.com/kivikakk/hdx"&gt;&lt;code&gt;hdx&lt;/code&gt;&lt;/a&gt;, &lt;code&gt;rainhdx&lt;/code&gt;, and all their dependencies — including Amaranth
+&lt;li&gt;Bring &lt;a href="https://github.com/charlottia/hdx"&gt;&lt;code&gt;hdx&lt;/code&gt;&lt;/a&gt;, &lt;code&gt;rainhdx&lt;/code&gt;, and all their dependencies — including Amaranth
 — up to date.
 &lt;ul&gt;
 &lt;li&gt;New &lt;code&gt;abc&lt;/code&gt; revision.&lt;/li&gt;
-&lt;li&gt;Amaranth depends on a newer &lt;code&gt;pdm-backend&lt;/code&gt;, which I &lt;a href="https://github.com/kivikakk/hdx/commit/27c3609f5b90e97ed89ca11a7e5747d4b8d0d90b#diff-14a0b9fe455f18efa8eb5b66ab3f4818d6ef7c32"&gt;needed to
+&lt;li&gt;Amaranth depends on a newer &lt;code&gt;pdm-backend&lt;/code&gt;, which I &lt;a href="https://github.com/charlottia/hdx/commit/27c3609f5b90e97ed89ca11a7e5747d4b8d0d90b#diff-14a0b9fe455f18efa8eb5b66ab3f4818d6ef7c32"&gt;needed to
 package&lt;/a&gt; since it’s not in nixpkgs.&lt;/li&gt;
 &lt;li&gt;Had to unbreak rainhdx’s Nix, that last refactor was bad.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;Add &lt;a href="https://github.com/kivikakk/hdx/commit/d52075e49ac05a7297b8ed8cd6cdd8a2808e72b0"&gt;basic cxxsim support&lt;/a&gt; to &lt;code&gt;rainhdx&lt;/code&gt;. This was mostly pulled from &lt;a href="https://github.com/kivikakk/i2c_obs"&gt;I²C, oh!
+&lt;li&gt;Add &lt;a href="https://github.com/charlottia/hdx/commit/d52075e49ac05a7297b8ed8cd6cdd8a2808e72b0"&gt;basic cxxsim support&lt;/a&gt; to &lt;code&gt;rainhdx&lt;/code&gt;. This was mostly pulled from &lt;a href="https://github.com/charlottia/i2c_obs"&gt;I²C, oh!
 Big stretch&lt;/a&gt;, which I maintain is impeccably named.
 &lt;ul&gt;
-&lt;li&gt;There was also the option to pull the Zig–CXXRTL support from &lt;a href="https://github.com/kivikakk/sh1107"&gt;sh1107&lt;/a&gt;, but
+&lt;li&gt;There was also the option to pull the Zig–CXXRTL support from &lt;a href="https://github.com/charlottia/sh1107"&gt;sh1107&lt;/a&gt;, but
 the extra toolchain weight doesn’t feel like it helps me move any faster
 here.&lt;/li&gt;
 &lt;/ul&gt;
@@ -624,7 +624,7 @@ Amaranth, then Chisel.&lt;/del&gt;
 &lt;hr&gt;
 &lt;p&gt;And now, 12 days later, I’m done! I have a fair bit more ground to re-cover in
 terms of (a) actually putting together more complex designs — I’ll start with
-an SPI OLED (maaaaaybe with a Zig counterpart, like &lt;a href="https://github.com/kivikakk/sh1107"&gt;sh1107&lt;/a&gt;) and then move onto
+an SPI OLED (maaaaaybe with a Zig counterpart, like &lt;a href="https://github.com/charlottia/sh1107"&gt;sh1107&lt;/a&gt;) and then move onto
 a RISC-V core again — and (b) creating my own framework to iterate on
 different projects quickly, but I’ve moved really fast&lt;sup class="footnote-ref"&gt;&lt;a href="#fn-minimal" id="fnref-minimal" data-footnote-ref=""&gt;1&lt;/a&gt;&lt;/sup&gt; and I’m quite
 happy with it.&lt;/p&gt;
@@ -814,13 +814,13 @@ repository:&lt;/p&gt;
     <updated>2023-08-24T06:13:00Z</updated>
     <link rel="alternate" href="https://lottia.net/notes/0004-happy-birthday.html" type="text/html"/>
     <content type="html">&lt;section id="opening"&gt;
-&lt;p&gt;I’m writing a little hardware I²C clock stretcher (&lt;a href="https://github.com/kivikakk/i2c_obs"&gt;I²C, oh! Big stretch&lt;/a&gt;) to
+&lt;p&gt;I’m writing a little hardware I²C clock stretcher (&lt;a href="https://github.com/charlottia/i2c_obs"&gt;I²C, oh! Big stretch&lt;/a&gt;) to
 help me make my I²C controller implementation actually support it.&lt;/p&gt;
 &lt;p&gt;These are some moments I’ve had while doing so.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section id="oobe"&gt;
 &lt;h2&gt;Out-of-band experience &lt;a href="#oobe" aria-hidden="true" title="Permalink to section" class="anchor"&gt;🔗&lt;/a&gt; &lt;a href="#top" aria-hidden="true" title="Back to top" class="anchor"&gt;↩&lt;/a&gt;&lt;/h2&gt;
-&lt;p&gt;I added a &lt;a href="https://github.com/kivikakk/i2c_obs/commit/1078a55c9f5bd63fae9707586393535ed7afcd07#diff-fbbd4dd0ae5cec5958577b18349c32c4e93ed8df0846aacdfe916267b503e6f4"&gt;tiny UART module&lt;/a&gt; to help me debug it. First I emitted a &lt;code&gt;&amp;lt;&lt;/code&gt;
+&lt;p&gt;I added a &lt;a href="https://github.com/charlottia/i2c_obs/commit/1078a55c9f5bd63fae9707586393535ed7afcd07#diff-fbbd4dd0ae5cec5958577b18349c32c4e93ed8df0846aacdfe916267b503e6f4"&gt;tiny UART module&lt;/a&gt; to help me debug it. First I emitted a &lt;code&gt;&amp;lt;&lt;/code&gt;
 character when starting a big stretch, and a &lt;code&gt;&amp;gt;&lt;/code&gt; character once we’re all
 relaxed.&lt;/p&gt;
 &lt;p&gt;I was going to then write the number of cycles counted during the SCL tLOW
@@ -850,7 +850,7 @@ to itself repeatedly in your head and so &lt;code&gt;0f&lt;/code&gt;, &lt;code&g
 &lt;p&gt;At this point I promptly changed the start/stop characters to &lt;code&gt;ff&lt;/code&gt; and &lt;code&gt;fe&lt;/code&gt;, and
 then — detecting that I was just setting up the next, much larger footgun for
 myself — decided to dump the count one &lt;em&gt;nibble&lt;/em&gt; at a time and thus render any
-byte with a non-zero high nibble officially out-of-band, and &lt;a href="https://github.com/kivikakk/i2c_obs/commit/da9b89b43319114f3bb0fd43511ae934b10b7fac"&gt;thus&lt;/a&gt;:&lt;/p&gt;
+byte with a non-zero high nibble officially out-of-band, and &lt;a href="https://github.com/charlottia/i2c_obs/commit/da9b89b43319114f3bb0fd43511ae934b10b7fac"&gt;thus&lt;/a&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class="language-console"&gt;&lt;span class="go"&gt;ff 0c 03 fe&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;/section&gt;
 &lt;section id="measurement"&gt;
@@ -868,7 +868,7 @@ mess)&lt;/p&gt;
 when someone is trying to ground your bus &lt;em&gt;at the same time&lt;/em&gt; as someone trying
 to put high out on it. An I²C bus is designed to be &lt;em&gt;pulled&lt;/em&gt; high so that anyone
 can pull it low, but we’re seeing it &lt;em&gt;driven&lt;/em&gt; high.&lt;/p&gt;
-&lt;p&gt;The controller &lt;a href="https://github.com/kivikakk/sh1107/commit/bb7388b9f1a3635711337a304bc17e3c682c8508"&gt;needed&lt;/a&gt; to turn SCL’s output-enable off, to let it get pulled up
+&lt;p&gt;The controller &lt;a href="https://github.com/charlottia/sh1107/commit/bb7388b9f1a3635711337a304bc17e3c682c8508"&gt;needed&lt;/a&gt; to turn SCL’s output-enable off, to let it get pulled up
 high on its own, and then only to switch the output-enable on when it needs to
 be driven low. This lets anyone else on the bus keep SCL low, thus stretching
 the clock.&lt;/p&gt;
@@ -897,7 +897,7 @@ I’m here.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li id="fn-fv"&gt;
 &lt;p&gt;Hey, that sounds like something I could really formally verify.
-I have &lt;a href="https://github.com/kivikakk/sh1107/blob/7b05e685eb6ee53b9f069410c9f12005cd580d99/sh1107/formal/__init__.py#L133-L155"&gt;the start&lt;/a&gt; of a verification setup, might as well use it. &lt;a href="#fnref-fv" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="2" aria-label="Back to reference 2"&gt;↩&lt;/a&gt;&lt;/p&gt;
+I have &lt;a href="https://github.com/charlottia/sh1107/blob/7b05e685eb6ee53b9f069410c9f12005cd580d99/sh1107/formal/__init__.py#L133-L155"&gt;the start&lt;/a&gt; of a verification setup, might as well use it. &lt;a href="#fnref-fv" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="2" aria-label="Back to reference 2"&gt;↩&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/section&gt;
@@ -910,7 +910,7 @@ I have &lt;a href="https://github.com/kivikakk/sh1107/blob/7b05e685eb6ee53b9f069
     <updated>2023-07-14T16:42:00Z</updated>
     <link rel="alternate" href="https://lottia.net/notes/0003-nix-revisited.html" type="text/html"/>
     <content type="html">&lt;p&gt;I realized I was in error in not using &lt;a href="https://nixos.org/"&gt;Nix&lt;/a&gt;, and have been addressing that.
-(The primary artifact so far that is public is &lt;a href="https://github.com/kivikakk/hdx"&gt;&lt;code&gt;hdx&lt;/code&gt;&lt;/a&gt;, a response to
+(The primary artifact so far that is public is &lt;a href="https://github.com/charlottia/hdx"&gt;&lt;code&gt;hdx&lt;/code&gt;&lt;/a&gt;, a response to
 &lt;a href="0001-hdl-toolchain-source.html"&gt;Installing an HDL toolchain from source&lt;/a&gt;.)  I have some knowledge of it from
 previous experiments.  Some observations:&lt;/p&gt;
 &lt;ul&gt;
@@ -1004,7 +1004,7 @@ this means &lt;code&gt;/nix/var/nix/profiles/per-user/root/channels/nixpkgs/&lt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Builds may &lt;em&gt;not&lt;/em&gt; generally be reproducible between NixOS and Nix on a
-different platform.  &lt;a href="https://github.com/kivikakk/hdx/commit/b3af8a0bc323931b4866475d72352ea2f00605c1"&gt;Ahem&lt;/a&gt;.&lt;/p&gt;
+different platform.  &lt;a href="https://github.com/charlottia/hdx/commit/b3af8a0bc323931b4866475d72352ea2f00605c1"&gt;Ahem&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;I think this implies building &lt;a href="https://github.com/NixOS/nixpkgs/blob/23.05/pkgs/development/embedded/fpga/icestorm/default.nix"&gt;Nixpkgs 23.05’s
 icestorm&lt;/a&gt; on macOS today would fail.&lt;/p&gt;
 &lt;p&gt;Let’s verify.  We want to use &lt;code&gt;nix-build --option substitute false&lt;/code&gt; to
@@ -1762,7 +1762,7 @@ dependencies flow right, whereas in the previous table, they do.&lt;/p&gt;
     <updated>2023-06-27T09:12:00Z</updated>
     <link rel="alternate" href="https://lottia.net/notes/0001-hdl-toolchain-source.html" type="text/html"/>
     <content type="html">&lt;section id="opening"&gt;
-&lt;p&gt;It occurred to me while writing up &lt;a href="https://github.com/kivikakk/sh1107/tree/aeb1c3f77d3226760755331624dd7920779cc2b7#requirements"&gt;§ Requirements&lt;/a&gt; in the README
+&lt;p&gt;It occurred to me while writing up &lt;a href="https://github.com/charlottia/sh1107/tree/aeb1c3f77d3226760755331624dd7920779cc2b7#requirements"&gt;§ Requirements&lt;/a&gt; in the README
 for some&lt;sup class="footnote-ref"&gt;&lt;a href="#fn-baby" id="fnref-baby" data-footnote-ref=""&gt;1&lt;/a&gt;&lt;/sup&gt; gateware that getting the whole beginner’s open-source FPGA
 toolchain set up can be a serious stumbling block, as I imagine it probably was
 for me once.&lt;/p&gt;

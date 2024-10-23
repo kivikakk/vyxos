@@ -37,13 +37,13 @@
           </p>
         
         <section id="opening">
-<p>I’m writing a little hardware I²C clock stretcher (<a href="https://github.com/kivikakk/i2c_obs">I²C, oh! Big stretch</a>) to
+<p>I’m writing a little hardware I²C clock stretcher (<a href="https://github.com/charlottia/i2c_obs">I²C, oh! Big stretch</a>) to
 help me make my I²C controller implementation actually support it.</p>
 <p>These are some moments I’ve had while doing so.</p>
 </section>
 <section id="oobe">
 <h2>Out-of-band experience <a href="#oobe" aria-hidden="true" title="Permalink to section" class="anchor">🔗</a> <a href="#top" aria-hidden="true" title="Back to top" class="anchor">↩</a></h2>
-<p>I added a <a href="https://github.com/kivikakk/i2c_obs/commit/1078a55c9f5bd63fae9707586393535ed7afcd07#diff-fbbd4dd0ae5cec5958577b18349c32c4e93ed8df0846aacdfe916267b503e6f4">tiny UART module</a> to help me debug it. First I emitted a <code>&lt;</code>
+<p>I added a <a href="https://github.com/charlottia/i2c_obs/commit/1078a55c9f5bd63fae9707586393535ed7afcd07#diff-fbbd4dd0ae5cec5958577b18349c32c4e93ed8df0846aacdfe916267b503e6f4">tiny UART module</a> to help me debug it. First I emitted a <code>&lt;</code>
 character when starting a big stretch, and a <code>&gt;</code> character once we’re all
 relaxed.</p>
 <p>I was going to then write the number of cycles counted during the SCL tLOW
@@ -73,7 +73,7 @@ to itself repeatedly in your head and so <code>0f</code>, <code>1e</code>, <code
 <p>At this point I promptly changed the start/stop characters to <code>ff</code> and <code>fe</code>, and
 then — detecting that I was just setting up the next, much larger footgun for
 myself — decided to dump the count one <em>nibble</em> at a time and thus render any
-byte with a non-zero high nibble officially out-of-band, and <a href="https://github.com/kivikakk/i2c_obs/commit/da9b89b43319114f3bb0fd43511ae934b10b7fac">thus</a>:</p>
+byte with a non-zero high nibble officially out-of-band, and <a href="https://github.com/charlottia/i2c_obs/commit/da9b89b43319114f3bb0fd43511ae934b10b7fac">thus</a>:</p>
 <pre><code class="language-console"><span class="go">ff 0c 03 fe</span></code></pre>
 </section>
 <section id="measurement">
@@ -91,7 +91,7 @@ mess)</p>
 when someone is trying to ground your bus <em>at the same time</em> as someone trying
 to put high out on it. An I²C bus is designed to be <em>pulled</em> high so that anyone
 can pull it low, but we’re seeing it <em>driven</em> high.</p>
-<p>The controller <a href="https://github.com/kivikakk/sh1107/commit/bb7388b9f1a3635711337a304bc17e3c682c8508">needed</a> to turn SCL’s output-enable off, to let it get pulled up
+<p>The controller <a href="https://github.com/charlottia/sh1107/commit/bb7388b9f1a3635711337a304bc17e3c682c8508">needed</a> to turn SCL’s output-enable off, to let it get pulled up
 high on its own, and then only to switch the output-enable on when it needs to
 be driven low. This lets anyone else on the bus keep SCL low, thus stretching
 the clock.</p>
@@ -120,7 +120,7 @@ I’m here.</p>
 </li>
 <li id="fn-fv">
 <p>Hey, that sounds like something I could really formally verify.
-I have <a href="https://github.com/kivikakk/sh1107/blob/7b05e685eb6ee53b9f069410c9f12005cd580d99/sh1107/formal/__init__.py#L133-L155">the start</a> of a verification setup, might as well use it. <a href="#fnref-fv" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="2" aria-label="Back to reference 2">↩</a></p>
+I have <a href="https://github.com/charlottia/sh1107/blob/7b05e685eb6ee53b9f069410c9f12005cd580d99/sh1107/formal/__init__.py#L133-L155">the start</a> of a verification setup, might as well use it. <a href="#fnref-fv" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="2" aria-label="Back to reference 2">↩</a></p>
 </li>
 </ol>
 </section>
