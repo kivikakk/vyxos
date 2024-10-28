@@ -32,6 +32,7 @@
           "h" = "show";
           "l" = "log";
           "m" = "describe -m";
+          "mm" = "describe";
           "n" = "new";
           "e" = "edit";
           "a" = "abandon";
