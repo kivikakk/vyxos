@@ -149,8 +149,7 @@
             hostConfig.module
           ]
           ++ homeManagerModules
-          ++ specifiedModules
-          ++ [{nixpkgs.overlays = [jj.overlays.default];}];
+          ++ specifiedModules;
       };
   in
     flake-utils.lib.eachDefaultSystem (system: {
@@ -162,10 +161,13 @@
         kala = mkHost "kala" "x86_64-linux" [];
         piret = mkHost "piret" "x86_64-linux" [
           nixos-hardware.nixosModules.framework-16-7040-amd
+          {nixpkgs.overlays = [jj.overlays.default];}
         ];
       };
       darwinConfigurations = {
-        seraphim = mkHost "seraphim" "aarch64-darwin" [];
+        seraphim = mkHost "seraphim" "aarch64-darwin" [
+          {nixpkgs.overlays = [jj.overlays.default];}
+        ];
       };
     };
 }
