@@ -4,13 +4,26 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-10-28T13:58:45+11:00</updated>
+ <updated>2024-10-28T15:59:15+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>Peak performance</title>
+   <updated>2024-10-28T00:00:00+11:00</updated>
+   <id>https://kivikakk.ee/2024/10/28/peak-performance</id>
+    
+     <link href="https://kivikakk.ee/2024/10/28/peak-performance/"/>
+     <content type="html">&lt;p&gt;&lt;img alt=&quot;A small bar graph from GitHub, titled &amp;quot;Languages&amp;quot;. The legend shows 81% Nix, 18.4% Shell, 0.6% HTML.&quot; src=&quot;/assets/post-img/peakperformance.png&quot; width=&quot;336&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You may not like it, but this is what peak performance looks like.&lt;/p&gt;
+</content>
+    
+ </entry>
  
  <entry>
    <title>Led</title>
