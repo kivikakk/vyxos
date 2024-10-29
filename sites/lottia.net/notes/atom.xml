@@ -2,13 +2,159 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:base="https://lottia.net/notes/">
   <id>https://lottia.net/notes/</id>
   <title>lottia notes</title>
-  <updated>2024-07-19T11:27:00Z</updated>
+  <updated>2024-10-29T07:07:00Z</updated>
   <link rel="alternate" href="https://lottia.net/notes/" type="text/html"/>
   <link rel="self" href="https://lottia.net/notes/atom.xml" type="application/atom+xml"/>
   <author>
     <name>Charlotte</name>
     <uri>https://lottia.net/notes</uri>
   </author>
+  <entry>
+    <id>tag:lottia.net,2024-10-29:/notes/0011-non-intrusive-vtable.html</id>
+    <title type="html">Non-intrusive vtable</title>
+    <published>2024-10-29T07:07:00Z</published>
+    <updated>2024-10-29T07:07:00Z</updated>
+    <link rel="alternate" href="https://lottia.net/notes/0011-non-intrusive-vtable.html" type="text/html"/>
+    <content type="html">&lt;section id="top"&gt;
+&lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;union&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;enum&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;button&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;Controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;Button&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;menubar&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;Controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;Menubar&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;menu&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;Controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;Menu&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;menu_item&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;Controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;MenuItem&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;editor&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;Controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;Editor&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+
+    &lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kt"&gt;usize&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;inline&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;setGeneration&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kt"&gt;usize&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;void&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;inline&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;generation&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;deinit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;void&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;inline&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;deinit&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’m calling this thing a “non-intrusive vtable”. A brief description for the
+less familiar with Zig.&lt;/p&gt;
+&lt;p&gt;In short, we have a tagged union, &lt;code&gt;Control&lt;/code&gt;, that can store a pointer to one
+of the &lt;code&gt;Controls&lt;/code&gt; types listed. Because it’s a &lt;a href="https://ziglang.org/documentation/master/#Tagged-union"&gt;tagged union&lt;/a&gt;, the variable
+itself stores both the pointer as well as a “tag” value indicating which of the
+variants is being stored, so there’s no type confusion.&lt;/p&gt;
+&lt;p&gt;(One of these is unfortunately still 16 bytes on 64-bit systems: the tag,
+which could theoretically be stored in 3 bits, nonetheless has a full 64 bits
+allocated to it, because the payload that follows is a pointer, which must be
+aligned. ¯\_(ツ)_/¯)&lt;/p&gt;
+&lt;p&gt;In regular Zig code you can &lt;code&gt;switch&lt;/code&gt; on the value to get at the value:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;Controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;Button&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;undefined&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="c"&gt;// pretend we have one&lt;/span&gt;
+&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;button&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
+
+&lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;button&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c"&gt;// this branch will run, with p == b.&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;menubar&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;mb&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c"&gt;// won't run in this case, but you get the idea.&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c"&gt;// mandatory default if all cases aren't handled explicitly!&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, these &lt;code&gt;Controls&lt;/code&gt; types all carry a &lt;code&gt;generation: usize&lt;/code&gt; member. One way of
+getting the generation of an arbitrary &lt;code&gt;Control&lt;/code&gt; would be this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;getControlGeneration&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kt"&gt;usize&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;button&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;menubar&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;mb&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="n"&gt;mb&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;menu&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;menu_item&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;mi&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="n"&gt;mi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;editor&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This works fine, and is probably optimal. But what’s even more optimal is letting
+comptime do the codegen for you. Returning to the definition above, we find:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-zig"&gt;    &lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kt"&gt;usize&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;inline&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;generation&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href="https://ziglang.org/documentation/master/#Inline-Switch-Prongs"&gt;&lt;code&gt;inline else&lt;/code&gt;&lt;/a&gt; is &lt;code&gt;inline&lt;/code&gt; in the same way &lt;a href="https://ziglang.org/documentation/master/#inline-for"&gt;&lt;code&gt;inline for&lt;/code&gt;&lt;/a&gt; and &lt;a href="https://ziglang.org/documentation/master/#inline-while"&gt;&lt;code&gt;inline while&lt;/code&gt;&lt;/a&gt;
+are. For every unhandled case, a prong is unrolled. This means the body must
+compile for each possible capture (i.e. each payload type). (You can of course
+do comptime calls here, to do different things with different kinds of payloads,
+though please consider your complexity budget!)&lt;/p&gt;
+&lt;p&gt;In this way, we create dispatch functions that encode the knowledge of (biggest air
+quotes in the world) “all their subtypes’ implementations”. Ha ha ha.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="aside-on-tags"&gt;
+&lt;h3&gt;Aside on tags &lt;a href="#aside-on-tags" aria-hidden="true" title="Permalink to section" class="anchor"&gt;🔗&lt;/a&gt; &lt;a href="#top" aria-hidden="true" title="Back to top" class="anchor"&gt;↩&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;As a kind-of-side, another neat thing Zig affords when working with tagged
+unions is call-site ergonomics when passing them to and from functions.&lt;/p&gt;
+&lt;p&gt;We have &lt;code&gt;Control&lt;/code&gt;s stored in a hashmap with a string lookup. Here’s a first
+version of a “get control by ID” function:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;controlById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;u8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="n"&gt;Control&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Too easy. But now using it looks like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;render&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;controlById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"menubar"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;mb&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;menubar&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c"&gt;// &amp;lt;-- safety-checked variant assertion&lt;/span&gt;
+        &lt;span class="c"&gt;// mb has type *Controls.Menubar.&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="c"&gt;// ...&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And indeed, most actual uses will probably need an intermediate, since most
+call-sites will actually know the type of what they’re asking for. Why not
+instead roll that into the getter?&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;controlById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="k"&gt;comptime&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;meta&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;Tag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;u8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;meta&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;TagPayload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;orelse&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;@field&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;@tagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href="https://ziglang.org/documentation/master/std/#std.meta.Tag"&gt;&lt;code&gt;std.meta.Tag(Control)&lt;/code&gt;&lt;/a&gt; gets the type of the “tag” type of the
+given type. What a mouthful. In other words, &lt;code&gt;Control&lt;/code&gt; is a tagged union, and
+the tag is the implicitly-defined enum that represents which variant is chosen.
+For &lt;code&gt;Control&lt;/code&gt;, that enum takes the values &lt;code&gt;.button&lt;/code&gt;, &lt;code&gt;.menubar&lt;/code&gt;, &lt;code&gt;.menu&lt;/code&gt;, etc.&lt;/p&gt;
+&lt;p&gt;We take the expected tag of &lt;code&gt;Control&lt;/code&gt; at comptime, and declare our return type
+to be (the optional of) the payload in &lt;code&gt;Control&lt;/code&gt; that corresponds to &lt;code&gt;tag&lt;/code&gt;,
+using &lt;a href="https://ziglang.org/documentation/master/std/#std.meta.TagPayload"&gt;&lt;code&gt;std.meta.TagPayload(Control, tag)&lt;/code&gt;&lt;/a&gt;. So a call
+like &lt;code&gt;controlById(.button, "xyz")&lt;/code&gt; has the return type &lt;code&gt;?*Controls.Button&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;(Zig will unroll one of these functions per distinct &lt;code&gt;tag&lt;/code&gt;, and so type-errors
+may occur if something doesn’t match up for one particular case! Conversely,
+you can write code that wouldn’t check for all variants if you don’t plan on
+using it for those, but it’s a friendly act to yourself and others to write
+explicit checks with explicit messages. :)&lt;/p&gt;
+&lt;p&gt;We fetch the &lt;code&gt;Control&lt;/code&gt; as before, but now we use the &lt;a href="https://ziglang.org/documentation/master/#field"&gt;&lt;code&gt;@field&lt;/code&gt;&lt;/a&gt; builtin to
+perform the equivalent of &lt;code&gt;c.blah&lt;/code&gt;, where &lt;code&gt;blah&lt;/code&gt; is specified by
+&lt;a href="https://ziglang.org/documentation/master/#tagName"&gt;&lt;code&gt;@tagName(tag)&lt;/code&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;a href="https://ziglang.org/documentation/master/#tagName"&gt;&lt;code&gt;@tagName&lt;/code&gt;&lt;/a&gt; builtin returns a comptime string of the tag’s name, so for
+&lt;code&gt;.button&lt;/code&gt; it gives &lt;code&gt;"button"&lt;/code&gt;. This is what &lt;a href="https://ziglang.org/documentation/master/#field"&gt;&lt;code&gt;@field&lt;/code&gt;&lt;/a&gt; wants, and so the effect
+is a safety-checked variant assertion, like we were doing in our “user” code
+before, only now it’s done as part of the getter itself.&lt;/p&gt;
+&lt;p&gt;If you wanted to, you could even make the function non-asserting, instead
+returning &lt;code&gt;null&lt;/code&gt; if the type was a mismatch:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;controlById&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="k"&gt;comptime&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;meta&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;Tag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;u8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;meta&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;TagPayload&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;controls&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;orelse&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;tag&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;payload&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;};&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You get the idea! You can do loads with this stuff.&lt;/p&gt;
+&lt;/section&gt;
+</content>
+  </entry>
   <entry>
     <id>tag:lottia.net,2024-07-19:/notes/0010-vyxos.html</id>
     <title type="html">VyxOS</title>
