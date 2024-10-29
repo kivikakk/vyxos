@@ -68,7 +68,7 @@ variants is being stored, so there’s no type confusion.</p>
 which could theoretically be stored in 3 bits, nonetheless has a full 64 bits
 allocated to it, because the payload that follows is a pointer, which must be
 aligned. ¯\_(ツ)_/¯)</p>
-<p>In regular Zig code you can <code>switch</code> on the value to get at the value:</p>
+<p>In regular Zig code you can <code>switch</code> on the value to get at the payload:</p>
 <pre><code class="language-zig"><span class="k">var</span> <span class="n">b</span><span class="p">:</span> <span class="o">*</span><span class="n">Controls</span><span class="p">.</span><span class="py">Button</span> <span class="o">=</span> <span class="k">undefined</span><span class="p">;</span>  <span class="c">// pretend we have one</span>
 <span class="k">var</span> <span class="n">c</span><span class="p">:</span> <span class="n">Control</span> <span class="o">=</span> <span class="o">.</span><span class="p">{</span> <span class="p">.</span><span class="py">button</span> <span class="o">=</span> <span class="n">b</span> <span class="p">};</span>
 
@@ -97,9 +97,9 @@ getting the generation of an arbitrary <code>Control</code> would be this:</p>
 <p>This works fine, and is probably optimal. But what’s even more optimal is letting
 comptime do the codegen for you. Returning to the definition above, we find:</p>
 <pre><code class="language-zig">    <span class="k">fn</span> <span class="n">generation</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="n">Control</span><span class="p">)</span> <span class="kt">usize</span> <span class="p">{</span>
-        <span class="k">switch</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">inline</span> <span class="k">else</span> <span class="o">=&gt;</span> <span class="p">|</span><span class="n">c</span><span class="p">|</span> <span class="k">return</span> <span class="n">c</span><span class="p">.</span><span class="py">generation</span><span class="p">,</span>
-        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">switch</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">inline</span> <span class="k">else</span> <span class="o">=&gt;</span> <span class="p">|</span><span class="n">c</span><span class="p">|</span> <span class="n">c</span><span class="p">.</span><span class="py">generation</span><span class="p">,</span>
+        <span class="p">};</span>
     <span class="p">}</span></code></pre>
 <p><a href="https://ziglang.org/documentation/master/#Inline-Switch-Prongs"><code>inline else</code></a> is <code>inline</code> in the same way <a href="https://ziglang.org/documentation/master/#inline-for"><code>inline for</code></a> and <a href="https://ziglang.org/documentation/master/#inline-while"><code>inline while</code></a>
 are. For every unhandled case, a prong is unrolled. This means the body must
