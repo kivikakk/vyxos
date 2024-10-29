@@ -41,9 +41,9 @@
     <span class="n">editor</span><span class="p">:</span> <span class="o">*</span><span class="n">Controls</span><span class="p">.</span><span class="py">Editor</span><span class="p">,</span>
 
     <span class="k">fn</span> <span class="n">generation</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="n">Control</span><span class="p">)</span> <span class="kt">usize</span> <span class="p">{</span>
-        <span class="k">switch</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">inline</span> <span class="k">else</span> <span class="o">=&gt;</span> <span class="p">|</span><span class="n">c</span><span class="p">|</span> <span class="k">return</span> <span class="n">c</span><span class="p">.</span><span class="py">generation</span><span class="p">,</span>
-        <span class="p">}</span>
+        <span class="k">return</span> <span class="k">switch</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">inline</span> <span class="k">else</span> <span class="o">=&gt;</span> <span class="p">|</span><span class="n">c</span><span class="p">|</span> <span class="n">c</span><span class="p">.</span><span class="py">generation</span><span class="p">,</span>
+        <span class="p">};</span>
     <span class="p">}</span>
 
     <span class="k">fn</span> <span class="n">setGeneration</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="n">Control</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="kt">usize</span><span class="p">)</span> <span class="k">void</span> <span class="p">{</span>
