@@ -4,7 +4,7 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-10-29T13:54:44+11:00</updated>
+ <updated>2024-10-29T19:04:16+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
@@ -37,6 +37,16 @@ own life even cooler! (Throwback to that time I wrote a
 &lt;p&gt;Be well &amp;lt;3&lt;/p&gt;
 
 </content>
+    
+ </entry>
+ 
+ <entry>
+   <title>Non-intrusive vtable</title>
+   <updated>2024-10-29T00:00:00+11:00</updated>
+   <id>https://kivikakk.ee/2024/10/29/non-intrusive-vtable</id>
+    
+      <link href="https://lottia.net/notes/0011-non-intrusive-vtable.html"/>
+      <content type="html">OOP is the world's most consistently-used term in any field of any kind, ever.</content>
     
  </entry>
  
