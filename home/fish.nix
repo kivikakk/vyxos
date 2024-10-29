@@ -31,6 +31,7 @@
           "d" = "diff";
           "h" = "show";
           "l" = "log";
+          "ln" = "log --no-pager";
           "m" = "describe -m";
           "mm" = "describe";
           "n" = "new";
