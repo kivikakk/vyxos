@@ -56,7 +56,11 @@
     time.hardwareClockInLocalTime = true;
 
     # For delayed login issue: https://github.com/NixOS/nixpkgs/issues/239770#issuecomment-1868508908
+    # ... not that it seems to help.
     security.pam.services.kde.fprintAuth = false;
+
+    environment.systemPackages = [pkgs.doas-sudo-shim];
+    security.sudo.enable = false;
 
     vyxos = {
       desktop.enable = true;
