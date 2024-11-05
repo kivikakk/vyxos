@@ -74,3 +74,4 @@ main pre .vc { color: #bf616a } /* Name.Variable.Class */
 main pre .vg { color: #bf616a } /* Name.Variable.Global */
 main pre .vi { color: #bf616a } /* Name.Variable.Instance */
 main pre .il { color: #d08770 } /* Literal.Number.Integer.Long */
+main pre .bold { font-weight: bold; }

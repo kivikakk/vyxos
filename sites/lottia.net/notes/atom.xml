@@ -10,6 +10,143 @@
     <uri>https://lottia.net/notes</uri>
   </author>
   <entry>
+    <id>tag:lottia.net,2024-10-29:/notes/0012-soft-skills.html</id>
+    <title type="html">Soft skills: jujutsu early feelings</title>
+    <published>2024-10-29T07:07:00Z</published>
+    <updated>2024-10-29T07:07:00Z</updated>
+    <link rel="alternate" href="https://lottia.net/notes/0012-soft-skills.html" type="text/html"/>
+    <content type="html">&lt;section id="top"&gt;
+&lt;p&gt;I finally got bothered to try &lt;a href="https://github.com/martinvonz/jj"&gt;jujutsu&lt;/a&gt;. It’s often hard to convey just how fast
+I’m accustomed to moving with git, and so while there are many valid complaints
+about its interface, object model design, etc., I’m really super fluent with it!&lt;/p&gt;
+&lt;p&gt;So for a long time I was happy to let jujutsu just be a thing people were
+talking about; simpler or better than git and so on, I didn’t ever quite hear
+anything that made learning it sound worthwhile yet.&lt;/p&gt;
+&lt;p&gt;Recently &lt;a href="https://lobste.rs/s/mdfhda/steve_klabnik_s_tutorial_on_jujutsu_git"&gt;Steve Klabnik’s Jujutsu Tutorial passed by on Lobste.rs&lt;/a&gt;
+again, and it was enough to get &lt;a href="https://kivikakk.ee"&gt;Ashe&lt;/a&gt; interested. After a few days of them having
+a look, I bit the bullet and insisted we set up for both of us to use it&lt;sup class="footnote-ref"&gt;&lt;a href="#fn-dual" id="fnref-dual" data-footnote-ref=""&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;p&gt;It’s really good. We’ve been using it on every git repo we touch, to maximise
+our exposure and really put it through its paces, and it’s been so unexpectedly
+rewarding.&lt;/p&gt;
+&lt;p&gt;Fluent git can involve a lot of rewriting history and working on and with the
+commit DAG itself. jj elevates many of the involved operations to first-class
+status, and jj’s answer to git’s index — that the working tree represents the
+state of the currently-edited commit, and editing the working tree edits the
+commit — is the core of the mind-frame shift, like kak/hx’s pivot re: vi about
+command sentence order.&lt;/p&gt;
+&lt;p&gt;Things that combine to change how things work include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The working tree reifies the edited commit, which obviates the index. This
+simplifies the design and allows for so many more fully-general operations.
+&lt;ul&gt;
+&lt;li&gt;Practically speaking, jj snapshots the working tree at the start of every
+command. (Now you know.)&lt;/li&gt;
+&lt;li&gt;As above, imo this is the core mind-frame shift required, and is what I see
+the most wailing and gnashing of teeth about. Do it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Rebases &lt;em&gt;always&lt;/em&gt; succeed, with conflicts stored meaningfully in history.
+Conflict resolution propagates automatically to descendent &lt;em&gt;changes&lt;/em&gt;, which
+are not commits.
+&lt;ul&gt;
+&lt;li&gt;It’s a little hard to describe exactly how neat this actually can be and is
+without your head already being in the jj model. If it sounds a bit magic,
+compared to the status quo, it honestly is.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;git’s promise of at-least-never-losing-any-data is elevated to the level of
+the repository itself in the operation log.
+&lt;ul&gt;
+&lt;li&gt;Sometimes knee-deep in a complicated interactive rebase, I’ll realise I’ve
+made a few too many wrong moves and it’s easier just to abort and start
+over. The data’s always safe, but on occasion you’ll need to visit the
+reflog to retrieve it, and manoeuvring the repo back into a particular
+gnarly conflicted merge state can be frustrating. jj characterises every
+state-modifying operation in the “operation log”, so you can instead play
+back and forth whatever you just did &lt;em&gt;to&lt;/em&gt; your repo, and not just what’s
+&lt;em&gt;in&lt;/em&gt; it.&lt;/li&gt;
+&lt;li&gt;“Snapshot the working tree” is an example of an operation recorded in the
+oplog; it’s not magic.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;If cheaper branching was a selling point for git&lt;sup class="footnote-ref"&gt;&lt;a href="#fn-svn" id="fnref-svn" data-footnote-ref=""&gt;2&lt;/a&gt;&lt;/sup&gt;, then branchless is the
+epitome of that selling point.
+&lt;ul&gt;
+&lt;li&gt;Every change can be a branch. Typical git usage relies on branches to know
+which commits in the database should be considered “reachable” and therefore
+not irrelevant and to be garbage collected. jj puts the heuristic in a
+different place: instead of guessing which commits are relevant, record when
+they &lt;em&gt;become&lt;/em&gt; irrelevant. Moving off an empty commit? Abandon it. Edited
+a commit, or rebased some? Abandon the old version/s. When you make a few
+changes on a few new commits, they all simply stay put, and you can
+incorporate/ rebase/abandon them later as you see fit. That’s how you
+accidentally an entire “stash” concept, and it’s &lt;em&gt;easier&lt;/em&gt; to use than git
+stash.&lt;/li&gt;
+&lt;li&gt;Note the implication: you might accidentally some other (perhaps new!)
+concepts too, just from your regular jj use evolving some patterns.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Made this post because I noticed my log currently looks like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&lt;span class="s bold"&gt;@&lt;/span&gt;  &lt;span class="m bold"&gt;n&lt;/span&gt;&lt;span class="cm bold"&gt;vxttvku&lt;/span&gt; &lt;span class="nn bold"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt bold"&gt;2024-11-05 13:19:23&lt;/span&gt; &lt;span class="kp bold"&gt;8&lt;/span&gt;&lt;span class="cm bold"&gt;dbb3ac9&lt;/span&gt;
+│  &lt;span class="s bold"&gt;(empty) (no description set)&lt;/span&gt;
+○  &lt;span class="m bold"&gt;o&lt;/span&gt;&lt;span class="cm"&gt;ypwlzvr&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-11-05 13:18:23&lt;/span&gt; &lt;span class="s"&gt;git_head()&lt;/span&gt; &lt;span class="kp bold"&gt;9&lt;/span&gt;&lt;span class="cm"&gt;d6049b2&lt;/span&gt;
+│  Imtui: object system, sigh
+│ ○  &lt;span class="m bold"&gt;rq&lt;/span&gt;&lt;span class="cm"&gt;kpqpsk&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-11-05 13:19:07&lt;/span&gt; &lt;span class="kp bold"&gt;0&lt;/span&gt;&lt;span class="cm"&gt;8d3afb3&lt;/span&gt;
+├─╯  play around with https://ziglang.org/devlog/2024/#2024-11-04
+&lt;span class="nt"&gt;◆&lt;/span&gt;  &lt;span class="m bold"&gt;y&lt;/span&gt;&lt;span class="cm"&gt;mxnqszq&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-10-29 17:08:48&lt;/span&gt; &lt;span class="m"&gt;main&lt;/span&gt; &lt;span class="kp bold"&gt;fa&lt;/span&gt;&lt;span class="cm"&gt;7f5da9&lt;/span&gt;
+│  Imtui: experiment with "generations" to GC/disregard killed components
+&lt;span class="cm"&gt;~  (elided revisions)&lt;/span&gt;
+│ ○  &lt;span class="m bold"&gt;rs&lt;/span&gt;&lt;span class="cm"&gt;xxxkzu&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-10-28 11:19:02&lt;/span&gt; &lt;span class="kp bold"&gt;2&lt;/span&gt;&lt;span class="cm"&gt;819f0d1&lt;/span&gt;
+├─╯  Imtui: editors cont'd
+&lt;span class="nt"&gt;◆&lt;/span&gt;  &lt;span class="m bold"&gt;w&lt;/span&gt;&lt;span class="cm"&gt;vwyouqo&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-10-28 11:13:26&lt;/span&gt; &lt;span class="kp bold"&gt;f4&lt;/span&gt;&lt;span class="cm"&gt;a61c28&lt;/span&gt;
+│  Imtui: editors init
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Multiple branches, without names! It’s happening.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section class="footnotes" data-footnotes="" id="footnotes"&gt;&lt;h2&gt;Footnotes &lt;a href="#footnotes" aria-hidden="true" title="Permalink to section" class="anchor"&gt;🔗&lt;/a&gt; &lt;a href="#top" aria-hidden="true" title="Back to top" class="anchor"&gt;↩&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li id="fn-dual"&gt;
+&lt;p&gt;tl;dr: &lt;a href="https://github.com/kivikakk/vyxos/blob/fadc9f4d18e2cb33cb283cc459c39309e2adac36/home/fish.nix#L29-L54"&gt;this&lt;/a&gt;, where &lt;code&gt;A&lt;/code&gt; and &lt;code&gt;C&lt;/code&gt; run &lt;code&gt;jj&lt;/code&gt; with &lt;code&gt;JJ_USER&lt;/code&gt; and
+&lt;code&gt;JJ_EMAIL&lt;/code&gt; set accordingly. &lt;a href="#fnref-dual" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="1" aria-label="Back to reference 1"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id="fn-svn"&gt;
+&lt;p&gt;At the time git started to really gain popularity, &lt;a href="https://subversion.apache.org/"&gt;Subversion&lt;/a&gt; was popular,
+which itself became popular in part because it made branches so cheap. Subversion
+implemented branches as simply copies of a directory — typically the root
+would have a &lt;code&gt;trunk&lt;/code&gt; directory, equivalent to today’s &lt;code&gt;main&lt;/code&gt;, and to make a
+branch, you just recursively copy that to a subdirectory of the &lt;code&gt;branches&lt;/code&gt; root
+directory. Subversion’s key improvement is that the tree isn’t actually
+copied in the repository; it can reuse the existing one, with deltas applied
+separately. Keep in mind the much smaller harddrives and lower connection
+speeds of the time.
+&lt;br&gt;
+This led to very busy trees, however, and commits to different branches would
+still interfere with each other and the mainline since they’re in actual fact
+all sequential commits to one big tree, not to mention the much poorer tools for
+dealing with branches-as-embodied-in-the-tree. When the contents of a repo
+are numerous or large enough, this quickly becomes an end-user cost as well:
+the branches may be links on the server, but on your local filesystem they’re
+full copies.
+&lt;br&gt;
+The costs are all doubled, too; Subversion’s primary local knowledge of the
+repository (remember that it doesn’t store history/isn’t a “clone”!) is
+kept in the form of a copy of every currently checked-out file, used as the
+basis for a quick status/diff to know what you have changed. So 10MB of files
+stored in trunk and one branch will use 40MB of space on your disk.
+&lt;br&gt;
+Branching in Subversion requires online access to the repository, permissions
+to create the target, local diskspace to accommodate two copies of the
+source, and a repository-unique name.
+&lt;br&gt;
+git’s by comparison needs none of the first three, and the last only
+locally. &lt;a href="#fnref-svn" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="2" aria-label="Back to reference 2"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+  </entry>
+  <entry>
     <id>tag:lottia.net,2024-10-29:/notes/0011-non-intrusive-vtable.html</id>
     <title type="html">Non-intrusive vtable</title>
     <published>2024-10-29T07:07:00Z</published>
