@@ -4,6 +4,7 @@
     settings = {
       ui = {
         default-command = ["status" "--no-pager"];
+        merge-editor = ":builtin";
       };
     };
   };

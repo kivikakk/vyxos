@@ -44,6 +44,7 @@
           "b" = "bookmark set";
           "gp" = "git push";
           "gf" = "git fetch";
+          "v" = "resolve";
         };
       in
         lib.concatMapAttrs (lhs: rhs: {
