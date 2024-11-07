@@ -67,6 +67,56 @@
       
     </div>
     <h1 class="post-title">
+      <a href="/2024/07/18/sada-p%C3%A4eva/">
+        Sada päeva
+      </a>
+    </h1>
+
+    <time datetime="2024-07-18T00:00:00+10:00" class="post-date">18 Jul 2024</time>
+
+    
+      <p>Yesterday was our 100th day in Estonia. Taking a little bit of stock of what we’ve managed:</p>
+
+<ul>
+  <li>Visited the 4 largest cities in the country.</li>
+  <li>Rented an apartment in the biggest one!</li>
+  <li>Furnished what the apartment didn’t come with.</li>
+  <li>Shipped our things from Australia. (Maybe a month off those arriving.)</li>
+  <li>Got our motorcycles; put 900km on each.</li>
+  <li>Got medium-term visa for A, and long-term one applied for.</li>
+  <li>Got our medications prescribed locally.</li>
+  <li>Financial/bureaucratic overhead.</li>
+  <li>Changed my name and got new ID.</li>
+  <li>Got onto a good family doctor’s list.</li>
+  <li>Kept in touch with families and psychologists.</li>
+  <li>Vaccinations.</li>
+  <li>Saw the border.</li>
+  <li>Went to a cat café.</li>
+  <li>Went to sauna.</li>
+  <li>Concluded jaanipäev with clothes smelling deeply of bonfire.</li>
+  <li>Went to a live show (Estonian).</li>
+  <li>Went to a live show (non-Estonian).</li>
+  <li>Walked about 500km.</li>
+  <li>Taken a lot of public transport.</li>
+  <li>Met a range of people.</li>
+  <li>Spoken quite a bit of Estonian.</li>
+  <li>Kept up with projects.</li>
+  <li>Finished a diary!</li>
+  <li>Grew a lot.</li>
+</ul>
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
       <a href="/2024/07/09/activity-period/">
         Activity period
       </a>
@@ -163,96 +213,6 @@ what’s assigned to the LHS. So it’s just a matter of convention.</p>
 <blockquote>
   <p>my new theory is that satan Crept into this world through signed integers</p>
 </blockquote>
-
-
-      
-    
-  </article>
-  
-  <article class="post">
-    <div class="my-id">
-      
-        <img src="/assets/mia-icon.jpg" width="64" height="64">
-      
-    </div>
-    <h1 class="post-title">
-      <a href="/digital/2024/06/17/zxxrtl/">
-        zxxrtl
-      </a>
-    </h1>
-
-    <time datetime="2024-06-17T00:00:00+10:00" class="post-date">17 Jun 2024</time>
-
-    
-      <p>I’ve been getting back into using <a href="https://yosyshq.readthedocs.io/projects/yosys/en/latest/cmd/write_cxxrtl.html">CXXRTL</a> and <a href="https://ziglang.org">Zig</a> together, so I’ve extracted
-and rendered somewhat reusable the bindings I made to use them together!</p>
-
-<p><a href="https://github.com/kivikakk/zxxrtl">zxxrtl</a> uses CXXRTL’s C API to provide a somewhat idiomatic way to access,
-manipulate, and respond to events happening in the design. Its README covers the
-setup — it’s a bit involved as it’s necessarily something of a build system,
-but once you’re done it’s good to go and flexible enough to be instrumented from
-a higher build system.</p>
-
-<p>I’m going to paste the example usage here; this doesn’t use the <code class="language-plaintext highlighter-rouge">Sample</code> API for
-edge detection, and just drives the simulation while optionally recording VCD:</p>
-
-<div class="language-zig highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="n">Cxxrtl</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"zxxrtl"</span><span class="p">);</span>
-
-<span class="c">// Initialise the design.</span>
-<span class="k">const</span> <span class="n">cxxrtl</span> <span class="o">=</span> <span class="n">Cxxrtl</span><span class="p">.</span><span class="nf">init</span><span class="p">();</span>
-
-<span class="c">// Optionally start recording VCD. Assume `vcd_out` is `?[]const u8` representing an</span>
-<span class="c">// optional output filename.</span>
-<span class="k">var</span> <span class="n">vcd</span><span class="p">:</span> <span class="o">?</span><span class="n">Cxxrtl</span><span class="p">.</span><span class="py">Vcd</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd_out</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="n">vcd</span> <span class="o">=</span> <span class="n">Cxxrtl</span><span class="p">.</span><span class="py">Vcd</span><span class="p">.</span><span class="nf">init</span><span class="p">(</span><span class="n">cxxrtl</span><span class="p">);</span>
-
-<span class="k">defer</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="c">// Get handles to the clock and reset lines.</span>
-<span class="k">const</span> <span class="n">clk</span> <span class="o">=</span> <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="k">bool</span><span class="p">,</span> <span class="s">"clk"</span><span class="p">);</span>
-<span class="k">const</span> <span class="n">rst</span> <span class="o">=</span> <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="k">bool</span><span class="p">,</span> <span class="s">"rst"</span><span class="p">);</span>  <span class="c">// These are of type `Cxxrtl.Object(bool)`.</span>
-
-<span class="c">// Reset for a tick.</span>
-<span class="n">rst</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-
-<span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-
-<span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-<span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-
-<span class="n">rst</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-
-<span class="c">// Play out 10 cycles.</span>
-<span class="k">for</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span> <span class="p">|</span><span class="mi">_</span><span class="p">|</span> <span class="p">{</span>
-    <span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-
-    <span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="p">{</span>
-    <span class="c">// Assume `alloc` exists.</span>
-    <span class="k">const</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">try</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">alloc</span><span class="p">);</span>
-    <span class="k">defer</span> <span class="n">alloc</span><span class="p">.</span><span class="nf">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
-
-    <span class="k">var</span> <span class="n">file</span> <span class="o">=</span> <span class="k">try</span> <span class="n">std</span><span class="p">.</span><span class="py">fs</span><span class="p">.</span><span class="nf">cwd</span><span class="p">().</span><span class="nf">createFile</span><span class="p">(</span><span class="n">vcd_out</span><span class="o">.?</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
-    <span class="k">defer</span> <span class="n">file</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
-
-    <span class="k">try</span> <span class="n">file</span><span class="p">.</span><span class="nf">writeAll</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Hopefully this is useful to someone else!</p>
-
 
 
       
