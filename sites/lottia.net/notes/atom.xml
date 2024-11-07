@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:base="https://lottia.net/notes/">
   <id>https://lottia.net/notes/</id>
   <title>lottia notes</title>
-  <updated>2024-10-29T07:07:00Z</updated>
+  <updated>2024-11-07T07:07:00Z</updated>
   <link rel="alternate" href="https://lottia.net/notes/" type="text/html"/>
   <link rel="self" href="https://lottia.net/notes/atom.xml" type="application/atom+xml"/>
   <author>
@@ -10,10 +10,10 @@
     <uri>https://lottia.net/notes</uri>
   </author>
   <entry>
-    <id>tag:lottia.net,2024-10-29:/notes/0012-soft-skills.html</id>
+    <id>tag:lottia.net,2024-11-07:/notes/0012-soft-skills.html</id>
     <title type="html">Soft skills: jujutsu early feelings</title>
-    <published>2024-10-29T07:07:00Z</published>
-    <updated>2024-10-29T07:07:00Z</updated>
+    <published>2024-11-07T07:07:00Z</published>
+    <updated>2024-11-07T07:07:00Z</updated>
     <link rel="alternate" href="https://lottia.net/notes/0012-soft-skills.html" type="text/html"/>
     <content type="html">&lt;section id="top"&gt;
 &lt;p&gt;I finally got bothered to try &lt;a href="https://github.com/martinvonz/jj"&gt;jujutsu&lt;/a&gt;. It’s often hard to convey just how fast
