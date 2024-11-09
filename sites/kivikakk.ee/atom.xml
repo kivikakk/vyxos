@@ -4,13 +4,23 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-11-07T17:56:19+11:00</updated>
+ <updated>2024-11-09T14:32:55+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>Git and jujutsu: in miniature</title>
+   <updated>2024-11-09T14:30:00+11:00</updated>
+   <id>https://kivikakk.ee/2024/11/09/git-jujutsu-miniature</id>
+    
+      <link href="https://lottia.net/notes/0013-git-jujutsu-miniature.html"/>
+      <content type="html">A concrete example of Git and jujutsu usage compared.</content>
+    
+ </entry>
  
  <entry>
    <title>Soft skills: jujutsu early feelings</title>

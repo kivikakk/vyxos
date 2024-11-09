@@ -2,13 +2,254 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:base="https://lottia.net/notes/">
   <id>https://lottia.net/notes/</id>
   <title>lottia notes</title>
-  <updated>2024-11-07T07:07:00Z</updated>
+  <updated>2024-11-09T03:30:00Z</updated>
   <link rel="alternate" href="https://lottia.net/notes/" type="text/html"/>
   <link rel="self" href="https://lottia.net/notes/atom.xml" type="application/atom+xml"/>
   <author>
     <name>Charlotte</name>
     <uri>https://lottia.net/notes</uri>
   </author>
+  <entry>
+    <id>tag:lottia.net,2024-11-09:/notes/0013-git-jujutsu-miniature.html</id>
+    <title type="html">Git and jujutsu: in miniature</title>
+    <published>2024-11-09T03:30:00Z</published>
+    <updated>2024-11-09T03:30:00Z</updated>
+    <link rel="alternate" href="https://lottia.net/notes/0013-git-jujutsu-miniature.html" type="text/html"/>
+    <content type="html">&lt;section id="top"&gt;
+&lt;p&gt;Last night in bed, I realised we’d encountered a scenario at work during the day
+where something happened so fluidly in jujutsu that it’d make a good case story!
+Let’s compare, step by step, how it’d look with git.&lt;/p&gt;
+&lt;p&gt;The stage is set: you’re working on a &lt;a href="https://radiopaedia.org"&gt;big, old, legacy codebase&lt;/a&gt;,
+and you’re 10 commits deep in a branch where you’re adding a new parsing
+component which will, by the time the branch is merge-ready, completely supplant
+an old one and all its uses.&lt;/p&gt;
+&lt;p&gt;The parser is mostly called through a centralised place, which is well-covered
+by tests, so you can feel &lt;em&gt;reasonably&lt;/em&gt; assured that green CI will mean you’re
+on the right track, and you’ve been removing parts of the old parser as you
+introduce the new.&lt;/p&gt;
+&lt;p&gt;But what’s this? There’s an outlying case where a method on some random model
+calls into the component directly — unlike most uses, it’s just calling the
+parser to clean up some input. And while the method is covered by a number of
+tests, this particular function of it isn’t at all — you could replace the
+parser with the identity function and these tests would be fine with that.&lt;/p&gt;
+&lt;p&gt;So we need a new test. We’re currently in some other WIP on this branch, and the
+original parser is half-taken to bits, so we’ll write the tests against trunk,
+called &lt;code&gt;develop&lt;/code&gt; here.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;jj new develop &lt;span class="nt"&gt;-m&lt;/span&gt; &lt;span class="s1"&gt;'content_spec: assert body_excerpt strips tokens.'&lt;/span&gt;
+&lt;span class="go"&gt;Working copy now at: rltuvkoz 9b9f6db4 (empty) content_spec: assert body_excerpt strips tokens.
+Parent commit      : xkowykqr 83ad162d develop | (empty) Merge pull request #1736 from backfill-pr
+Added 10 files, modified 46 files, removed 4 files&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git checkout develop
+&lt;span class="go"&gt;error: Your local changes to the following files would be overwritten by checkout:
+        app/lib/rml_parser.rb
+        spec/lib/rml_parser_spec.rb
+Please commit your changes or stash them before you switch branches.
+Aborting
+&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git stash
+&lt;span class="go"&gt;Saved working directory and index state WIP on (no branch): 478c7377 remove local artefacts.
+&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git checkout develop
+&lt;span class="go"&gt;Previous HEAD position was 478c7377 remove local artefacts.
+Switched to branch 'develop'
+Your branch is up to date with 'origin/develop'.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, a seasoned git developer (with a good vcs prompt for their shell) will know
+to stash reflexively, and indeed the above three commands under my aliases would
+be &lt;code&gt;co develop&lt;/code&gt;, &lt;code&gt;st&lt;/code&gt;, &lt;code&gt;co develop&lt;/code&gt;, but it’s interesting that we kind of have
+to context-switch for a moment here and think, “OK, working copy changes, maybe
+some tracked, some untracked, put them all into this ‘stash’ thing over there so
+we can move around freely”.&lt;/p&gt;
+&lt;p&gt;So we write our test, confirm it’s actually asserting the behaviour. We’re now here:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;jj status
+&lt;span class="go"&gt;Working copy changes:
+M spec/models/content_spec.rb
+Working copy : rltuvkoz e0186732 content_spec: assert body_excerpt strips tokens.
+Parent commit: xkowykqr 83ad162d develop | (empty) Merge pull request #1736 from backfill-pr&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git status &lt;span class="nt"&gt;-sb&lt;/span&gt;
+&lt;span class="c"&gt;## develop...origin/develop
+&lt;/span&gt;&lt;span class="go"&gt; M spec/models/content_spec.rb&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/section&gt;
+&lt;section id="manoeuvre-jj"&gt;
+&lt;h2&gt;The manoeuvre: jj &lt;a href="#manoeuvre-jj" aria-hidden="true" title="Permalink to section" class="anchor"&gt;🔗&lt;/a&gt; &lt;a href="#top" aria-hidden="true" title="Back to top" class="anchor"&gt;↩&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Great! We want to introduce this change into our branch, so we can be sure we
+don’t break this use case. We don’t really want it right at the tip, since there’s a
+progression of commits; we want it a few commits before.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-jjlog"&gt;&lt;span class="s bold"&gt;@&lt;/span&gt;  &lt;span class="m bold"&gt;rl&lt;/span&gt;&lt;span class="cm bold"&gt;tuvkoz&lt;/span&gt; &lt;span class="nn bold"&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt bold"&gt;2024-11-09 11:55:13&lt;/span&gt; &lt;span class="kp bold"&gt;e0&lt;/span&gt;&lt;span class="cm bold"&gt;186732&lt;/span&gt;
+│  &lt;span class="s bold"&gt;content_spec: assert body_excerpt strips tokens.
+&lt;/span&gt;&lt;span class="nt"&gt;◆&lt;/span&gt;    &lt;span class="m bold"&gt;xk&lt;/span&gt;&lt;span class="cm "&gt;owykqr&lt;/span&gt; &lt;span class="nn "&gt;redacted@redacted.com&lt;/span&gt; &lt;span class="nt "&gt;2024-11-08 15:30:54&lt;/span&gt; &lt;span class="m "&gt;develop&lt;/span&gt; &lt;span class="s"&gt;git_head()&lt;/span&gt; &lt;span class="kp bold"&gt;8&lt;/span&gt;&lt;span class="cm "&gt;3ad162d&lt;/span&gt;
+├─╮  (empty) Merge pull request #1736 from backfill-pr
+│ │
+│ ~
+│
+&lt;span class="cm"&gt;~  (elided revisions)
+&lt;/span&gt;│ ○  &lt;span class="m bold"&gt;xn&lt;/span&gt;&lt;span class="cm "&gt;srwqok&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 11:54:38&lt;/span&gt; &lt;span class="kp bold"&gt;ec&lt;/span&gt;&lt;span class="cm "&gt;3df6f8&lt;/span&gt;
+│ │  (no description set)
+│ ○  &lt;span class="m bold"&gt;rv&lt;/span&gt;&lt;span class="cm "&gt;umupsn&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 11:54:38&lt;/span&gt; &lt;span class="m "&gt;rml-parser*&lt;/span&gt; &lt;span class="kp bold"&gt;478&lt;/span&gt;&lt;span class="cm "&gt;c7377&lt;/span&gt;
+│ │  remove local artefacts.
+│ ○  &lt;span class="m bold"&gt;pp&lt;/span&gt;&lt;span class="cm "&gt;mltptr&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 11:54:38&lt;/span&gt; &lt;span class="kp bold"&gt;25b&lt;/span&gt;&lt;span class="cm "&gt;122ab&lt;/span&gt;
+│ │  Token: migrate uses of #token to #original_token.
+│ ○  &lt;span class="m bold"&gt;pyt&lt;/span&gt;&lt;span class="cm "&gt;wvkmx&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 11:54:38&lt;/span&gt; &lt;span class="kp bold"&gt;273&lt;/span&gt;&lt;span class="cm "&gt;16b9a&lt;/span&gt;
+│ │  RmlParser: implementing in Token.
+│ ○  &lt;span class="m bold"&gt;nl&lt;/span&gt;&lt;span class="cm "&gt;rsutxv&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 11:54:38&lt;/span&gt; &lt;span class="kp bold"&gt;3e7&lt;/span&gt;&lt;span class="cm "&gt;613e7&lt;/span&gt;
+│ │  RmlParser: strip_tokens.
+│ ○  &lt;span class="m bold"&gt;pyp&lt;/span&gt;&lt;span class="cm "&gt;uqnwp&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-08 16:08:40&lt;/span&gt; &lt;span class="kp bold"&gt;1be&lt;/span&gt;&lt;span class="cm "&gt;aebab&lt;/span&gt;
+│ │  RmlParser: blocks everywhere, include offset in bc.
+│ ○  &lt;span class="m bold"&gt;uv&lt;/span&gt;&lt;span class="cm "&gt;mwxovu&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-08 15:29:14&lt;/span&gt; &lt;span class="kp bold"&gt;b0c&lt;/span&gt;&lt;span class="cm "&gt;4bbba&lt;/span&gt;
+│ │  RmlParser: test roundtrip.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Change &lt;code&gt;nlrsutxv&lt;/code&gt; (commit &lt;code&gt;3e7613e7&lt;/code&gt;) introduces the change we’d like the test
+to inform, so we want to slot the test in right before then.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;jj rebase &lt;span class="nt"&gt;-r&lt;/span&gt; @ &lt;span class="nt"&gt;-B&lt;/span&gt; &lt;span class="nb"&gt;nl&lt;/span&gt;
+&lt;span class="go"&gt;Rebased 1 commits onto destination
+Rebased 5 descendant commits
+Working copy now at: rltuvkoz 99a0a2a0 content_spec: assert body_excerpt strips tokens.
+Parent commit      : pypuqnwp 1beaebab RmlParser: blocks everywhere, include offset in bc.
+Added 7 files, modified 39 files, removed 8 files&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;a href="https://martinvonz.github.io/jj/latest/cli-reference/#jj-rebase"&gt;&lt;code&gt;jj rebase&lt;/code&gt;&lt;/a&gt; can rebase a “branch” (&lt;code&gt;-b&lt;/code&gt;), a revision and its descendants
+(&lt;code&gt;-s&lt;/code&gt;), or just a single revision (&lt;code&gt;-r&lt;/code&gt;). &lt;code&gt;-r @&lt;/code&gt; means the revision currently
+edited in the working copy. &lt;code&gt;-B&lt;/code&gt; means “insert before”.&lt;/p&gt;
+&lt;p&gt;The log now looks like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-jjlog"&gt;○  &lt;span class="m bold"&gt;xn&lt;/span&gt;&lt;span class="cm "&gt;srwqok&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 12:02:07&lt;/span&gt; &lt;span class="kp bold"&gt;cef&lt;/span&gt;&lt;span class="cm "&gt;52288&lt;/span&gt;
+│  (no description set)
+○  &lt;span class="m bold"&gt;rv&lt;/span&gt;&lt;span class="cm "&gt;umupsn&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 12:02:07&lt;/span&gt; &lt;span class="m "&gt;rml-parser*&lt;/span&gt; &lt;span class="kp bold"&gt;735&lt;/span&gt;&lt;span class="cm "&gt;abf79&lt;/span&gt;
+│  remove local artefacts.
+○  &lt;span class="m bold"&gt;pp&lt;/span&gt;&lt;span class="cm "&gt;mltptr&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 12:02:07&lt;/span&gt; &lt;span class="kp bold"&gt;f34&lt;/span&gt;&lt;span class="cm "&gt;335bf&lt;/span&gt;
+│  Token: migrate uses of #token to #original_token.
+○  &lt;span class="m bold"&gt;pyt&lt;/span&gt;&lt;span class="cm "&gt;wvkmx&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 12:02:07&lt;/span&gt; &lt;span class="kp bold"&gt;0ff9&lt;/span&gt;&lt;span class="cm "&gt;0a43&lt;/span&gt;
+│  RmlParser: implementing in Token.
+○  &lt;span class="m bold"&gt;nl&lt;/span&gt;&lt;span class="cm "&gt;rsutxv&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-09 12:02:07&lt;/span&gt; &lt;span class="kp bold"&gt;783&lt;/span&gt;&lt;span class="cm "&gt;90b57&lt;/span&gt;
+│  RmlParser: strip_tokens.
+&lt;span class="s bold"&gt;@&lt;/span&gt;  &lt;span class="m bold"&gt;rl&lt;/span&gt;&lt;span class="cm bold"&gt;tuvkoz&lt;/span&gt; &lt;span class="nn bold"&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt bold"&gt;2024-11-09 12:02:07&lt;/span&gt; &lt;span class="kp bold"&gt;99a&lt;/span&gt;&lt;span class="cm bold"&gt;0a2a0&lt;/span&gt;
+│  &lt;span class="s bold"&gt;content_spec: assert body_excerpt strips tokens.
+&lt;/span&gt;○  &lt;span class="m bold"&gt;pyp&lt;/span&gt;&lt;span class="cm "&gt;uqnwp&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-08 16:08:40&lt;/span&gt; &lt;span class="s"&gt;git_head()&lt;/span&gt; &lt;span class="kp bold"&gt;1be&lt;/span&gt;&lt;span class="cm "&gt;aebab&lt;/span&gt;
+│  RmlParser: blocks everywhere, include offset in bc.
+○  &lt;span class="m bold"&gt;uv&lt;/span&gt;&lt;span class="cm "&gt;mwxovu&lt;/span&gt; &lt;span class="nn "&gt;ashe@kivikakk.ee&lt;/span&gt; &lt;span class="nt "&gt;2024-11-08 15:29:14&lt;/span&gt; &lt;span class="kp bold"&gt;b0c&lt;/span&gt;&lt;span class="cm "&gt;4bbba&lt;/span&gt;
+│  RmlParser: test roundtrip.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can now return to what we were doing, WIP ready for us to resume as we ever
+were:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;jj edit xn
+&lt;span class="go"&gt;Working copy now at: xnsrwqok cef52288 (no description set)
+Parent commit      : rvumupsn 735abf79 rml-parser* | remove local artefacts.
+Added 1 files, modified 9 files, removed 6 files&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Note that git commit IDs have changed, as you’d expect, but the jj change
+IDs haven’t. This stability of identity is very handy — &lt;code&gt;xn&lt;/code&gt; was what I was
+working on before I started this aside, and it still is afterwards.&lt;/p&gt;
+&lt;p&gt;The other side of this is the &lt;code&gt;rml-parser&lt;/code&gt; bookmark — jj’s equivalent to git’s
+branches, but used far less frequently (most often for git interop) — has
+&lt;em&gt;followed&lt;/em&gt; its change, with the asterisk after noting it’s diverged from the
+remote one. You don’t have to chase down your branches after a rebase.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="manoeuvre-git"&gt;
+&lt;h2&gt;The manoeuvre: git &lt;a href="#manoeuvre-git" aria-hidden="true" title="Permalink to section" class="anchor"&gt;🔗&lt;/a&gt; &lt;a href="#top" aria-hidden="true" title="Back to top" class="anchor"&gt;↩&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;How does the same play out with git? Let’s look at the commit log from git’s
+point of view:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;* 478c7377a4 (Fri, 8 Nov 2024) - (rml-parser) remove local artefacts. &amp;lt;Asherah Connor&amp;gt;
+* 25b122abd8 (Fri, 8 Nov 2024) - Token: migrate uses of #token to #original_token. &amp;lt;Asherah Connor&amp;gt;
+* 27316b9a2e (Fri, 8 Nov 2024) - RmlParser: implementing in Token. &amp;lt;Asherah Connor&amp;gt;
+* 3e7613e704 (Fri, 8 Nov 2024) - RmlParser: strip_tokens. &amp;lt;Asherah Connor&amp;gt;
+* 1beaebab8c (Fri, 8 Nov 2024) - RmlParser: blocks everywhere, include offset in bc. &amp;lt;Asherah Connor&amp;gt;
+* b0c4bbbafb (Fri, 8 Nov 2024) - RmlParser: test roundtrip. &amp;lt;Asherah Connor&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We want to introduce our change — currently just an untracked change in the
+working tree, with &lt;code&gt;develop&lt;/code&gt; checked out — before commit &lt;code&gt;3e7613e704&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We have two ways of getting it there:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Stash the change, interactively rebase &lt;code&gt;rml-parser&lt;/code&gt; and stop after the
+previous commit (&lt;code&gt;edit 1beaebab8c&lt;/code&gt;), pop stash, commit, continue rebase.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Commit the change now, interactively rebase &lt;code&gt;rml-parser&lt;/code&gt; and add a &lt;code&gt;pick&lt;/code&gt;
+line for our new commit in the right place.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I tend to commit early and often, so I’m more a fan of #2 as a rule, and
+we’re also already managing one item on the stash (our WIP from the tip of the
+branch), and while there’s no problem with putting as much as we want on it
+(it’s a very competent stack!), I just don’t wanna.&lt;/p&gt;
+&lt;p&gt;Alas, more choices:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Commit to &lt;code&gt;develop&lt;/code&gt;, copy the commit ID to the pasteboard, hard reset
+&lt;code&gt;develop&lt;/code&gt; back to its previous value.&lt;/li&gt;
+&lt;li&gt;Create a new branch, commit to that, delete branch when done.&lt;/li&gt;
+&lt;li&gt;Detach HEAD, calm your git’s nerves, it’s ok I promise&lt;sup class="footnote-ref"&gt;&lt;a href="#fn-advice" id="fnref-advice" data-footnote-ref=""&gt;1&lt;/a&gt;&lt;/sup&gt;, commit.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We don’t really want &lt;em&gt;this&lt;/em&gt; commit on a branch, but git really wants us to want
+a branch. Let’s go with purity.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git checkout &lt;span class="nt"&gt;--detach&lt;/span&gt;
+&lt;span class="go"&gt;M       spec/models/content_spec.rb
+HEAD is now at 83ad162d7c Merge pull request #1736 from backfill-pr
+&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git add &lt;span class="nt"&gt;-p&lt;/span&gt;
+&lt;span class="go"&gt;[...]
+&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git commit &lt;span class="nt"&gt;-m&lt;/span&gt; &lt;span class="s1"&gt;'content_spec: assert body_excerpt strips tokens.'&lt;/span&gt;
+&lt;span class="go"&gt;[detached HEAD 6005753744] content_spec: assert body_excerpt strips tokens.
+ 1 file changed, 8 insertions(+)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now it’s time for the manoeuvre.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git checkout rml-parser
+&lt;span class="go"&gt;Warning: you are leaving 1 commit behind, not connected to
+any of your branches:
+
+  6005753744 content_spec: assert body_excerpt strips tokens.
+
+Switched to branch 'rml-parser'
+&lt;/span&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git rebase &lt;span class="nt"&gt;-i&lt;/span&gt; 3e7613^&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We’re presented with this:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;pick 3e7613e704 RmlParser: strip_tokens.
+pick 27316b9a2e RmlParser: implementing in Token.
+pick 25b122abd8 Token: migrate uses of #token to #original_token.
+pick 478c7377a4 remove local artefacts.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Very easy: we add &lt;code&gt;pick 6005753744&lt;/code&gt; above the first line, save and quit.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="go"&gt;Successfully rebased and updated refs/heads/rml-parser.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here’s our git log:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;* 7b836073ca (Fri, 8 Nov 2024) - (HEAD -&amp;gt; rml-parser) remove local artefacts. &amp;lt;Asherah Connor&amp;gt;
+* 70626ff5cb (Fri, 8 Nov 2024) - Token: migrate uses of #token to #original_token. &amp;lt;Asherah Connor&amp;gt;
+* b4089df702 (Fri, 8 Nov 2024) - RmlParser: implementing in Token. &amp;lt;Asherah Connor&amp;gt;
+* e385f17253 (Fri, 8 Nov 2024) - RmlParser: strip_tokens. &amp;lt;Asherah Connor&amp;gt;
+* 652607c2f0 (Sat, 9 Nov 2024) - content_spec: assert body_excerpt strips tokens. &amp;lt;Asherah Connor&amp;gt;
+* 1beaebab8c (Fri, 8 Nov 2024) - RmlParser: blocks everywhere, include offset in bc. &amp;lt;Asherah Connor&amp;gt;
+* b0c4bbbafb (Fri, 8 Nov 2024) - RmlParser: test roundtrip. &amp;lt;Asherah Connor&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Don’t forget to pop the stash!&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-console?prompt=$"&gt;&lt;span class="gp"&gt;$&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;git stash pop
+&lt;span class="go"&gt;On branch rml-parser
+Changes to be committed:
+  (use "git restore --staged &amp;lt;file&amp;gt;..." to unstage)
+        new file:   app/lib/rml_parser_flux.rb
+
+Changes not staged for commit:
+  (use "git add &amp;lt;file&amp;gt;..." to update what will be committed)
+  (use "git restore &amp;lt;file&amp;gt;..." to discard changes in working directory)
+        modified:   app/lib/rml_parser.rb
+        modified:   spec/lib/rml_parser_spec.rb
+
+Dropped refs/stash@{0} (d5c281196fa218a33a55538111fa7770284ca2cb)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Damn. I forgot to supply &lt;code&gt;--index&lt;/code&gt;, and only new files (which were tracked
+at the time of &lt;code&gt;stash&lt;/code&gt;) are added to the index; all other stashed changes are
+restored into the working copy, but not into the index. Oh well, it’s git: I can
+just go again with the stash reference from the last line.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section id="remarks"&gt;
+&lt;h2&gt;Remarks &lt;a href="#remarks" aria-hidden="true" title="Permalink to section" class="anchor"&gt;🔗&lt;/a&gt; &lt;a href="#top" aria-hidden="true" title="Back to top" class="anchor"&gt;↩&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The bit that got me was that git really forces me to make a lot of decisions I
+don’t actually care about. How will I save my WIP while I’m off on this quest?
+Do I want to juggle stashes and my working tree, or throw commits around? How
+will I get a commit where I want it? Do I need to come up with a branch name?
+And how much of all this needs to just sit in my head or pasteboard, lest I
+forget what I was in the middle of?&lt;/p&gt;
+&lt;p&gt;It’s astonishing, too, that one of the most powerful tools git has to rewrite
+history is “provide a script which sequentially constructs the DAG you want,
+where you can insert breakpoints to manually do things you can’t express in the
+script”. With jj you just .. put the commit there. It was already in a commit
+because everything is. And when you go back to where you were, everything is
+still there, because it was a commit, too, just an unfinished one.&lt;/p&gt;
+&lt;/section&gt;
+&lt;section class="footnotes" data-footnotes="" id="footnotes"&gt;&lt;h2&gt;Footnotes &lt;a href="#footnotes" aria-hidden="true" title="Permalink to section" class="anchor"&gt;🔗&lt;/a&gt; &lt;a href="#top" aria-hidden="true" title="Back to top" class="anchor"&gt;↩&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li id="fn-advice"&gt;
+&lt;p&gt;&lt;code&gt;git config --global advice.detachedHead false&lt;/code&gt; &lt;a href="#fnref-advice" class="footnote-backref" data-footnote-backref="" data-footnote-backref-idx="1" aria-label="Back to reference 1"&gt;↩&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</content>
+  </entry>
   <entry>
     <id>tag:lottia.net,2024-11-07:/notes/0012-soft-skills.html</id>
     <title type="html">Soft skills: jujutsu early feelings</title>
@@ -88,20 +329,19 @@ concepts too, just from your regular jj use evolving some patterns.&lt;/li&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Made this post because I noticed my log currently looks like this:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;&lt;span class="s bold"&gt;@&lt;/span&gt;  &lt;span class="m bold"&gt;n&lt;/span&gt;&lt;span class="cm bold"&gt;vxttvku&lt;/span&gt; &lt;span class="nn bold"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt bold"&gt;2024-11-05 13:19:23&lt;/span&gt; &lt;span class="kp bold"&gt;8&lt;/span&gt;&lt;span class="cm bold"&gt;dbb3ac9&lt;/span&gt;
-│  &lt;span class="s bold"&gt;(empty) (no description set)&lt;/span&gt;
-○  &lt;span class="m bold"&gt;o&lt;/span&gt;&lt;span class="cm"&gt;ypwlzvr&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-11-05 13:18:23&lt;/span&gt; &lt;span class="s"&gt;git_head()&lt;/span&gt; &lt;span class="kp bold"&gt;9&lt;/span&gt;&lt;span class="cm"&gt;d6049b2&lt;/span&gt;
+&lt;pre&gt;&lt;code class="language-jjlog"&gt;&lt;span class="s bold"&gt;@&lt;/span&gt;  &lt;span class="m bold"&gt;n&lt;/span&gt;&lt;span class="cm bold"&gt;vxttvku&lt;/span&gt; &lt;span class="nn bold"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt bold"&gt;2024-11-05 13:19:23&lt;/span&gt; &lt;span class="kp bold"&gt;8&lt;/span&gt;&lt;span class="cm bold"&gt;dbb3ac9&lt;/span&gt;
+│  &lt;span class="s bold"&gt;(empty) (no description set)
+&lt;/span&gt;○  &lt;span class="m bold"&gt;o&lt;/span&gt;&lt;span class="cm "&gt;ypwlzvr&lt;/span&gt; &lt;span class="nn "&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt "&gt;2024-11-05 13:18:23&lt;/span&gt; &lt;span class="s"&gt;git_head()&lt;/span&gt; &lt;span class="kp bold"&gt;9&lt;/span&gt;&lt;span class="cm "&gt;d6049b2&lt;/span&gt;
 │  Imtui: object system, sigh
-│ ○  &lt;span class="m bold"&gt;rq&lt;/span&gt;&lt;span class="cm"&gt;kpqpsk&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-11-05 13:19:07&lt;/span&gt; &lt;span class="kp bold"&gt;0&lt;/span&gt;&lt;span class="cm"&gt;8d3afb3&lt;/span&gt;
+│ ○  &lt;span class="m bold"&gt;rq&lt;/span&gt;&lt;span class="cm "&gt;kpqpsk&lt;/span&gt; &lt;span class="nn "&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt "&gt;2024-11-05 13:19:07&lt;/span&gt; &lt;span class="kp bold"&gt;0&lt;/span&gt;&lt;span class="cm "&gt;8d3afb3&lt;/span&gt;
 ├─╯  play around with https://ziglang.org/devlog/2024/#2024-11-04
-&lt;span class="nt"&gt;◆&lt;/span&gt;  &lt;span class="m bold"&gt;y&lt;/span&gt;&lt;span class="cm"&gt;mxnqszq&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-10-29 17:08:48&lt;/span&gt; &lt;span class="m"&gt;main&lt;/span&gt; &lt;span class="kp bold"&gt;fa&lt;/span&gt;&lt;span class="cm"&gt;7f5da9&lt;/span&gt;
+&lt;span class="nt"&gt;◆&lt;/span&gt;  &lt;span class="m bold"&gt;y&lt;/span&gt;&lt;span class="cm "&gt;mxnqszq&lt;/span&gt; &lt;span class="nn "&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt "&gt;2024-10-29 17:08:48&lt;/span&gt; &lt;span class="m "&gt;main&lt;/span&gt; &lt;span class="kp bold"&gt;fa&lt;/span&gt;&lt;span class="cm "&gt;7f5da9&lt;/span&gt;
 │  Imtui: experiment with "generations" to GC/disregard killed components
-&lt;span class="cm"&gt;~  (elided revisions)&lt;/span&gt;
-│ ○  &lt;span class="m bold"&gt;rs&lt;/span&gt;&lt;span class="cm"&gt;xxxkzu&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-10-28 11:19:02&lt;/span&gt; &lt;span class="kp bold"&gt;2&lt;/span&gt;&lt;span class="cm"&gt;819f0d1&lt;/span&gt;
+&lt;span class="cm"&gt;~  (elided revisions)
+&lt;/span&gt;│ ○  &lt;span class="m bold"&gt;rs&lt;/span&gt;&lt;span class="cm "&gt;xxxkzu&lt;/span&gt; &lt;span class="nn "&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt "&gt;2024-10-28 11:19:02&lt;/span&gt; &lt;span class="kp bold"&gt;2&lt;/span&gt;&lt;span class="cm "&gt;819f0d1&lt;/span&gt;
 ├─╯  Imtui: editors cont'd
-&lt;span class="nt"&gt;◆&lt;/span&gt;  &lt;span class="m bold"&gt;w&lt;/span&gt;&lt;span class="cm"&gt;vwyouqo&lt;/span&gt; &lt;span class="nn"&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt"&gt;2024-10-28 11:13:26&lt;/span&gt; &lt;span class="kp bold"&gt;f4&lt;/span&gt;&lt;span class="cm"&gt;a61c28&lt;/span&gt;
-│  Imtui: editors init
-&lt;/code&gt;&lt;/pre&gt;
+&lt;span class="nt"&gt;◆&lt;/span&gt;  &lt;span class="m bold"&gt;w&lt;/span&gt;&lt;span class="cm "&gt;vwyouqo&lt;/span&gt; &lt;span class="nn "&gt;charlotte@lottia.net&lt;/span&gt; &lt;span class="nt "&gt;2024-10-28 11:13:26&lt;/span&gt; &lt;span class="kp bold"&gt;f4&lt;/span&gt;&lt;span class="cm "&gt;a61c28&lt;/span&gt;
+│  Imtui: editors init&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Multiple branches, without names! It’s happening.&lt;/p&gt;
 &lt;/section&gt;
 &lt;section class="footnotes" data-footnotes="" id="footnotes"&gt;&lt;h2&gt;Footnotes &lt;a href="#footnotes" aria-hidden="true" title="Permalink to section" class="anchor"&gt;🔗&lt;/a&gt; &lt;a href="#top" aria-hidden="true" title="Back to top" class="anchor"&gt;↩&lt;/a&gt;&lt;/h2&gt;
