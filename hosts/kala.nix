@@ -76,8 +76,6 @@
       };
     };
 
-    networking.firewall.allowedTCPPorts = [22];
-
     environment.systemPackages = [
       # For sendmail or something?
       config.services.opensmtpd.package
