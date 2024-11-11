@@ -10,7 +10,7 @@ what's left is what I really [depend upon][cowsay patch]!
 
 A description of the basic layout follows.
 
-* [`flake.nix`](flake.nix) — entrypoint. I use 24.05 on Darwin and unstable on NixOS. Load common config, our modules, host-specific config, and Home Manager.
+* [`flake.nix`](flake.nix) — entrypoint. I use unstable on both Darwin and NixOS. Load common config, our modules, host-specific config, Home Manager, and custom jj build.
 * [`common.nix`](common.nix) — enables `nix` (or "nix3"), flakes, and flake repl. Ensures `git` is in the system closure, since it's needed for building flakes.
 * [`modules`](modules/default.nix) — root of VyxOS modules. Host data is loaded from [`hosts.toml`](hosts.toml), which supplies values used all over.
   * [`modules/secrets`](modules/secrets/default.nix) — secrets management. Provides a simple interface to [sops-nix] and installs SSH public and private keys. Secrets are stored in `private/` and encrypted with sops-nix.
@@ -39,13 +39,14 @@ A description of the basic layout follows.
     * Tailscale is enabled.
     * [OpenSMTPD] is configured. It is such a breath of fresh air to configure.
 * [`home.nix`](home.nix) — Home Manager config module for the "default" user (i.e. me!). Loads submodules and installs baseline packages.
-  * [`home/fish.nix`](home/fish.nix) — sets up Fish for me specifically. Sets prompt git info, adds [`vyxnix`](#vyxnix) aliases, [Git alias passthrough](#git-aliases), [SSH aliases](#ssh-aliases), and some I use to write blog posts.
+  * [`home/fish.nix`](home/fish.nix) — sets up Fish for me specifically. Sets prompt git info, adds [`vyxnix`](#vyxnix) aliases, [Git alias passthrough](#git-aliases), [SSH aliases](#ssh-aliases), [jj aliases](#jj), and some I use to write blog posts.
   * [`home/ssh.nix`](home/ssh.nix) — configures SSH. Generates [ssh_config] blocks for each host defined in `hosts.toml`. (These in turn become [shell aliases](#ssh-aliases).)
   * [`home/helix.nix`](home/helix.nix) — sets up [Helix]. (I like typing `ZZ` to save and quit, and why `vgld` when `D` could do? Old habits die hard.)
   * [`home/tmux.nix`](home/tmux.nix) — configures tmux. The prefix is `C-t` on non-servers, and `C-r` on servers, so having a session on your **t**erminal and further sessions on various **r**emotes within that Just Work™. Their statusbars are also coloured differently. (`t` and `r` are also nicely placed on Dvorak.)
   * [`home/git.nix`](home/git.nix) — personal baseline git configuration; pulls in [aliases](#git-aliases).
   * [`home/ripgrep.nix`](home/ripgrep.nix) — minimal rg config (`--hidden` to not exclude "hidden" things by default).
   * [`home/aerc.nix`](home/aerc.nix) — [aerc] (and email account) config.
+  * [`home/jujutsu.nix`](home/jujutsu.nix) — jj config.
 * [`sites`](sites/default.nix) — web sites, and the services associated with them.
   * [`sites/kivikakk.ee.nix`](sites/kivikakk.ee.nix) — configures [kivikakk.ee]. There's some 301s for old URLs, 410s for when I used to host Fediverse things, and cache headers for my CDN to notice. The actual content is included in [`sites/kivikakk.ee/`](sites/kivikakk.ee/).
   * [`sites/lottia.net.nix`](sites/lottia.net.nix) — configures [lottia.net]. Mostly as above.
@@ -54,6 +55,14 @@ A description of the basic layout follows.
   * Sites are also pulled in from `private/sites/`.
 
 ## Git aliases
+
+<a id="jj"></a>
+
+> [!NOTE]
+> I'm almost exclusively using [jj] now, so while the below still represents how I use git, I don't tend to use it directly all that much any more! [Here's a post about jujutsu][miniature]. [`home/fish.nix`](home/fish.nix) includes jj aliases similar to the below, but they're undergoing active refinement as my use increases!
+
+[jj]: https://github.com/martinvonz/jj
+[miniature]: https://lottia.net/notes/0013-git-jujutsu-miniature.html
 
 Firstly, for all our git aliases, we [create a shell alias][git alias line] that matches it; i.e. if you have `git c` defined for `commit`, then it's enough to type `c` at the shell instead.
 
@@ -181,6 +190,27 @@ The default args are also really helpful — I almost never remember to include 
 
 The really nice thing about using Fish everywhere, too, is that `vyxnix` and aliases using it all support tab-completion correctly, including the `--vyx` options. If they didn't, I'd want to use them a lot less, and keep forgetting the exact `--vyx` options since they're so rarely wanted.
 
+## `J`
+
+This is like `vyxnix`, but for jj! [`J`](https://github.com/kivikakk/vyxos/blob/4921e89b8b11b86c1f84c3ab0338408a469163ea/home/J.fish) is a simple launcher which makes a few options nearer to hand:
+
+```fish
+# !i -> --ignore-immutable
+# !b -> --allow-backwards
+# !p -> --no-pager
+# !ae -> --reset-author --no-edit
+```
+
+This allows for scenarios like the following:
+
+```console
+$ Aq
+Error: Commit 063ff6e65ac0 is immutable
+Hint: Pass `--ignore-immutable` or configure the set of immutable commits via `revset-aliases.immutable_heads()`.
+$ Aq !i
+Working copy now at: vwsmmryz dde83cf9 (empty) (no description set)
+Parent commit      : qoqluvpo 4921e89b main* | README: update for jj.
+```
 
 [sops-nix]: https://github.com/Mic92/sops-nix
 [jambalam]: https://lottia.net/notes/0005-jambalam.html
