@@ -39,6 +39,7 @@
           "a" = "abandon";
           "z" = "restore";
           "q" = "squash";
+          "qi" = "squash -i";
           "p" = "split";
           "r" = "rebase";
           "b" = "bookmark set";
