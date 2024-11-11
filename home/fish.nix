@@ -26,36 +26,44 @@
         ns = "vyxnix shell";
         jj = "echo use A/C";
       }
-      // (let
-        jjAliases = {
-          "d" = "diff";
-          "h" = "show";
-          "l" = "log";
-          "ln" = "log --no-pager";
-          "m" = "describe -m";
-          "mm" = "describe";
-          "n" = "new";
-          "e" = "edit";
-          "a" = "abandon";
-          "z" = "restore";
-          "q" = "squash";
-          "qi" = "squash -i";
-          "p" = "split";
-          "r" = "rebase";
-          "b" = "bookmark set";
-          "gp" = "git push";
-          "gf" = "git fetch";
-          "v" = "resolve";
-          "" = "";
-        };
-      in
-        lib.concatMapAttrs (lhs: rhs: {
-          "A${lhs}" = "JJ_USER='Asherah Connor' JJ_EMAIL='ashe@kivikakk.ee'     J ${rhs}";
-          "C${lhs}" = "JJ_USER='Charlotte'      JJ_EMAIL='charlotte@lottia.net' J ${rhs}";
-        })
-        jjAliases)
       // builtins.mapAttrs (name: _v: "git ${name}") config.programs.git.aliases
       // builtins.mapAttrs (name: _v: "ssh ${name}") config.programs.ssh.matchBlocks;
+    functions = let
+      jjAliases = {
+        "d" = "diff";
+        "h" = "show";
+        "l" = "log";
+        "ln" = "log --no-pager";
+        "m" = "describe -m";
+        "mm" = "describe";
+        "n" = "new";
+        "e" = "edit";
+        "a" = "abandon";
+        "z" = "restore";
+        "q" = "squash";
+        "qi" = "squash -i";
+        "p" = "split";
+        "r" = "rebase";
+        "b" = "bookmark set";
+        "gp" = "git push";
+        "gf" = "git fetch";
+        "v" = "resolve";
+        "" = "";
+      };
+    in
+      lib.concatMapAttrs (lhs: rhs: {
+        "A${lhs}" = {
+          body = "JJ_USER='Asherah Connor' JJ_EMAIL='ashe@kivikakk.ee' J ${rhs}";
+          description = "jj ${rhs}";
+          wraps = "J ${rhs}";
+        };
+        "C${lhs}" = {
+          body = "JJ_USER='Charlotte' JJ_EMAIL='charlotte@lottia.net' J ${rhs}";
+          description = "jj ${rhs}";
+          wraps = "J ${rhs}";
+        };
+      })
+      jjAliases;
   };
   home.file = {
     ".config/fish/functions/blognew.fish".source = ./blognew.fish;
