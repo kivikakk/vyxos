@@ -45,11 +45,12 @@
           "gp" = "git push";
           "gf" = "git fetch";
           "v" = "resolve";
+          "" = "";
         };
       in
         lib.concatMapAttrs (lhs: rhs: {
-          "A${lhs}" = "A ${rhs}";
-          "C${lhs}" = "C ${rhs}";
+          "A${lhs}" = "JJ_USER='Asherah Connor' JJ_EMAIL='ashe@kivikakk.ee'     J ${rhs}";
+          "C${lhs}" = "JJ_USER='Charlotte'      JJ_EMAIL='charlotte@lottia.net' J ${rhs}";
         })
         jjAliases)
       // builtins.mapAttrs (name: _v: "git ${name}") config.programs.git.aliases
@@ -58,7 +59,6 @@
   home.file = {
     ".config/fish/functions/blognew.fish".source = ./blognew.fish;
     ".config/fish/functions/blogserve.fish".source = ./blogserve.fish;
-    ".config/fish/functions/A.fish".source = ./A.fish;
-    ".config/fish/functions/C.fish".source = ./C.fish;
+    ".config/fish/functions/J.fish".source = ./J.fish;
   };
 }
