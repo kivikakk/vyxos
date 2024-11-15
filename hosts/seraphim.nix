@@ -128,6 +128,7 @@
           "font-go"
           "font-iosevka"
           "font-iosevka-slab"
+          "font-lato"
           "font-open-sans"
           "sf-symbols"
         ]
