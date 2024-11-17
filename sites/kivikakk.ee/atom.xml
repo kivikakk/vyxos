@@ -4,7 +4,7 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-11-09T14:32:55+11:00</updated>
+ <updated>2024-11-17T12:02:33+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
@@ -182,7 +182,7 @@ used, relied on, knew about? But apparently not!&lt;/p&gt;
    <id>https://kivikakk.ee/zig/2024/08/06/tüüpiautomaat</id>
     
      <link href="https://kivikakk.ee/zig/2024/08/06/t%C3%BC%C3%BCpiautomaat/"/>
-     <content type="html">&lt;p&gt;I’m currently working on a bit of a &lt;a href=&quot;https://sr.ht/~kivikakk/ava&quot;&gt;long-winded project&lt;/a&gt; to recapture
+     <content type="html">&lt;p&gt;I’m currently working on a bit of a &lt;a href=&quot;https://github.com/charlottia/ava&quot;&gt;long-winded project&lt;/a&gt; to recapture
 &lt;a href=&quot;https://en.wikipedia.org/wiki/QuickBASIC&quot;&gt;QuickBASIC&lt;/a&gt;, the environment I learned to program in, in a bit of
 a novel way, while remaining highly faithful to the original. (I actually
 started a related project &lt;a href=&quot;https://github.com/kivikakk/kyuubey&quot;&gt;9 years ago&lt;/a&gt; (!), and I’ll be able to reuse
