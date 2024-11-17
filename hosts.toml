@@ -6,6 +6,10 @@ server = false
 user = "kivikakk"
 server = false
 
+[piretike]
+user = "kivikakk"
+server = false
+
 [kala]
 user = "charlotte"
 server = true
