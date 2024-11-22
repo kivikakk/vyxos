@@ -48,6 +48,7 @@
         "gp" = "git push";
         "gf" = "git fetch";
         "v" = "resolve";
+        "s" = "absorb";
         # XXX betray'd by case-insensitive APFS
         # "N" = "next";
         "Nx" = "next";
