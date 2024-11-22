@@ -73,6 +73,16 @@
           (builtins.readFile ../sources/kinu-kala-id_ed25519.pub)
         ];
         extraGroups = ["users"];
+
+        shell = pkgs.fish;
+      };
+    };
+
+    home-manager.users.kinu = {
+      programs.neovim = {
+        enable = true;
+        viAlias = true;
+        vimAlias = true;
       };
     };
 
