@@ -48,6 +48,10 @@
         "gp" = "git push";
         "gf" = "git fetch";
         "v" = "resolve";
+        "N" = "next";
+        "Ne" = "next --edit";
+        "P" = "prev";
+        "Pe" = "prev --edit";
         "" = "";
       };
     in
