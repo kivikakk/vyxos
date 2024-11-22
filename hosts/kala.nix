@@ -79,6 +79,8 @@
     };
 
     home-manager.users.kinu = {
+      home.stateVersion = "24.05";
+
       programs.neovim = {
         enable = true;
         viAlias = true;
