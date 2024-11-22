@@ -12,7 +12,7 @@ in {
   };
 
   config = mkIf (cfg.enable) (let
-    repo = "kivikakk@siiludus.lan:/volume1/piret varukoopia/piret";
+    repo = "kivikakk@siiludus.local:/volume1/piret varukoopia/piret";
   in {
     vyxos.secrets.encrypted = {
       "borg-passphrase" = {};
