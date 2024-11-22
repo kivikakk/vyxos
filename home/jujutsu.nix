@@ -7,6 +7,7 @@
         diff-editor = ":builtin";
         merge-editor = ":builtin";
       };
+      git.private-commits = "description(glob:'!!*')";
     };
   };
 }
