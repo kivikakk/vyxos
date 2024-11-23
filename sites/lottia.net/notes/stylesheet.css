@@ -407,7 +407,7 @@ footer {
   * {
     --border: #444;
     --border-toc: #2a2a2a;
-    --sidebar-link-active: #fff;
+    --sidebar-link-active: #dee5ec;
     --inline-code-border: #303030;
     --inline-code-background: #1f1f1f;
     --footnotes-background: #0e1625;
@@ -419,7 +419,7 @@ footer {
 
   body {
     background: #0e1117;
-    color: #e7edf4;
+    color: #dee5ec;
   }
 
   a:link, a:visited {

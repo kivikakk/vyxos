@@ -67,19 +67,26 @@
       
     </div>
     <h1 class="post-title">
-      <a href="/2024/06/22/sint/">
-        sint
+      <a href="/2024/03/25/eesti-keele-abilised/">
+        Eesti keele abilised
       </a>
     </h1>
 
-    <time datetime="2024-06-22T00:00:00+10:00" class="post-date">22 Jun 2024</time>
+    <time datetime="2024-03-25T00:00:00+11:00" class="post-date">25 Mar 2024</time>
 
     
-      <p>Notes.app, kell 08:03:</p>
+      <p>Here’s a little tool I’ve made to help my partner and I while learning Estonian.
+Very much nothing special, but I’ll hopefully find more resources to add to it
+over time!</p>
 
-<blockquote>
-  <p>my new theory is that satan Crept into this world through signed integers</p>
-</blockquote>
+<p><a href="https://eka.kivikakk.ee">Eesti keele abilised</a></p>
+
+<p>(Previously on this topic: <a href="https://kivikakk.ee/estonian/2016/04/18/estonian-morphology-guide-mirror.html">Estonian Morphology Guide
+(mirror)</a>.
+I no longer collect analytics on my site, but when I did it was consistently one
+of the most-visited parts of it, presumably because the link broke at some
+point. I’ve just found its new canonical home, though, so I’ve updated the
+link!)</p>
 
 
       
@@ -93,83 +100,156 @@
       
     </div>
     <h1 class="post-title">
-      <a href="/digital/2024/06/17/zxxrtl/">
-        zxxrtl
+      <a href="/2024/01/03/lottia-notes/">
+        lottia notes
       </a>
     </h1>
 
-    <time datetime="2024-06-17T00:00:00+10:00" class="post-date">17 Jun 2024</time>
+    <time datetime="2024-01-03T00:00:00+11:00" class="post-date">03 Jan 2024</time>
 
     
-      <p>I’ve been getting back into using <a href="https://yosyshq.readthedocs.io/projects/yosys/en/latest/cmd/write_cxxrtl.html">CXXRTL</a> and <a href="https://ziglang.org">Zig</a> together, so I’ve extracted
-and rendered somewhat reusable the bindings I made to use them together!</p>
+      <p>I’ve been writing notes on FPGA/digital design and Nix over at
+<a href="https://lottia.net/notes"><em>lottia notes</em></a>.</p>
 
-<p><a href="https://github.com/kivikakk/zxxrtl">zxxrtl</a> uses CXXRTL’s C API to provide a somewhat idiomatic way to access,
-manipulate, and respond to events happening in the design. Its README covers the
-setup — it’s a bit involved as it’s necessarily something of a build system,
-but once you’re done it’s good to go and flexible enough to be instrumented from
-a higher build system.</p>
 
-<p>I’m going to paste the example usage here; this doesn’t use the <code class="language-plaintext highlighter-rouge">Sample</code> API for
-edge detection, and just drives the simulation while optionally recording VCD:</p>
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/lotte-icon.png" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="https://lottia.net/notes/0006-comrak-on-akkoma.html">
+        Comrak on Akkoma
+      </a>
+    </h1>
 
-<div class="language-zig highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="n">Cxxrtl</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"zxxrtl"</span><span class="p">);</span>
+    <time datetime="2024-01-02T00:00:00+11:00" class="post-date">02 Jan 2024</time>
 
-<span class="c">// Initialise the design.</span>
-<span class="k">const</span> <span class="n">cxxrtl</span> <span class="o">=</span> <span class="n">Cxxrtl</span><span class="p">.</span><span class="nf">init</span><span class="p">();</span>
+    
+      <p><em>Cross-post from <a href="https://lottia.net/notes/0006-comrak-on-akkoma.html">lottia notes</a>.</em></p>
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/lotte-icon.png" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="https://lottia.net/notes/0005-jambalam.html">
+        Jambalam
+      </a>
+    </h1>
 
-<span class="c">// Optionally start recording VCD. Assume `vcd_out` is `?[]const u8` representing an</span>
-<span class="c">// optional output filename.</span>
-<span class="k">var</span> <span class="n">vcd</span><span class="p">:</span> <span class="o">?</span><span class="n">Cxxrtl</span><span class="p">.</span><span class="py">Vcd</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd_out</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="n">vcd</span> <span class="o">=</span> <span class="n">Cxxrtl</span><span class="p">.</span><span class="py">Vcd</span><span class="p">.</span><span class="nf">init</span><span class="p">(</span><span class="n">cxxrtl</span><span class="p">);</span>
+    <time datetime="2023-09-18T00:00:00+10:00" class="post-date">18 Sep 2023</time>
 
-<span class="k">defer</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
-<span class="p">}</span>
+    
+      <p><em>Cross-post from <a href="https://lottia.net/notes/0005-jambalam.html">lottia notes</a>.</em></p>
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/lotte-icon.png" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="https://lottia.net/notes/0004-happy-birthday.html">
+        Happy birthday!
+      </a>
+    </h1>
 
-<span class="c">// Get handles to the clock and reset lines.</span>
-<span class="k">const</span> <span class="n">clk</span> <span class="o">=</span> <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="k">bool</span><span class="p">,</span> <span class="s">"clk"</span><span class="p">);</span>
-<span class="k">const</span> <span class="n">rst</span> <span class="o">=</span> <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="k">bool</span><span class="p">,</span> <span class="s">"rst"</span><span class="p">);</span>  <span class="c">// These are of type `Cxxrtl.Object(bool)`.</span>
+    <time datetime="2023-08-23T00:00:00+10:00" class="post-date">23 Aug 2023</time>
 
-<span class="c">// Reset for a tick.</span>
-<span class="n">rst</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+    
+      <p><em>Cross-post from <a href="https://lottia.net/notes/0004-happy-birthday.html">lottia notes</a>.</em></p>
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/lotte-icon.png" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="https://lottia.net/notes/0003-nix-revisited.html">
+        Nix revisited
+      </a>
+    </h1>
 
-<span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
+    <time datetime="2023-07-15T00:00:00+10:00" class="post-date">15 Jul 2023</time>
 
-<span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-<span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
+    
+      <p><em>Cross-post from <a href="https://lottia.net/notes/0003-nix-revisited.html">lottia notes</a>.</em></p>
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/lotte-icon.png" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="https://lottia.net/notes/0002-untangling-cycles.html">
+        Untangling cycles
+      </a>
+    </h1>
 
-<span class="n">rst</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+    <time datetime="2023-06-29T00:00:00+10:00" class="post-date">29 Jun 2023</time>
 
-<span class="c">// Play out 10 cycles.</span>
-<span class="k">for</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span> <span class="p">|</span><span class="mi">_</span><span class="p">|</span> <span class="p">{</span>
-    <span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
+    
+      <p><em>Cross-post from <a href="https://lottia.net/notes/0002-untangling-cycles.html">lottia notes</a>.</em></p>
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/lotte-icon.png" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="https://lottia.net/notes/0001-hdl-toolchain-source.html">
+        Installing an HDL toolchain from source
+      </a>
+    </h1>
 
-    <span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-<span class="p">}</span>
+    <time datetime="2023-06-27T00:00:00+10:00" class="post-date">27 Jun 2023</time>
 
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="p">{</span>
-    <span class="c">// Assume `alloc` exists.</span>
-    <span class="k">const</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">try</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">alloc</span><span class="p">);</span>
-    <span class="k">defer</span> <span class="n">alloc</span><span class="p">.</span><span class="nf">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+    
+      <p><em>Cross-post from <a href="https://lottia.net/notes/0001-hdl-toolchain-source.html">lottia notes</a>.</em></p>
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="/2021/08/16/ddr-the-second/">
+        DDR the second!!
+      </a>
+    </h1>
 
-    <span class="k">var</span> <span class="n">file</span> <span class="o">=</span> <span class="k">try</span> <span class="n">std</span><span class="p">.</span><span class="py">fs</span><span class="p">.</span><span class="nf">cwd</span><span class="p">().</span><span class="nf">createFile</span><span class="p">(</span><span class="n">vcd_out</span><span class="o">.?</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
-    <span class="k">defer</span> <span class="n">file</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+    <time datetime="2021-08-16T00:00:00+10:00" class="post-date">16 Aug 2021</time>
 
-    <span class="k">try</span> <span class="n">file</span><span class="p">.</span><span class="nf">writeAll</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
+    
+      <p>Two weeks gets incremental improvements.</p>
 
-<p>Hopefully this is useful to someone else!</p>
-
+<p><img src="/assets/post-img/moreonenight2.jpg" alt="More One Night score (AAA 97.13%)" />
+<img src="/assets/post-img/badapple2.jpg" alt="Bad Apple!! score (AAA 97.57%)" />
+<img src="/assets/post-img/danceallnight2.jpg" alt="DANCE ALL NIGHT score (AAA 98.55%)" /></p>
 
 
       
@@ -183,60 +263,21 @@ edge detection, and just drives the simulation while optionally recording VCD:</
       
     </div>
     <h1 class="post-title">
-      <a href="/eesti/2024/06/13/fren/">
-        fren
+      <a href="/2021/08/02/ddr/">
+        DDR
       </a>
     </h1>
 
-    <time datetime="2024-06-13T00:00:00+10:00" class="post-date">13 Jun 2024</time>
+    <time datetime="2021-08-02T00:00:00+10:00" class="post-date">02 Aug 2021</time>
 
     
-      <p><img src="/assets/post-img/eesti/fren.jpg" alt="low-exposure photograph of a cat walking along the ground" /></p>
+      <p>Not much to report lately.  DDR continues to be fun, though I think given these
+timings I’m past due for replacing the control board in the pad so I can get
+better than 8ms resolution on steps.</p>
 
-
-      
-    
-  </article>
-  
-  <article class="post">
-    <div class="my-id">
-      
-        <img src="/assets/mia-icon.jpg" width="64" height="64">
-      
-    </div>
-    <h1 class="post-title">
-      <a href="/eesti/2024/06/06/t%C3%A4na/">
-        Täna
-      </a>
-    </h1>
-
-    <time datetime="2024-06-06T00:00:00+10:00" class="post-date">06 Jun 2024</time>
-
-    
-      <p>Täna oli saunapäev. ^_^</p>
-
-
-      
-    
-  </article>
-  
-  <article class="post">
-    <div class="my-id">
-      
-        <img src="/assets/mia-icon.jpg" width="64" height="64">
-      
-    </div>
-    <h1 class="post-title">
-      <a href="/digital/2024/05/29/chisel-and-cxx-recording/">
-        Chisel and C++, recorded at last
-      </a>
-    </h1>
-
-    <time datetime="2024-05-29T00:00:00+10:00" class="post-date">29 May 2024</time>
-
-    
-      <p>Yay! <a href="https://www.youtube.com/watch?v=_-oqnf9gYuE">Here’s the recording</a> for <a href="https://kivikakk.ee/digital/2024/05/28/chisel-and-cxx/">Chisel and C++, together at last</a>.</p>
-
+<p><img src="/assets/post-img/moreonenight.jpg" alt="More One Night score (AA 97.13%)" />
+<img src="/assets/post-img/badapple.jpg" alt="Bad Apple!! score (AAA 96.65%)" />
+<img src="/assets/post-img/danceallnight.jpg" alt="DANCE ALL NIGHT score (AAA 98.34%)" /></p>
 
 
       

@@ -4,13 +4,23 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-11-23T13:45:48+11:00</updated>
+ <updated>2024-11-24T22:21:04+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>Platform-specific hacks for high-DPI</title>
+   <updated>2024-11-24T22:20:00+11:00</updated>
+   <id>https://kivikakk.ee/2024/11/24/hidpi-platform-specific-hacks</id>
+    
+      <link href="https://lottia.net/notes/0014-hidpi-platform-specific-hacks.html"/>
+      <content type="html">We need to avoid getting scaled by the compositor, to preserve our sharp edge.</content>
+    
+ </entry>
  
  <entry>
    <title>Git and jujutsu: in miniature</title>
