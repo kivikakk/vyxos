@@ -81,6 +81,8 @@
     home-manager.users.kinu = {
       home.stateVersion = "24.05";
 
+      home.packages = [pkgs.ruby];
+
       programs.neovim = {
         enable = true;
         viAlias = true;
