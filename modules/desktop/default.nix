@@ -91,7 +91,7 @@ in {
 
       programs.kitty = {
         enable = true;
-        theme = "Catppuccin-Mocha";
+        themeFile = "Catppuccin-Mocha";
         font.name = "Iosevka Term Slab";
         settings.disable_ligatures = "cursor";
       };
