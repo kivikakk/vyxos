@@ -85,6 +85,8 @@
       borg.enable = true;
     };
 
+    users.mutableUsers = false;
+
     home-manager.users.${config.vyxos.vyxUser} = {
       accounts.email.accounts.asherah.passwordCommand = "cat ${config.vyxos.secrets.decrypted."aerc-password".path}";
 
