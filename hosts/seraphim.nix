@@ -19,6 +19,7 @@
 
     services.nix-daemon.enable = true;
     nix.package = pkgs.nix;
+    nix.settings.trusted-users = [config.vyxos.vyxUser];
 
     vyxos.secrets = {
       additionalAuthorizedKeys = [
