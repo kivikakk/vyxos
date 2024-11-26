@@ -98,7 +98,7 @@ in {
         ${cfg.vyxUser} = {
           uid = cfg.vyxUserId;
           isNormalUser = true;
-          initialHashedPassword = builtins.readFile ../private/secrets/hashedpassword-vyxuser;
+          hashedPassword = builtins.readFile ../private/secrets/hashedpassword-vyxuser;
           description = cfg.vyxUser;
           extraGroups = ["wheel"];
         };
