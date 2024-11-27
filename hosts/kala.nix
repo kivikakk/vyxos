@@ -81,7 +81,7 @@
     home-manager.users.kinu = {
       home.stateVersion = "24.05";
 
-      home.packages = [pkgs.ruby];
+      home.packages = [pkgs.ruby_3_3];
 
       programs.neovim = {
         enable = true;
