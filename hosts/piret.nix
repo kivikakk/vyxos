@@ -15,7 +15,6 @@
 
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
-    boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
     fileSystems = {
       "/" = {
@@ -55,11 +54,6 @@
 
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     time.hardwareClockInLocalTime = true;
-
-    # For delayed login issue: https://github.com/NixOS/nixpkgs/issues/239770#issuecomment-1868508908
-    # ... not that it seems to help.
-    security.pam.services.login.fprintAuth = false;
-    security.pam.services.kde.fprintAuth = false;
 
     environment.systemPackages = [pkgs.doas-sudo-shim];
     security.sudo.enable = false;
