@@ -18,8 +18,9 @@ in {
           # "Unable to set preference identity.sync.tokenserver.uri. Preference not allowed for stability reasons." T_T
           # "identity.sync.tokenserver.uri" = "http://fxsync.hrzn.ee/1.0/sync/1.5";
 
+          # Same as above agh!! Firefox why :<
           # stop touchpad scroll "coasting".
-          "apz.gtk.kinetic_scroll.enabled" = false;
+          # "apz.gtk.kinetic_scroll.enabled" = false;
         };
         policies = {
           AutofillAddressEnabled = false;
