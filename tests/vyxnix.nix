@@ -1,8 +1,8 @@
 {
   system,
-  unstable-nixpkgs,
+  nixpkgs,
 }: let
-  pkgs = import unstable-nixpkgs {inherit system;};
+  pkgs = import nixpkgs {inherit system;};
 in
   pkgs.stdenv.mkDerivation {
     name = "vyxnix-check";

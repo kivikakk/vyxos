@@ -10,12 +10,12 @@ what's left is what I really [depend upon][cowsay patch]!
 
 A description of the basic layout follows.
 
-* [`flake.nix`](flake.nix) — entrypoint. I use unstable on both Darwin and NixOS. Load common config, our modules, host-specific config, Home Manager, and custom jj build.
+* [`flake.nix`](flake.nix) — entrypoint. I use 24.11 on both Darwin and NixOS. Load common config, our modules, host-specific config, Home Manager, and custom jj build.
 * [`common.nix`](common.nix) — enables `nix` (or "nix3"), flakes, and flake repl. Ensures `git` is in the system closure, since it's needed for building flakes.
 * [`modules`](modules/default.nix) — root of VyxOS modules. Host data is loaded from [`hosts.toml`](hosts.toml), which supplies values used all over.
   * [`modules/secrets`](modules/secrets/default.nix) — secrets management. Provides a simple interface to [sops-nix] and installs SSH public and private keys. Secrets are stored in `private/` and encrypted with sops-nix.
   * [`modules/fish`](modules/fish/default.nix) — Fish custom build and baseline configuration. I adjust [`alias`](modules/fish/alias.fish.patch) to let my git aliases tab-complete. A prompt is installed and some aliases to rebuild VyxOS and [use Nix fluently](#vyxnix). Nix profile paths are added to PATH on Darwin.
-  * [`modules/git`](modules/git/default.nix) — custom Git build per [Jambalam - lottia notes][jambalam]. This is disabled currently because the Git in unstable doesn't match 24.05! Agh!
+  * [`modules/git`](modules/git/default.nix) — custom Git build per [Jambalam - lottia notes][jambalam].
   * [`modules/nix`](modules/nix/default.nix) — configure [extra dependencies] in nix-darwin like we can in NixOS. ([Thanks!][antifuchs])
   * [`modules/cowsay`](modules/cowsay/default.nix) — custom [Cowsay] build. For reasons.
   * [`modules/net`](modules/net/default.nix) — networking configuration for NixOS hosts. This sets the host up based on its `hosts.toml` data.
