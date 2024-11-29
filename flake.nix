@@ -43,6 +43,7 @@
 
     jj = {
       url = github:charlottia/jj/ssh-openssh;
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
   };
