@@ -1,6 +1,7 @@
 function J -d "jujutsu launcher"
     # !i -> --ignore-immutable
     # !b -> --allow-backwards
+    # !n -> --allow-new
     # !p -> --no-pager
     # !ae -> --reset-author --no-edit
     #
@@ -25,6 +26,11 @@ function J -d "jujutsu launcher"
 
         if test "$arg" = "!b"
             set -a args --allow-backwards
+            continue
+        end
+
+        if test "$arg" = "!n"
+            set -a args --allow-new
             continue
         end
 
