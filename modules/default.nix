@@ -15,7 +15,6 @@ in {
     [
       ./secrets
       ./fish
-      ./git
       ./nix
       ./cowsay
     ]

@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   programs.git = {
     enable = true;
-    package = pkgs.vyxos-git;
     userName = "Asherah Connor";
     userEmail = "ashe@kivikakk.ee";
     extraConfig = {

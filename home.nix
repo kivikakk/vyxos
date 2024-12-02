@@ -28,7 +28,7 @@
 
     packages = with pkgs; ([
         # Tools provided by or useful with the config.
-        vyxos-git
+        git
         cowsay # :|3
         age
         sops
