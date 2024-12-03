@@ -10,11 +10,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1732915515,
-        "narHash": "sha256-lHGeJDXdSl2UnpieGKLvwbUqh+lb/nxvmfHqzMsDELM=",
+        "lastModified": 1733200825,
+        "narHash": "sha256-pCdOYbn5OlRyoSvTQiTgKyMPekh556ESQAfvX6irKKU=",
         "ref": "refs/heads/main",
-        "rev": "bf15b396b523f22067d9d677f17b2d0e159b42a5",
-        "revCount": 41,
+        "rev": "8cddaa19c2e09d011b906af69358e7f1d33d0fb0",
+        "revCount": 42,
         "type": "git",
         "url": "https://github.com/kivikakk/comenzar"
       },
