@@ -46,6 +46,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
+
+    lanzaboote = {
+      url = github:nix-community/lanzaboote/v0.4.1;
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.rust-overlay.follows = "jj/rust-overlay";
+    };
   };
 
   outputs = inputs @ {
@@ -60,6 +67,7 @@
     comenzar,
     plasma-manager,
     jj,
+    lanzaboote,
   }: let
     mkHost = hostName: system: specifiedModules: let
       isDarwin = builtins.elem system nixpkgs.lib.platforms.darwin;
@@ -161,6 +169,7 @@
         kala = mkHost "kala" "x86_64-linux" [];
         piret = mkHost "piret" "x86_64-linux" [
           nixos-hardware.nixosModules.framework-16-7040-amd
+          lanzaboote.nixosModules.lanzaboote
           {nixpkgs.overlays = [jj.overlays.default];}
         ];
       };

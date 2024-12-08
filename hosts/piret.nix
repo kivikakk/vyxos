@@ -13,32 +13,13 @@
     boot.kernelModules = ["kvm-amd"];
     boot.extraModulePackages = [];
 
-    boot.loader.systemd-boot = {
-      enable = true;
-      sortKey = "a_nixos";
-      configurationLimit = 8;
-
-      windows."11" = {
-        title = "Windows 11";
-        efiDeviceHandle = "HD0b";
-        sortKey = "b_windows";
-      };
-
-      edk2-uefi-shell = {
-        enable = true;
-        sortKey = "z_uefi-shell";
-      };
-      netbootxyz = {
-        enable = true;
-        sortKey = "z_netbootxyz";
-      };
-
-      rebootForBitlocker = true;  # experimental; see https://nixos.org/manual/nixos/stable/options#opt-boot.loader.systemd-boot.rebootForBitlocker
-
-      # extraInstallCommands set below.
-    };
-    
+    boot.loader.systemd-boot.enable = false;
     boot.loader.efi.canTouchEfiVariables = true;
+    boot.lanzaboote = {
+      enable = true;
+      pkiBundle = "/etc/secureboot";
+      configurationLimit = 6;
+    };
 
     fileSystems = {
       "/" = {
@@ -72,18 +53,6 @@
     system.stateVersion = "24.05";
     nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-    boot.loader.systemd-boot.extraInstallCommands = ''
-      default_cfg=$(${pkgs.gnugrep}/bin/grep default /boot/loader/loader.conf | ${pkgs.gawk}/bin/awk '{print $2}')
-      cd /boot/loader/entries
-      for cfg in nixos*.conf; do
-        if [[ "$cfg" = "$default_cfg" ]]; then
-          continue
-        fi
-        ${pkgs.gnused}/bin/sed -i 's|sort-key nixos|sort-key c_nixos|' "$cfg"
-        ${pkgs.gnused}/bin/sed -i 's|sort-key a_nixos|sort-key c_nixos|' "$cfg"
-      done
-    '';
-
     networking.useDHCP = lib.mkDefault true;
     networking.networkmanager.enable = true;
     networking.search = ["ts.hrzn.ee"];
@@ -91,7 +60,10 @@
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     time.hardwareClockInLocalTime = true;
 
-    environment.systemPackages = [pkgs.doas-sudo-shim];
+    environment.systemPackages = [
+      pkgs.doas-sudo-shim
+      pkgs.sbctl
+    ];
     security.sudo.enable = false;
 
     vyxos = {
