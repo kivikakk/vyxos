@@ -18,7 +18,11 @@
     boot.lanzaboote = {
       enable = true;
       pkiBundle = "/etc/secureboot";
-      configurationLimit = 6;
+      configurationLimit = 5;
+      settings = {
+        auto-firmware = false;
+        reboot-for-bitlocker = true;
+      };
     };
 
     fileSystems = {
