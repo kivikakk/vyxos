@@ -44,7 +44,7 @@
         entr
         file
         htop
-        httpie
+        xh # replacing HTTPie
         inetutils
         jq
         lsof
@@ -53,11 +53,7 @@
         unzip
         wget
         # binutils # Do Not. This messes up things on macOS.
-      ]
-      ++ [
-        # Things I keep meaning to learn to use properly.
         fd
-        fx
       ]);
   };
 }
