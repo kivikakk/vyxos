@@ -67,7 +67,7 @@ Firstly, for all our git aliases, we [create a shell alias][git alias line] that
 
 This _isn't_ overkill — I talk a bit about this early in [Nix revisited], but I'd like to elaborate now: Git is a Swiss Army knife. It's way better than what came before it in lots of ways, and I'm sure (and glad) [folks are improving on it][jj], but I'm _very_ comfy with it, and not because I've abstracted it all away from me so I don't have to think about it, but because I brought it close enough that all its little implements (continuing with the SAK analogy) are like my own fingers. Err. Or something.
 
-[git alias line]: https://github.com/kivikakk/vyxos/blob/aed7f16d432f5b0a73268aa34521fed07f24e7c1/home/fish.nix#L23
+[git alias line]: home/fish.nix#L29
 [Nix revisited]: https://lottia.net/notes/0003-nix-revisited.html
 [jj]: https://github.com/martinvonz/jj
 
@@ -142,17 +142,17 @@ Have a look at [`home/git-aliases.nix`](home/git-aliases.nix). Everything's spli
 
 [worktree]: https://git-scm.com/docs/git-worktree
 [reflog]: https://git-scm.com/docs/git-reflog
-[dot]: https://github.com/kivikakk/vyxos/blob/aed7f16d432f5b0a73268aa34521fed07f24e7c1/home/fish.nix#L12
+[dot]: home/fish.nix#L17
 
 ## SSH aliases
 
 Similar to above, a [shell alias is created][ssh alias line] for every host defined in `hosts.toml`; i.e. typing `kala` is enough to `ssh kala`.
 
-[ssh alias line]: https://github.com/kivikakk/vyxos/blob/aed7f16d432f5b0a73268aa34521fed07f24e7c1/home/fish.nix#L24
+[ssh alias line]: home/fish.nix#L30
 
 ## `vyxnix`
 
-Similar to git, I need the Nix tools closer to hand. [`vyxnix`](https://github.com/kivikakk/vyxos/blob/ee3468c9e365d8cc6cec009bb225a8295925b14f/modules/fish/vyxnix.fish) is the launcher that makes that happen; combine it with [a range of aliases](https://github.com/kivikakk/vyxos/blob/ee3468c9e365d8cc6cec009bb225a8295925b14f/home/fish.nix#L14-L21) and baby you've got yourself a stew.
+Similar to git, I need the Nix tools closer to hand. [`vyxnix`] is the launcher that makes that happen; combine it with [a range of aliases](home/fish.nix#L19-L26) and baby you've got yourself a stew.
 
 It mostly documents itself, so I'm going to just repeat the header comments:
 
@@ -191,7 +191,7 @@ The really nice thing about using Fish everywhere, too, is that `vyxnix` and ali
 
 ## `J`
 
-This is like `vyxnix`, but for jj! [`J`](https://github.com/kivikakk/vyxos/blob/4921e89b8b11b86c1f84c3ab0338408a469163ea/home/J.fish) is a simple launcher which makes a few options nearer to hand:
+This is like `vyxnix`, but for jj! [`J`] is a simple launcher which makes a few options nearer to hand:
 
 ```fish
 # !i -> --ignore-immutable
@@ -210,6 +210,9 @@ $ Aq !i
 Working copy now at: vwsmmryz dde83cf9 (empty) (no description set)
 Parent commit      : qoqluvpo 4921e89b main* | README: update for jj.
 ```
+
+[`vyxnix`]: modules/fish/vyxnix.fish
+[`J`]: home/J.fish
 
 [sops-nix]: https://github.com/Mic92/sops-nix
 [jambalam]: https://lottia.net/notes/0005-jambalam.html
