@@ -78,6 +78,7 @@
       set -g status-left-length 32
       set -g status-right-length 150
 
+      set-window-option -g other-pane-width 28%
     '';
   };
 }
