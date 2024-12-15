@@ -56,6 +56,7 @@
         # "P" = "prev";
         "Pr" = "prev";
         "Pe" = "prev --edit";
+        "ep" = "evolog -p";
         "" = "";
       };
     in
