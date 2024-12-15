@@ -4,13 +4,24 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-11-24T22:21:04+11:00</updated>
+ <updated>2024-12-15T12:17:43+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>1.2E+2 Volts (AC)</title>
+   <updated>2024-12-15T00:00:00+11:00</updated>
+   <id>https://kivikakk.ee/2024/12/15/12e2v</id>
+    
+     <link href="https://kivikakk.ee/2024/12/15/12e2v/"/>
+     <content type="html">&lt;p&gt;&lt;img src=&quot;/assets/post-img/12e2v.png&quot; alt=&quot;Amazon entry excerpt which reads: &amp;quot;Voltage: 1.2E+2 Volts (AC)&amp;quot;&quot; /&gt;&lt;/p&gt;
+</content>
+    
+ </entry>
  
  <entry>
    <title>Platform-specific hacks for high-DPI</title>
