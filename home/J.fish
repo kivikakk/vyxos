@@ -4,6 +4,7 @@ function J -d "jujutsu launcher"
     # !n -> --allow-new
     # !p -> --no-pager
     # !ae -> --reset-author --no-edit
+    # ^XX -> --remote XX
     #
     # TODO: unify with vyxnix somehow?
 
@@ -22,25 +23,22 @@ function J -d "jujutsu launcher"
         if test "$arg" = "!i"
             set -a args --ignore-immutable
             continue
-        end
-
-        if test "$arg" = "!b"
+        else if test "$arg" = "!b"
             set -a args --allow-backwards
             continue
-        end
-
-        if test "$arg" = "!n"
+        else if test "$arg" = "!n"
             set -a args --allow-new
             continue
-        end
-
-        if test "$arg" = "!p"
+        else if test "$arg" = "!p"
             set -a args --no-pager
+            continue
+        else if test "$arg" = "!ae"
+            set -a args --reset-author --no-edit
             continue
         end
 
-        if test "$arg" = "!ae"
-            set -a args --reset-author --no-edit
+        if string match -qr '\A\^(?<remote>.+)\z' -- "$arg"
+            set -a args --remote "$remote"
             continue
         end
 
