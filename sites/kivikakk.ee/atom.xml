@@ -4,13 +4,23 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-12-15T12:17:43+11:00</updated>
+ <updated>2024-12-17T21:34:21+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>Comptime, flow, and exhaustiveness</title>
+   <updated>2024-12-17T21:02:36+11:00</updated>
+   <id>https://kivikakk.ee/2024/12/17/comptime-flow-exhaustiveness</id>
+    
+      <link href="https://lottia.net/notes/0015-comptime-flow-exhaustiveness.html"/>
+      <content type="html">Make your own exhaustiveness rules up.</content>
+    
+ </entry>
  
  <entry>
    <title>1.2E+2 Volts (AC)</title>

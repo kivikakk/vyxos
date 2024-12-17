@@ -60,5 +60,9 @@
     <loc>https://lottia.net/notes/0014-hidpi-platform-specific-hacks.html</loc>
     <lastmod>2024-11-24</lastmod>
   </url>
+  <url>
+    <loc>https://lottia.net/notes/0015-comptime-flow-exhaustiveness.html</loc>
+    <lastmod>2024-12-17</lastmod>
+  </url>
 </urlset>
 
