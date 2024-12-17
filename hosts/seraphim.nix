@@ -15,6 +15,7 @@
   }: {
     imports = [
       ./seraphim-r.nix
+      ./seraphim-purge-bunny.nix
     ];
 
     services.nix-daemon.enable = true;
