@@ -51,8 +51,8 @@ they’re invisible to other files.&lt;/p&gt;
 example:&lt;/p&gt;
 &lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="n"&gt;Control&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="k"&gt;inline&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;@hasDecl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;@TypeOf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;.*&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s"&gt;"parent"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="k"&gt;inline&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="o"&gt;=&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;@hasDecl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;@TypeOf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;.*&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s"&gt;"parent"&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
         &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;@hasField&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;@TypeOf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;.*&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s"&gt;"orphan"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="py"&gt;orphan&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
             &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
         &lt;span class="p"&gt;},&lt;/span&gt;
@@ -103,6 +103,17 @@ referenced by:
 &lt;p&gt;If not, its value won’t be available at comptime, and codegen will need to
 produce a runtime condition for the &lt;code&gt;c.orphan&lt;/code&gt; check, meaning the possibility of
 false is always entertained and the &lt;code&gt;@compileError&lt;/code&gt; will fire.&lt;/p&gt;
+&lt;p&gt;Things to consider:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It might be worth asserting in the first branch that &lt;code&gt;orphan&lt;/code&gt; isn’t set to
+true, to avoid any confusion about behaviour when both are set.&lt;/li&gt;
+&lt;li&gt;We only got the exhaustiveness thing because this example returns a value.
+With &lt;code&gt;void&lt;/code&gt; returns, the &lt;code&gt;@compileError&lt;/code&gt; isn’t optional if you want to know if
+you forgot.&lt;/li&gt;
+&lt;li&gt;Did you buy the graphite tube?&lt;/li&gt;
+&lt;li&gt;Try &lt;code&gt;comptime opaque: void&lt;/code&gt; to avoid the need for &lt;code&gt;@hasDecl()&lt;/code&gt; &lt;em&gt;and&lt;/em&gt; the
+boolean check! Does it work? Almost like little tags, attributes, hmmmmmm.&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/section&gt;
 </content>
   </entry>

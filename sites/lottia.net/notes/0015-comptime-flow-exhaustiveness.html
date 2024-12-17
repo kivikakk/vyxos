@@ -68,8 +68,8 @@ they’re invisible to other files.</p>
 example:</p>
 <pre><code class="language-zig"><span class="k">fn</span> <span class="n">parent</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="n">Control</span><span class="p">)</span> <span class="o">?</span><span class="n">Control</span> <span class="p">{</span>
     <span class="k">switch</span> <span class="p">(</span><span class="n">self</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">inline</span> <span class="k">else</span> <span class="o">=&gt;</span> <span class="p">|</span><span class="n">c</span><span class="p">|</span> <span class="k">if</span> <span class="p">(</span><span class="nb">@hasDecl</span><span class="p">(</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">c</span><span class="o">.*</span><span class="p">),</span> <span class="s">"parent"</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">c</span><span class="p">.</span><span class="nf">parent</span><span class="p">()</span>
+        <span class="k">inline</span> <span class="k">else</span> <span class="o">=&gt;</span> <span class="p">|</span><span class="n">c</span><span class="p">|</span> <span class="k">if</span> <span class="p">(</span><span class="nb">@hasDecl</span><span class="p">(</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">c</span><span class="o">.*</span><span class="p">),</span> <span class="s">"parent"</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">c</span><span class="p">.</span><span class="nf">parent</span><span class="p">();</span>
         <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nb">@hasField</span><span class="p">(</span><span class="nb">@TypeOf</span><span class="p">(</span><span class="n">c</span><span class="o">.*</span><span class="p">),</span> <span class="s">"orphan"</span><span class="p">)</span> <span class="k">and</span> <span class="n">c</span><span class="p">.</span><span class="py">orphan</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
         <span class="p">},</span>
@@ -120,6 +120,17 @@ referenced by:
 <p>If not, its value won’t be available at comptime, and codegen will need to
 produce a runtime condition for the <code>c.orphan</code> check, meaning the possibility of
 false is always entertained and the <code>@compileError</code> will fire.</p>
+<p>Things to consider:</p>
+<ul>
+<li>It might be worth asserting in the first branch that <code>orphan</code> isn’t set to
+true, to avoid any confusion about behaviour when both are set.</li>
+<li>We only got the exhaustiveness thing because this example returns a value.
+With <code>void</code> returns, the <code>@compileError</code> isn’t optional if you want to know if
+you forgot.</li>
+<li>Did you buy the graphite tube?</li>
+<li>Try <code>comptime opaque: void</code> to avoid the need for <code>@hasDecl()</code> <em>and</em> the
+boolean check! Does it work? Almost like little tags, attributes, hmmmmmm.</li>
+</ul>
 </section>
 
       </main>
