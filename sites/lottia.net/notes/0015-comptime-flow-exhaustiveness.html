@@ -93,8 +93,7 @@ referenced by:
 so the body of the method ends up being totally empty. (Alternatively, if
 you use <code>return switch</code>, you’ll see a message about <code>error: expected type 'whatever', found 'void'</code>.)</p>
 <p>It’s not very helpful, because the reference trace refers to the point at
-which this function gets <em>called</em>. In this case, it’s with a runtime-known
-value, so every case is expanded. We don’t actually know which is the missing
+which this function gets <em>called</em>. We don’t actually know which is the missing
 implementation, just that it exists.</p>
 <p>But that’s okay, we can add that ourselves!</p>
 <pre><code class="language-zig"><span class="k">fn</span> <span class="n">parent</span><span class="p">(</span><span class="n">self</span><span class="p">:</span> <span class="n">Control</span><span class="p">)</span> <span class="o">?</span><span class="n">Control</span> <span class="p">{</span>

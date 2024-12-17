@@ -76,8 +76,7 @@ referenced by:
 so the body of the method ends up being totally empty. (Alternatively, if
 you use &lt;code&gt;return switch&lt;/code&gt;, you’ll see a message about &lt;code&gt;error: expected type 'whatever', found 'void'&lt;/code&gt;.)&lt;/p&gt;
 &lt;p&gt;It’s not very helpful, because the reference trace refers to the point at
-which this function gets &lt;em&gt;called&lt;/em&gt;. In this case, it’s with a runtime-known
-value, so every case is expanded. We don’t actually know which is the missing
+which this function gets &lt;em&gt;called&lt;/em&gt;. We don’t actually know which is the missing
 implementation, just that it exists.&lt;/p&gt;
 &lt;p&gt;But that’s okay, we can add that ourselves!&lt;/p&gt;
 &lt;pre&gt;&lt;code class="language-zig"&gt;&lt;span class="k"&gt;fn&lt;/span&gt; &lt;span class="n"&gt;parent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;self&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Control&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="n"&gt;Control&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
