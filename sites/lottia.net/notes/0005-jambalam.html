@@ -65,7 +65,7 @@ shows the committer (or <code>Co-authored-by:</code>), but <em>only</em> if they
 <p><img src="assets/githublog.png" alt=" An excerpt of GitHub’s commit view showing one commit listed as “peff authored and gitster committed”, and another as just “gitster committed” "></p>
 <p>Unfortunately(?), <a href="https://git-scm.com/docs/git-log#_pretty_formats">git-log’s pretty formats</a> don’t support “show this field only if it’s different
 to that one”. Maybe that’s a good thing. We’re here to break good things.</p>
-<p><a href="https://github.com/kivikakk/git/commit/92a62a03692dd1792d5a1c7c0650d5794d25e16f">Here’s a patch to <code>git</code> that adds <code>%cm</code> and <code>%cf</code></a>. The naming semantics are “cute”:
+<p><a href="https://github.com/charlottia/git/commit/92a62a03692dd1792d5a1c7c0650d5794d25e16f">Here’s a patch to <code>git</code> that adds <code>%cm</code> and <code>%cf</code></a>. The naming semantics are “cute”:
 <code>m</code> and <code>f</code> are adjacent to <code>n</code> and <code>e</code>. The core addition to <code>format_person_part</code> (grumble) is as
 follows:</p>
 <pre><code class="language-c"><span class="k">if</span> <span class="p">(</span><span class="n">part</span> <span class="o">==</span> <span class="sc">'m'</span> <span class="o">||</span> <span class="n">part</span> <span class="o">==</span> <span class="sc">'f'</span><span class="p">)</span> <span class="p">{</span>	 <span class="cm">/* committer name or email if committer != author */</span>
