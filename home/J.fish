@@ -5,6 +5,10 @@ function J -d "jujutsu launcher"
     # !p -> --no-pager
     # !ae -> --reset-author --no-edit
     # ^XX -> --remote XX
+    # %XX -> -r XX
+    #  (Why not --revision? Because `jj log` takes `--revisions` and I'd like
+    #   this to work for both. I'm assuming jj is good enough to not use -r for
+    #   non-revision things, which is at least the case with --remote!)
     #
     # TODO: unify with vyxnix somehow?
 
@@ -39,6 +43,10 @@ function J -d "jujutsu launcher"
 
         if string match -qr '\A\^(?<remote>.+)\z' -- "$arg"
             set -a args --remote "$remote"
+            continue
+        end
+        if string match -qr '\A%(?<revision>.+)\z' -- "$arg"
+            set -a args -r "$revision"
             continue
         end
 
