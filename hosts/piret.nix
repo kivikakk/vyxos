@@ -156,5 +156,12 @@
       ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6010", MODE="0660", GROUP="dialout", TAG+="uaccess"
       ATTRS{idVendor}=="0925", ATTRS{idProduct}=="3881", MODE="0660", GROUP="dialout", TAG+="uaccess"
     '';
+
+    programs.virt-manager.enable = true;
+    users.groups.libvirtd.members = [config.vyxos.vyxUser];
+    virtualisation = {
+      libvirtd.enable = true;
+      spiceUSBRedirection.enable = true;
+    };
   };
 }
