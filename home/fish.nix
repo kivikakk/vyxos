@@ -45,6 +45,7 @@
         "p" = "split";
         "r" = "rebase";
         "b" = "bookmark set";
+        "bt" = "bookmark track";
         "gp" = "git push";
         "gf" = "git fetch";
         "v" = "resolve";
