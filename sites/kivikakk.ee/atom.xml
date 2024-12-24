@@ -4,13 +4,29 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-12-18T08:53:05+11:00</updated>
+ <updated>2024-12-24T22:11:46+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>lottia notes continues</title>
+   <updated>2024-12-24T00:00:00+11:00</updated>
+   <id>https://kivikakk.ee/2024/12/24/lottia-notes-continues</id>
+    
+     <link href="https://kivikakk.ee/2024/12/24/lottia-notes-continues/"/>
+     <content type="html">&lt;p&gt;A follow-up to &lt;a href=&quot;https://kivikakk.ee/2024/01/03/lottia-notes/&quot;&gt;lottia notes&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;Charlotte continues to write &lt;a href=&quot;https://lottia.net/notes/&quot;&gt;there&lt;/a&gt; (though about more topics now, including Nix
+and Git/jj), and I’m considering her readership bootstrapped after a year of
+crossposts.  &lt;a href=&quot;https://lottia.net/notes/atom.xml&quot;&gt;Her Atom feed is linked&lt;/a&gt;.&lt;/p&gt;
+
+</content>
+    
+ </entry>
  
  <entry>
    <title>Comptime, flow, and exhaustiveness</title>

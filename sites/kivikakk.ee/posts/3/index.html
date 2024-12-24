@@ -67,6 +67,96 @@
       
     </div>
     <h1 class="post-title">
+      <a href="/digital/2024/06/17/zxxrtl/">
+        zxxrtl
+      </a>
+    </h1>
+
+    <time datetime="2024-06-17T00:00:00+10:00" class="post-date">17 Jun 2024</time>
+
+    
+      <p>I’ve been getting back into using <a href="https://yosyshq.readthedocs.io/projects/yosys/en/latest/cmd/write_cxxrtl.html">CXXRTL</a> and <a href="https://ziglang.org">Zig</a> together, so I’ve extracted
+and rendered somewhat reusable the bindings I made to use them together!</p>
+
+<p><a href="https://github.com/kivikakk/zxxrtl">zxxrtl</a> uses CXXRTL’s C API to provide a somewhat idiomatic way to access,
+manipulate, and respond to events happening in the design. Its README covers the
+setup — it’s a bit involved as it’s necessarily something of a build system,
+but once you’re done it’s good to go and flexible enough to be instrumented from
+a higher build system.</p>
+
+<p>I’m going to paste the example usage here; this doesn’t use the <code class="language-plaintext highlighter-rouge">Sample</code> API for
+edge detection, and just drives the simulation while optionally recording VCD:</p>
+
+<div class="language-zig highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="n">Cxxrtl</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"zxxrtl"</span><span class="p">);</span>
+
+<span class="c">// Initialise the design.</span>
+<span class="k">const</span> <span class="n">cxxrtl</span> <span class="o">=</span> <span class="n">Cxxrtl</span><span class="p">.</span><span class="nf">init</span><span class="p">();</span>
+
+<span class="c">// Optionally start recording VCD. Assume `vcd_out` is `?[]const u8` representing an</span>
+<span class="c">// optional output filename.</span>
+<span class="k">var</span> <span class="n">vcd</span><span class="p">:</span> <span class="o">?</span><span class="n">Cxxrtl</span><span class="p">.</span><span class="py">Vcd</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">vcd_out</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="n">vcd</span> <span class="o">=</span> <span class="n">Cxxrtl</span><span class="p">.</span><span class="py">Vcd</span><span class="p">.</span><span class="nf">init</span><span class="p">(</span><span class="n">cxxrtl</span><span class="p">);</span>
+
+<span class="k">defer</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
+    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c">// Get handles to the clock and reset lines.</span>
+<span class="k">const</span> <span class="n">clk</span> <span class="o">=</span> <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="k">bool</span><span class="p">,</span> <span class="s">"clk"</span><span class="p">);</span>
+<span class="k">const</span> <span class="n">rst</span> <span class="o">=</span> <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="k">bool</span><span class="p">,</span> <span class="s">"rst"</span><span class="p">);</span>  <span class="c">// These are of type `Cxxrtl.Object(bool)`.</span>
+
+<span class="c">// Reset for a tick.</span>
+<span class="n">rst</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+
+<span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
+
+<span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
+
+<span class="n">rst</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+
+<span class="c">// Play out 10 cycles.</span>
+<span class="k">for</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span> <span class="p">|</span><span class="mi">_</span><span class="p">|</span> <span class="p">{</span>
+    <span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
+
+    <span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="p">{</span>
+    <span class="c">// Assume `alloc` exists.</span>
+    <span class="k">const</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">try</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">alloc</span><span class="p">);</span>
+    <span class="k">defer</span> <span class="n">alloc</span><span class="p">.</span><span class="nf">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+
+    <span class="k">var</span> <span class="n">file</span> <span class="o">=</span> <span class="k">try</span> <span class="n">std</span><span class="p">.</span><span class="py">fs</span><span class="p">.</span><span class="nf">cwd</span><span class="p">().</span><span class="nf">createFile</span><span class="p">(</span><span class="n">vcd_out</span><span class="o">.?</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
+    <span class="k">defer</span> <span class="n">file</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+
+    <span class="k">try</span> <span class="n">file</span><span class="p">.</span><span class="nf">writeAll</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Hopefully this is useful to someone else!</p>
+
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
       <a href="/eesti/2024/06/13/fren/">
         fren
       </a>
@@ -283,110 +373,6 @@ my Australian ones for my partner’s immigration, so back to Ashe it is!</p>
       <p>Noting that, having moved (“returned!”) to Estonia, I’m going by Amelia (or Amy)
 again, since it’s the name on all my documentation here.
 <a href="/assets/post-img/eesti/head-isu.jpg" title="Photo of a power distribution box, with graffiti art of a very long, splotchy, odd looking dog, and the text 'Head isu! #14' above it.">Head isu!</a></p>
-
-
-      
-    
-  </article>
-  
-  <article class="post">
-    <div class="my-id">
-      
-        <img src="/assets/mia-icon.jpg" width="64" height="64">
-      
-    </div>
-    <h1 class="post-title">
-      <a href="/eesti/2024/04/18/continued-nyonks/">
-        Continued nyõnks
-      </a>
-    </h1>
-
-    <time datetime="2024-04-18T00:00:00+10:00" class="post-date">18 Apr 2024</time>
-
-    
-      <p>It’s been a week since I last wrote. Some more little bits and pieces.</p>
-
-<p>The DPDR/dissociation has become even bit worse; somehow still keeping it
-together. Watching The Princess Bride with Annie last night helped.</p>
-
-<p>Miscellany:</p>
-
-<ul>
-  <li>
-    <p>Presented to the Police and Border Guard Board office to renew my ID card. Sat
-down in front of the worker once my number was called and asked, “kas te
-räägite inglise keelt?” (do you speak English?). With almost a tinge of pride,
-she replied, “ei!” (no!). It took everything in me not to <a href="https://youtu.be/CgjMfaQ94Co?si=Qig3i8dlKwjSIOC3&amp;t=117">burst out
-laughing</a>.</p>
-
-    <ul>
-      <li>There’s an oddity in that I can pronounce Estonian very well, despite not
-really knowing much of it (i.e. reading out text, like from a menu or Google
-Translate or whatever, I sound semi-native, but actually producing that text
-myself I’m nowhere near yet). This makes for fun situations.</li>
-    </ul>
-  </li>
-  <li>
-    <p>We have a new home :) An r/eesti comment mentioned someone once found an
-apartment in Tallinn on day 5 and was moved in by day 7. That was encouraging,
-if a little unrealistic-seeming. But nope: we inspected ours on day 4 (!), and
-moved in on day 8. Now we can ship our boxes from Australia.</p>
-  </li>
-  <li>
-    <p>Food’s so nice here.</p>
-  </li>
-  <li>
-    <p>Sure it’s 2° outside, that’s no problem, but then you walk into any building
-and it’s 22° and you’re shedding layers as fast as you can. Other people just
-seem not to?! I don’t get it.</p>
-
-    <ul>
-      <li>
-        <p>The worst part for me is that, even with all our apartment floor-heating
-turned “off” (or as off as you can, which is to say, the set point is set
-lower than the actual point), we’re on the top of the building, so it’s over
-20° regardless. This is troublesome at night, and the street noise might be
-a bit much to open the windows, but using the aircon when it’s below zero
-outside feels a bit …</p>
-      </li>
-      <li>
-        <p>Also, sharing a bedroom for the first time in so many years is a strange
-experience, like I’m cosplaying being a different kind of adult.</p>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>Public transport’s so nice here — it’s already happened that we’ve taken
-train+bus+tram all in the one day just out of convenience.</p>
-
-    <ul>
-      <li>
-        <p>Not that I’ve worked out how to get the free transit for locally-registered
-residents working on my Ühiskaart yet.</p>
-
-        <ul>
-          <li>
-            <p>Is it only on TLT-operated busses? Is that it?? The information’s all very
-vague.</p>
-
-            <ul>
-              <li>DISREGARD THAT I S—eem to have gotten it on a further attempt with the
-card reader.</li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li>
-    <p>It just started snowing!?!!?</p>
-  </li>
-  <li>
-    <p><a href="/assets/post-img/eesti/juustuga.png" title="Screenshot of a food delivery app, automatically translated from Estonian.
-The section header is 'With justice', and the options are 'Without cheese' and
-'With justice'.">Without cheese or with justice?</a> (<a href="https://en.wiktionary.org/wiki/juust#Estonian">juust</a>)</p>
-  </li>
-</ul>
 
 
       

@@ -67,6 +67,37 @@
       
     </div>
     <h1 class="post-title">
+      <a href="/2024/10/13/rss-autodiscovery/">
+        RSS autodiscovery
+      </a>
+    </h1>
+
+    <time datetime="2024-10-13T00:00:00+11:00" class="post-date">13 Oct 2024</time>
+
+    
+      <p>It’s come to my attention that some folks don’t know my blog has an <a href="https://kivikakk.ee/atom.xml">RSS feed</a>!
+This is kind of astonishing to me as it suggests people actually manually check
+blogs for new posts sometimes?!</p>
+
+<p>At any rate, it does, it’s just not linked anywhere explicitly — but it is
+supported via <a href="https://dri.es/rss-auto-discovery">RSS autodiscovery</a>, which I just kind of .. assumed everyone
+used, relied on, knew about? But apparently not!</p>
+
+<p>I guess I’ll add a link, just in case. :)</p>
+
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
       <a href="/zig/2024/08/06/t%C3%BC%C3%BCpiautomaat/">
         Tüüpiautomaat: automated testing of a compiler and target against each other
       </a>
@@ -957,96 +988,6 @@ what’s assigned to the LHS. So it’s just a matter of convention.</p>
 <blockquote>
   <p>my new theory is that satan Crept into this world through signed integers</p>
 </blockquote>
-
-
-      
-    
-  </article>
-  
-  <article class="post">
-    <div class="my-id">
-      
-        <img src="/assets/mia-icon.jpg" width="64" height="64">
-      
-    </div>
-    <h1 class="post-title">
-      <a href="/digital/2024/06/17/zxxrtl/">
-        zxxrtl
-      </a>
-    </h1>
-
-    <time datetime="2024-06-17T00:00:00+10:00" class="post-date">17 Jun 2024</time>
-
-    
-      <p>I’ve been getting back into using <a href="https://yosyshq.readthedocs.io/projects/yosys/en/latest/cmd/write_cxxrtl.html">CXXRTL</a> and <a href="https://ziglang.org">Zig</a> together, so I’ve extracted
-and rendered somewhat reusable the bindings I made to use them together!</p>
-
-<p><a href="https://github.com/kivikakk/zxxrtl">zxxrtl</a> uses CXXRTL’s C API to provide a somewhat idiomatic way to access,
-manipulate, and respond to events happening in the design. Its README covers the
-setup — it’s a bit involved as it’s necessarily something of a build system,
-but once you’re done it’s good to go and flexible enough to be instrumented from
-a higher build system.</p>
-
-<p>I’m going to paste the example usage here; this doesn’t use the <code class="language-plaintext highlighter-rouge">Sample</code> API for
-edge detection, and just drives the simulation while optionally recording VCD:</p>
-
-<div class="language-zig highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="n">Cxxrtl</span> <span class="o">=</span> <span class="nb">@import</span><span class="p">(</span><span class="s">"zxxrtl"</span><span class="p">);</span>
-
-<span class="c">// Initialise the design.</span>
-<span class="k">const</span> <span class="n">cxxrtl</span> <span class="o">=</span> <span class="n">Cxxrtl</span><span class="p">.</span><span class="nf">init</span><span class="p">();</span>
-
-<span class="c">// Optionally start recording VCD. Assume `vcd_out` is `?[]const u8` representing an</span>
-<span class="c">// optional output filename.</span>
-<span class="k">var</span> <span class="n">vcd</span><span class="p">:</span> <span class="o">?</span><span class="n">Cxxrtl</span><span class="p">.</span><span class="py">Vcd</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd_out</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="n">vcd</span> <span class="o">=</span> <span class="n">Cxxrtl</span><span class="p">.</span><span class="py">Vcd</span><span class="p">.</span><span class="nf">init</span><span class="p">(</span><span class="n">cxxrtl</span><span class="p">);</span>
-
-<span class="k">defer</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">deinit</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="c">// Get handles to the clock and reset lines.</span>
-<span class="k">const</span> <span class="n">clk</span> <span class="o">=</span> <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="k">bool</span><span class="p">,</span> <span class="s">"clk"</span><span class="p">);</span>
-<span class="k">const</span> <span class="n">rst</span> <span class="o">=</span> <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="k">bool</span><span class="p">,</span> <span class="s">"rst"</span><span class="p">);</span>  <span class="c">// These are of type `Cxxrtl.Object(bool)`.</span>
-
-<span class="c">// Reset for a tick.</span>
-<span class="n">rst</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-
-<span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-<span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-
-<span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-<span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-
-<span class="n">rst</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-
-<span class="c">// Play out 10 cycles.</span>
-<span class="k">for</span> <span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10</span><span class="p">)</span> <span class="p">|</span><span class="mi">_</span><span class="p">|</span> <span class="p">{</span>
-    <span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-
-    <span class="n">clk</span><span class="p">.</span><span class="nf">next</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
-    <span class="n">cxxrtl</span><span class="p">.</span><span class="nf">step</span><span class="p">();</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">sample</span><span class="p">();</span>
-<span class="p">}</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="n">vcd</span><span class="p">)</span> <span class="p">|</span><span class="o">*</span><span class="n">vcdh</span><span class="p">|</span> <span class="p">{</span>
-    <span class="c">// Assume `alloc` exists.</span>
-    <span class="k">const</span> <span class="n">buffer</span> <span class="o">=</span> <span class="k">try</span> <span class="n">vcdh</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="n">alloc</span><span class="p">);</span>
-    <span class="k">defer</span> <span class="n">alloc</span><span class="p">.</span><span class="nf">free</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
-
-    <span class="k">var</span> <span class="n">file</span> <span class="o">=</span> <span class="k">try</span> <span class="n">std</span><span class="p">.</span><span class="py">fs</span><span class="p">.</span><span class="nf">cwd</span><span class="p">().</span><span class="nf">createFile</span><span class="p">(</span><span class="n">vcd_out</span><span class="o">.?</span><span class="p">,</span> <span class="o">.</span><span class="p">{});</span>
-    <span class="k">defer</span> <span class="n">file</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
-
-    <span class="k">try</span> <span class="n">file</span><span class="p">.</span><span class="nf">writeAll</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Hopefully this is useful to someone else!</p>
-
 
 
       
