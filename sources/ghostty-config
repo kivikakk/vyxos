@@ -1,0 +1,12 @@
+theme = dark:catppuccin-mocha,light:catppuccin-frappe
+
+font-family = Iosevka Term Slab Extended
+font-size = 14
+
+background-opacity = 0.8
+background-blur-radius = 10
+
+title = "lyk"
+
+quick-terminal-animation-duration = 0.2
+macos-option-as-alt = left
