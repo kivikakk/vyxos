@@ -15,3 +15,9 @@ unfocused-split-opacity = 0.9
 # working-directory is set per-host in vyxos
 
 keybind = global:ctrl+shift+grave_accent=toggle_quick_terminal
+
+# Per our tmux config.
+keybind = shift+right=goto_split:right
+keybind = shift+down=goto_split:bottom
+keybind = shift+left=goto_split:left
+keybind = shift+up=goto_split:top
