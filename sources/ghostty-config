@@ -3,7 +3,7 @@ theme = dark:catppuccin-mocha,light:catppuccin-frappe
 font-family = Iosevka Term Slab Extended
 font-size = 14
 
-background-opacity = 0.8
+background-opacity = 0.9
 background-blur-radius = 10
 
 title = "lyk"
@@ -12,7 +12,6 @@ quick-terminal-animation-duration = 0
 macos-option-as-alt = left
 
 unfocused-split-opacity = 0.9
-window-inherit-working-directory = true
 # working-directory is set per-host in vyxos
 
 keybind = global:ctrl+shift+grave_accent=toggle_quick_terminal
