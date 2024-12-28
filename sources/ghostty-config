@@ -8,10 +8,11 @@ background-blur-radius = 10
 
 title = "lyk"
 
-quick-terminal-animation-duration = 0.2
+quick-terminal-animation-duration = 0
 macos-option-as-alt = left
 
-shell-integration = fish
+unfocused-split-opacity = 0.9
 window-inherit-working-directory = true
-
 # working-directory is set per-host in vyxos
+
+keybind = global:ctrl+shift+grave_accent=toggle_quick_terminal
