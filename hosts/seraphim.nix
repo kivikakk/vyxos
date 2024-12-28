@@ -71,6 +71,9 @@
       };
     };
 
+    # Hack: https://github.com/ghostty-org/ghostty/discussions/2832
+    environment.variables.XDG_DATA_DIRS = ["$GHOSTTY_SHELL_INTEGRATION_XDG_DIR"];
+
     services.comenzar.enable = true;
 
     homebrew = {
