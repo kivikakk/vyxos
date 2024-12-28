@@ -99,7 +99,13 @@
       accounts.email.accounts.asherah.passwordCommand = "cat ${config.vyxos.secrets.decrypted."aerc-password".path}";
 
       home.file.".ssh/charlottia-id_ed25519.pub".source = ../sources/charlottia-id_ed25519.pub;
-      home.file.".config/ghostty/config".source = ../sources/ghostty-config;
+      home.file.".config/ghostty/config".source =
+        pkgs.writeText "ghostty-config"
+        ''
+          ${builtins.readFile ../sources/ghostty-config}
+
+          working-directory = ${config.users.users.${config.vyxos.vyxUser}.home}/g
+        '';
     };
 
     services.tailscale.enable = true;

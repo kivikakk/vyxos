@@ -10,3 +10,8 @@ title = "lyk"
 
 quick-terminal-animation-duration = 0.2
 macos-option-as-alt = left
+
+shell-integration = fish
+window-inherit-working-directory = true
+
+# working-directory is set per-host in vyxos

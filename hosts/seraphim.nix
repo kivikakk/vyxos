@@ -50,7 +50,13 @@
       accounts.email.accounts.asherah.passwordCommand = "cat ${config.vyxos.secrets.decrypted."aerc-password".path}";
 
       home.file.".ssh/charlottia-id_ed25519.pub".source = ../sources/charlottia-id_ed25519.pub;
-      home.file."Library/Application Support/com.mitchellh.ghostty/config".source = ../sources/ghostty-config;
+      home.file."Library/Application Support/com.mitchellh.ghostty/config".source =
+        pkgs.writeText "ghostty-config"
+        ''
+          ${builtins.readFile ../sources/ghostty-config}
+
+          working-directory = ${config.users.users.${config.vyxos.vyxUser}.home}/g
+        '';
 
       home.packages = with pkgs; [
         pulseview
