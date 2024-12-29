@@ -4,13 +4,26 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-12-24T22:11:46+11:00</updated>
+ <updated>2024-12-30T12:00:46+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>StaleObjectStateException</title>
+   <updated>2024-12-30T00:00:00+11:00</updated>
+   <id>https://kivikakk.ee/2024/12/30/StaleObjectStateException</id>
+    
+     <link href="https://kivikakk.ee/2024/12/30/StaleObjectStateException/"/>
+     <content type="html">&lt;p&gt;&lt;img src=&quot;/assets/post-img/StaleObjectStateException.jpg&quot; alt=&quot;Photograph of a Woolworths self-checkout machine, with an error message:
+&amp;quot;Transaction concurrency error (StaleObjectStateException), Please retry&amp;quot;&quot; /&gt;&lt;/p&gt;
+
+</content>
+    
+ </entry>
  
  <entry>
    <title>lottia notes continues</title>
