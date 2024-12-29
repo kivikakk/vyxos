@@ -44,6 +44,22 @@
         "type": "github"
       }
     },
+    "fish-beta-nixpkgs": {
+      "locked": {
+        "lastModified": 1735426515,
+        "narHash": "sha256-oaMXDMfuQNYjVbkZhkJGdIxHefm/wpNuZrv6oEMsVp0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0f4a537b5864a9efcf5cddda1a4fe6a507a627de",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "fish",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -343,6 +359,7 @@
     "root": {
       "inputs": {
         "comenzar": "comenzar",
+        "fish-beta-nixpkgs": "fish-beta-nixpkgs",
         "flake-utils": "flake-utils",
         "furpoll": "furpoll",
         "home-manager": "home-manager",

@@ -5,6 +5,7 @@
     flake-utils.url = github:numtide/flake-utils;
 
     nixpkgs.url = github:NixOS/nixpkgs/nixos-24.11;
+    fish-beta-nixpkgs.url = github:NixOS/nixpkgs/fish;
 
     nix-darwin = {
       url = github:LnL7/nix-darwin/master;
@@ -59,6 +60,7 @@
     self,
     flake-utils,
     nixpkgs,
+    fish-beta-nixpkgs,
     nix-darwin,
     home-manager,
     sops-nix,
@@ -152,6 +154,15 @@
             ./modules
           ]
           ++ specifics.modules
+          ++ [
+            {
+              nixpkgs.overlays = [
+                (final: prev: {
+                  fish = (import fish-beta-nixpkgs {inherit system;}).fish;
+                })
+              ];
+            }
+          ]
           ++ [
             hostRootModule
             hostConfig.module
