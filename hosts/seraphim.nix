@@ -85,7 +85,6 @@
       ];
       brews = [
         "libftdi"
-        "llvm@17" # zig 0.12
         "llvm@18" # zig 0.13
         "pkg-config"
         "zstd" # zig
@@ -112,18 +111,13 @@
         ]
         ++ [
           # Dev tools.
-          "iterm2"
           "kicad"
           "utm"
-          "visual-studio-code"
         ]
         ++ [
           # Communications.
           "element"
-          "jitsi-meet"
           "signal"
-          "telegram"
-          "messenger"
         ]
         ++ [
           # Darknet/cryptocurrency.
@@ -131,7 +125,6 @@
           "bitcoin-core"
           "ledger-live"
           "monero-wallet"
-          "onekey"
         ]
         ++ [
           # Fonts.
