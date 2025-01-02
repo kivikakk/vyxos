@@ -4,13 +4,101 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2024-12-30T12:00:46+11:00</updated>
+ <updated>2025-01-02T12:23:45+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>2025</title>
+   <updated>2025-01-02T00:00:00+11:00</updated>
+   <id>https://kivikakk.ee/2025/01/02/2025</id>
+    
+     <link href="https://kivikakk.ee/2025/01/02/2025/"/>
+     <content type="html">&lt;p&gt;Happy new year!&lt;/p&gt;
+
+&lt;p&gt;I guess I’m taking a slightly more laid-back approach to goals this year.
+&lt;a href=&quot;https://kivikakk.ee/2024/10/13/led/&quot;&gt;Health issues&lt;/a&gt; have unfortunately progressed; whatever pain relief I
+was getting from the duloxetine (or otherwise), either that effect has worn
+off or the pain levels have risen to break through.&lt;/p&gt;
+
+&lt;p&gt;I’ve also encountered a new arrhythmia, so “sudden cardiac death” is back on the
+menu of dread. Holter monitor next week where I’ll try to reproduce that without
+dying. Rheumatologist follow-up appointment where I expect to be diagnosed with
+hEDS in … 12 weeks.  So it goes.&lt;/p&gt;
+
+&lt;p&gt;Goals, then.&lt;/p&gt;
+
+&lt;h3 id=&quot;keep-up-duolingo&quot;&gt;Keep up Duolingo.&lt;/h3&gt;
+
+&lt;p&gt;866 days now; the streak isn’t the important thing, but it has been a really
+good lesson in proving to myself I can stay consistent with things given
+the right motivation. (In this case, being able to speak my partner’s native
+language.)&lt;/p&gt;
+
+&lt;p&gt;Duolingo isn’t for everyone, and the course quality varies wildly, but the
+Spanish course for English speakers is incredible, and if you spend 15-20
+minutes a day on it, and let it be your fallback activity when bored, you will
+steadily but surely gain an extremely real facility with the language.&lt;/p&gt;
+
+&lt;p&gt;(This much time is also enough to reliably sit around Obsidian/Diamond league,
+and sometimes it can be a nice dopamine hit to make an effort to finish at #1.)&lt;/p&gt;
+
+&lt;p&gt;I have the benefit of being around a native speaker all the time, but the first
+year or so my level wasn’t anywhere near being able to use it casually without
+it getting annoying for both of us. By now, we can switch in and out pretty
+comfortably around the topics I’ve covered lexicon for.&lt;/p&gt;
+
+&lt;p&gt;I’ve also added Portuguese on the side, spending roughly half my time each day
+on each, and it works pretty well! I wouldn’t start two at once (especially
+closely related languages like these; too confusing), but being a few years in
+with one makes it an easy way to bootstrap another habit.  Português é estranho,
+mas eu gosto :)  It’s a much shorter and less developed course than the Spanish
+one, so I expect I’ll finish it this year and start another in its stead.&lt;/p&gt;
+
+&lt;h3 id=&quot;daily-meditation&quot;&gt;Daily meditation.&lt;/h3&gt;
+
+&lt;p&gt;Planning to slot this in with my Duolingo practice.  I’ve been an on-and-off
+meditator for 20 years or so now.  I need the equanimity now more than ever.&lt;/p&gt;
+
+&lt;h3 id=&quot;home-cooked-meals&quot;&gt;Home-cooked meals.&lt;/h3&gt;
+
+&lt;p&gt;This has been a real struggle over the last year or two, with energy levels so
+low (and no microwave in the Tallinn apartment!), but since moving into my new
+place back in Melbourne it’s been a key focus.  Just need to keep it up.&lt;/p&gt;
+
+&lt;h3 id=&quot;deliver-the-ava-mvp&quot;&gt;Deliver the Ava MVP.&lt;/h3&gt;
+
+&lt;p&gt;Charlotte’s been working non-stop on &lt;a href=&quot;https://github.com/charlottia/ava&quot;&gt;Ava BASIC&lt;/a&gt; (&lt;a href=&quot;https://kivikakk.ee/zig/2024/08/06/t%C3%BC%C3%BCpiautomaat/&quot;&gt;previously&lt;/a&gt;) since
+July, and hopefully we can get that into a complete MVP this year.&lt;/p&gt;
+
+&lt;h3 id=&quot;secondary-project&quot;&gt;Secondary project.&lt;/h3&gt;
+
+&lt;p&gt;Having an “off” project would be nice.  This is a vaguer goal, but I get the
+feeling technical writing would be a good fit for us.&lt;/p&gt;
+
+&lt;h3 id=&quot;keep-learning&quot;&gt;Keep learning.&lt;/h3&gt;
+
+&lt;p&gt;So far I have an unsorted list of things I’d like to learn or improve at:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Formal methods in digital design. We’ve played around with this a bit (e.g. with
+&lt;a href=&quot;https://github.com/robertbaruch/amaranth-exercises&quot;&gt;Robert Baruch’s Amaranth exercises&lt;/a&gt;; solving Sudoku with
+HDL and formal was a cool and unexpected twist), but not enough to usefully use it
+in actual designs.&lt;/li&gt;
+  &lt;li&gt;Likewise, something like &lt;a href=&quot;https://lean-lang.org/&quot;&gt;Lean&lt;/a&gt; and perhaps &lt;a href=&quot;https://github.com/informalsystems/quint&quot;&gt;Quint&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Stenography with &lt;a href=&quot;http://www.openstenoproject.org/&quot;&gt;Open Steno&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Training on the Africa Twin; I’ve been rebuilding confidence since a fall
+after a tyre replacement early last year, but I’d like some controlled
+conditions to push the envelope a bit.&lt;/li&gt;
+&lt;/ul&gt;
+
+</content>
+    
+ </entry>
  
  <entry>
    <title>StaleObjectStateException</title>

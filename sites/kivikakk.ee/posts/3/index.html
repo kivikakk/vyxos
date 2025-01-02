@@ -67,6 +67,48 @@
       
     </div>
     <h1 class="post-title">
+      <a href="/2024/06/27/python-still-surprises/">
+        Python still surprises
+      </a>
+    </h1>
+
+    <time datetime="2024-06-27T00:00:00+10:00" class="post-date">27 Jun 2024</time>
+
+    
+      <p>After the better part of 20 years working with Python, it still managed to
+surprise me today.</p>
+
+<p>I’m so used to languages treating <code class="language-plaintext highlighter-rouge">x += y</code> et al. as pure sugar for <code class="language-plaintext highlighter-rouge">x = x + y</code>
+that it skipped my mind that some don’t.</p>
+
+<p>I’m not surprised that you <em>can</em> override them separately in some languages (e.g.
+I simply assume this to be the case in C++, and on checking it turns out to
+be true — but that seems fair enough given the scope of the language), but I
+really am so accustomed to them being only sugar in Ruby that I assumed the same
+would hold, at least in effect, in Python.</p>
+
+<p>Thus my surprise on <code class="language-plaintext highlighter-rouge">some_list += x</code> modifying <code class="language-plaintext highlighter-rouge">some_list</code> in place (unlike
+<code class="language-plaintext highlighter-rouge">some_list = some_list + x</code>), but once observed, I realised there’d be a
+separately-overridden operator function — namely <code class="language-plaintext highlighter-rouge">__iadd__</code> — and so I
+figured it “had” to be that way.</p>
+
+<p>Or did it? I then found myself assuming it’s because these operators can’t
+actually reassign the receiver, but in fact they can and do: the return value is
+what’s assigned to the LHS. So it’s just a matter of convention.</p>
+
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
       <a href="/2024/06/22/sint/">
         sint
       </a>
@@ -351,30 +393,6 @@ of them that goes up on YouTube eventually?</del></p>
   <li>Australia: Now, no heavy lifting for a few hours!</li>
   <li>Estonia: Mm.. probably better not to go in sauna today.</li>
 </ul>
-
-
-      
-    
-  </article>
-  
-  <article class="post">
-    <div class="my-id">
-      
-        <img src="/assets/mia-icon.jpg" width="64" height="64">
-      
-    </div>
-    <h1 class="post-title">
-      <a href="/eesti/2024/05/01/volbrip%C3%A4ev/">
-        Volbripäev
-      </a>
-    </h1>
-
-    <time datetime="2024-05-01T00:00:00+10:00" class="post-date">01 May 2024</time>
-
-    
-      <p><a href="https://kivikakk.ee/eesti/2024/04/29/naming/">Never mind that</a>, lol. I have to update my Estonian documents to match
-my Australian ones for my partner’s immigration, so back to Ashe it is!</p>
-
 
 
       
