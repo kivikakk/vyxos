@@ -83,17 +83,11 @@ in {
         dosbox-x
         obsidian
         element-desktop
+        ghostty
       ];
 
       home.file = {
         ".config/dosbox-x/dosbox-x-2024.07.01.conf".source = ./dosbox-x.conf;
-      };
-
-      programs.kitty = {
-        enable = true;
-        themeFile = "Catppuccin-Mocha";
-        font.name = "Iosevka Term Slab";
-        settings.disable_ligatures = "cursor";
       };
 
       programs.ncmpcpp = {

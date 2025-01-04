@@ -138,6 +138,22 @@
         "url": "https://github.com/kivikakk/furpoll"
       }
     },
+    "ghostty-nixpkgs": {
+      "locked": {
+        "lastModified": 1735834308,
+        "narHash": "sha256-dklw3AXr3OGO4/XT1Tu3Xz9n/we8GctZZ75ZWVqAVhk=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "6df24922a1400241dae323af55f30e4318a6ca65",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -362,6 +378,7 @@
         "fish-beta-nixpkgs": "fish-beta-nixpkgs",
         "flake-utils": "flake-utils",
         "furpoll": "furpoll",
+        "ghostty-nixpkgs": "ghostty-nixpkgs",
         "home-manager": "home-manager",
         "jj": "jj",
         "lanzaboote": "lanzaboote",

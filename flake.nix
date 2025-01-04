@@ -6,6 +6,7 @@
 
     nixpkgs.url = github:NixOS/nixpkgs/nixos-24.11;
     fish-beta-nixpkgs.url = github:NixOS/nixpkgs/fish;
+    ghostty-nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
 
     nix-darwin = {
       url = github:LnL7/nix-darwin/master;
@@ -61,6 +62,7 @@
     flake-utils,
     nixpkgs,
     fish-beta-nixpkgs,
+    ghostty-nixpkgs,
     nix-darwin,
     home-manager,
     sops-nix,
@@ -83,6 +85,13 @@
               sops-nix.nixosModules.sops
               furpoll.nixosModules.${system}.default
               comenzar.nixosModules.${system}.default
+              {
+                nixpkgs.overlays = [
+                  (final: prev: {
+                    ghostty = (import ghostty-nixpkgs {inherit system;}).ghostty;
+                  })
+                ];
+              }
             ];
             hm-modules = [
               sops-nix.homeManagerModules.sops
