@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   programs.git = {
     enable = true;
-    userName = "Asherah Connor";
+    userName = "Talya Connor";
     userEmail = "ashe@kivikakk.ee";
     extraConfig = {
       github.token = builtins.readFile ../private/secrets/github-token;

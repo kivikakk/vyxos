@@ -63,7 +63,7 @@
     in
       lib.concatMapAttrs (lhs: rhs: {
         "A${lhs}" = {
-          body = "JJ_USER='Asherah Connor' JJ_EMAIL='ashe@kivikakk.ee' J ${rhs} $argv";
+          body = "JJ_USER='Talya Connor' JJ_EMAIL='ashe@kivikakk.ee' J ${rhs} $argv";
           description = "jj ${rhs}";
           wraps = "J ${rhs}";
         };
