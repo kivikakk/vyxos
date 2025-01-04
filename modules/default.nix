@@ -107,6 +107,7 @@ in {
         openFirewall = false;
         settings = {PasswordAuthentication = false;};
       };
+      nix.settings.trusted-users = [config.vyxos.vyxUser];
     })
   ];
 }
