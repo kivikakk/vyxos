@@ -4,13 +4,30 @@
  <title>kivikakk.ee</title>
  <link href="/atom.xml" rel="self"/>
  <link href="https://kivikakk.ee/"/>
- <updated>2025-01-03T22:42:14+11:00</updated>
+ <updated>2025-01-04T22:46:19+11:00</updated>
  <id>https://kivikakk.ee</id>
  <author>
    <name>Asherah Connor</name>
    <email>ashe@kivikakk.ee</email>
  </author>
 
+ 
+ <entry>
+   <title>Nix humour</title>
+   <updated>2025-01-04T00:00:00+11:00</updated>
+   <id>https://kivikakk.ee/2025/01/04/nix-humour</id>
+    
+     <link href="https://kivikakk.ee/2025/01/04/nix-humour/"/>
+     <content type="html">&lt;p&gt;Something about this really fucks.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/post-img/expected-scenario.png&quot; alt=&quot;Screenshot of an excerpt from a NixOS wiki page: &amp;quot;Tip - The above assumes
+you have root access on the remote machine, that allows you to create such a
+weakly priviledged user, or that you have good relationship with your system
+administrator - which is the expected scenario if they have installed Nix
+system-wide.&amp;quot;&quot; /&gt;&lt;/p&gt;
+</content>
+    
+ </entry>
  
  <entry>
    <title>Fear</title>
