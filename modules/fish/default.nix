@@ -28,7 +28,6 @@ in {
         ".config/fish/functions/fish_jj_prompt.fish".source = ./fish_jj_prompt.fish;
         ".config/fish/functions/fish_vcs_prompt.fish".source = ./fish_vcs_prompt.fish;
         ".config/fish/functions/nix_shell_info.fish".source = ./nix_shell_info.fish;
-        ".config/fish/functions/ZZZ.fish".source = ./ZZZ.fish;
       };
       programs.fish =
         {
