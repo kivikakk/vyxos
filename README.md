@@ -196,8 +196,11 @@ This is like `vyxnix`, but for jj! [`J`] is a simple launcher which makes a few 
 ```fish
 # !i -> --ignore-immutable
 # !b -> --allow-backwards
+# !n -> --allow-new
 # !p -> --no-pager
 # !ae -> --reset-author --no-edit
+# ^XX -> --remote XX
+# %XX -> -r XX
 ```
 
 This allows for scenarios like the following:
