@@ -78,6 +78,7 @@ in {
   config = mkMerge [
     {
       networking.hostName = cfg.hostName;
+      nix.settings.trusted-users = [config.vyxos.vyxUser];
     }
     (optionalAttrs (!isDarwin) {
       time.timeZone = cfg.timeZone;
@@ -114,7 +115,6 @@ in {
         openFirewall = false;
         settings = {PasswordAuthentication = false;};
       };
-      nix.settings.trusted-users = [config.vyxos.vyxUser];
     })
   ];
 }
