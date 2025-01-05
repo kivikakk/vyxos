@@ -58,7 +58,6 @@ in {
         dosbox-x
         obsidian
         element-desktop
-        ghostty
       ];
 
       home.file = {

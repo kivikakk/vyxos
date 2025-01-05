@@ -49,13 +49,6 @@
       accounts.email.accounts.asherah.passwordCommand = "cat ${config.vyxos.secrets.decrypted."aerc-password".path}";
 
       home.file.".ssh/charlottia-id_ed25519.pub".source = ../sources/charlottia-id_ed25519.pub;
-      home.file."Library/Application Support/com.mitchellh.ghostty/config".source =
-        pkgs.writeText "ghostty-config"
-        ''
-          ${builtins.readFile ../sources/ghostty-config}
-
-          working-directory = ${config.users.users.${config.vyxos.vyxUser}.home}/g
-        '';
 
       home.packages = with pkgs; [
         pulseview
@@ -69,9 +62,6 @@
         '';
       };
     };
-
-    # Hack: https://github.com/ghostty-org/ghostty/discussions/2832
-    environment.variables.XDG_DATA_DIRS = ["$GHOSTTY_SHELL_INTEGRATION_XDG_DIR"];
 
     services.comenzar.enable = true;
 

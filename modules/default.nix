@@ -18,13 +18,20 @@ in {
       ./nix
       ./cowsay
     ]
+    ++ optionals (!hostData.server) [
+      # Desktops
+      ./ghostty
+    ]
     ++ optionals (!isDarwin) [
+      # Linux
       ./borg
     ]
     ++ optionals (!isDarwin && !hostData.server) [
+      # Linux desktops
       ./desktop
     ]
     ++ optionals (hostData.server) [
+      # Servers
       ./fxsync
       ./nginx
       ./net
