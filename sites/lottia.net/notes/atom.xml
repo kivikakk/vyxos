@@ -2,13 +2,26 @@
 <feed xmlns="http://www.w3.org/2005/Atom" xml:base="https://lottia.net/notes/">
   <id>https://lottia.net/notes/</id>
   <title>lottia notes</title>
-  <updated>2024-12-17T10:02:36Z</updated>
+  <updated>2025-01-06T01:58:00Z</updated>
   <link rel="alternate" href="https://lottia.net/notes/" type="text/html"/>
   <link rel="self" href="https://lottia.net/notes/atom.xml" type="application/atom+xml"/>
   <author>
     <name>Charlotte</name>
     <uri>https://lottia.net/notes</uri>
   </author>
+  <entry>
+    <id>tag:lottia.net,2025-01-06:/notes/0016-textmode-designer.html</id>
+    <title type="html">TextMode Designer</title>
+    <published>2025-01-06T01:58:00Z</published>
+    <updated>2025-01-06T01:58:00Z</updated>
+    <link rel="alternate" href="https://lottia.net/notes/0016-textmode-designer.html" type="text/html"/>
+    <content type="html">&lt;section id="top"&gt;
+&lt;p&gt;Here’s a video of the TextMode Designer in use, fixing the control
+order of a dialog used in the &lt;a href="https://github.com/charlottia/ava/tree/main/adc"&gt;ADC&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;video style="width: 100%" controls=""&gt;&lt;source src="/assets/reorder.mp4" type="video/mp4"&gt;&lt;/video&gt;&lt;/p&gt;
+&lt;/section&gt;
+</content>
+  </entry>
   <entry>
     <id>tag:lottia.net,2024-12-17:/notes/0015-comptime-flow-exhaustiveness.html</id>
     <title type="html">Comptime, flow, and exhaustiveness</title>
