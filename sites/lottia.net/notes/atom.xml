@@ -18,8 +18,8 @@
     <content type="html">&lt;section id="top"&gt;
 &lt;p&gt;Here’s a video of the TextMode Designer in use, fixing the control order of a
 dialog used in the &lt;a href="https://github.com/charlottia/ava/tree/main/adc"&gt;ADC&lt;/a&gt;, and one of designing a new dialog.&lt;/p&gt;
-&lt;p&gt;&lt;video style="width: 100%" controls=""&gt;&lt;source src="/assets/reorder.mp4" type="video/mp4"&gt;&lt;/video&gt;&lt;/p&gt;
-&lt;p&gt;&lt;video style="width: 100%" controls=""&gt;&lt;source src="/assets/design.mp4" type="video/mp4"&gt;&lt;/video&gt;&lt;/p&gt;
+&lt;p&gt;&lt;video style="width: 100%" controls=""&gt;&lt;source src="assets/reorder.mp4" type="video/mp4"&gt;&lt;/video&gt;&lt;/p&gt;
+&lt;p&gt;&lt;video style="width: 100%" controls=""&gt;&lt;source src="assets/design.mp4" type="video/mp4"&gt;&lt;/video&gt;&lt;/p&gt;
 &lt;/section&gt;
 </content>
   </entry>
