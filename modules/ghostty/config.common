@@ -2,8 +2,6 @@ theme = dark:catppuccin-mocha,light:catppuccin-latte
 
 font-family = Iosevka Term Slab Extended
 
-title = "lyk"
-
 quick-terminal-animation-duration = 0
 
 unfocused-split-opacity = 0.9
