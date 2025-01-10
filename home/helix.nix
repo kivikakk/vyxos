@@ -36,6 +36,11 @@
       };
     };
     languages = {
+      language-server = {
+        ruby-lsp = {
+          command = "ruby-lsp";
+        };
+      };
       language = [
         {
           name = "typescript";
@@ -50,6 +55,10 @@
             tab-width = 2;
             unit = "  ";
           };
+        }
+        {
+          name = "ruby";
+          language-servers = [{name = "ruby-lsp";}];
         }
       ];
     };
