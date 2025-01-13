@@ -24,7 +24,7 @@
         nfu = "vyxnix flake update";
         nr = "vyxnix run";
         ns = "vyxnix shell";
-        jj = "echo use A/C";
+        jj = "echo use T/C";
       }
       // builtins.mapAttrs (name: _v: "git ${name}") config.programs.git.aliases
       // builtins.mapAttrs (name: _v: "ssh ${name}") config.programs.ssh.matchBlocks;
@@ -62,8 +62,8 @@
       };
     in
       lib.concatMapAttrs (lhs: rhs: {
-        "A${lhs}" = {
-          body = "JJ_USER='Talya Connor' JJ_EMAIL='ashe@kivikakk.ee' J ${rhs} $argv";
+        "T${lhs}" = {
+          body = "JJ_USER='Talya Connor' JJ_EMAIL='talya@kivikakk.ee' J ${rhs} $argv";
           description = "jj ${rhs}";
           wraps = "J ${rhs}";
         };

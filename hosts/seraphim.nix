@@ -40,7 +40,7 @@
           uid = 501;
           gid = 20;
           home = "/Users/${config.vyxos.vyxUser}";
-          description = "Asherah Connor";
+          description = "Talya Connor";
         };
       };
     };
