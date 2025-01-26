@@ -27,6 +27,7 @@
 <meta property="og:site_name" content="kivikakk.ee" />
 <meta property="og:type" content="website" />
 <link rel="prev" href="https://kivikakk.ee/posts/5/" />
+<link rel="next" href="https://kivikakk.ee/posts/7/" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Home" />
 <script type="application/ld+json">
@@ -66,90 +67,31 @@
       
     </div>
     <h1 class="post-title">
-      <a href="/2021/02/28/loader/">
-        Knowing when to look past your code
+      <a href="/flashes/2021/06/19/flashes-end/">
+        flashes: end
       </a>
     </h1>
 
-    <time datetime="2021-02-28T00:00:00+11:00" class="post-date">28 Feb 2021</time>
+    <time datetime="2021-06-19T00:00:00+10:00" class="post-date">19 Jun 2021</time>
 
     
-      <p>There’s a weird tension in programming — on the one hand, as you learn the
-ropes, you (hopefully) learn very quickly that the problem is almost <em>always</em>
-in your code, and not, say, the compiler, stdlib, kernel, etc.  This is usually
-very correct; the people who’ve worked on those things have many times the
-experience you did when you decided that there must be a bug in <code class="language-plaintext highlighter-rouge">printf</code> or
-something.</p>
+      <p>flashes: end</p>
 
-<p>You’ll later realise you tried to print something through a pointer to a
-stack-allocated variable that’s long since gone.  These accusations tend to
-wane as you gain familiarity with your subject matter, and wax as you step out
-into lands populated with ever more footguns, exposing more of the architecture
-than you ever suspected was there.  (See also: the emails from me to the libev
-mailing list in 2011.)</p>
-
-<p>At some point, though, your journies will take you to places where things
-aren’t so clear cut, and you’ll start to gain a sixth sense; a kind of visceral
-experience that <em>things are not as they have been promised to be</em>.</p>
-
-<p><a id="more"></a>A few weeks ago, that sixth sense whispered in my ear: “what
-if, instead of your cruddy bootloader written in a pre-1.0 systems language for
-a platform you don’t fully understand, it’s the 20 year-old project with 80,000
-commits that’s wrong?”  And it was right.</p>
-
-
-
-      
-        <a href="/2021/02/28/loader/#more">Read more</a>
-      
-    
-  </article>
-  
-  <article class="post">
-    <div class="my-id">
-      
-        <img src="/assets/mia-icon.jpg" width="64" height="64">
-      
-    </div>
-    <h1 class="post-title">
-      <a href="/2021/02/19/inkplate-done-quick/">
-        Inkplate done quick
-      </a>
-    </h1>
-
-    <time datetime="2021-02-19T00:00:00+11:00" class="post-date">19 Feb 2021</time>
-
-    
-      <p>I recently received an <a href="https://inkplate.io">Inkplate</a>, and while I’m in the
-middle of a few interesting projects already, I couldn’t let it sit there
-unused.  Until I get a longer chunk of time to turn it into something really
-nifty — maybe an embedded debugging helper of some kind — it can at least
-mean I no longer need to have Mail.app open.</p>
-
-<p><a href="https://github.com/kivikakk/kmlyink">kmlyink</a>’s README explains:</p>
+<p>Quoting “(un)monitored”:</p>
 
 <blockquote>
-  <p>This repo has two parts:</p>
-
-  <ul>
-    <li>
-      <p>a Dockerised IMAP proxy written in Ruby.</p>
-
-      <p>It speaks plain HTTP, like an ESP can manage. It just fetches your Inbox
-listing and puts it in JSON.</p>
-    </li>
-    <li>
-      <p>a MicroPython module that connects to your wifi, speaks to the IMAP proxy,
-and formats it into the display.</p>
-    </li>
-  </ul>
+  <p>I have no idea if anyone reads this. It <em>is</em> linked from one of our blogs, but you have to look to even find that blog, let alone notice the link. […] On the other hand, <em>because</em> of this, I am able to write more openly. If I knew I had any kind of readership at all, I might not write some things, or might write differently.</p>
 </blockquote>
 
-<p>It took just a few hours to get it all up and running.  Delightful!</p>
+<p>Unfortunately, the spell was broken; the wave function collapsed; the superposition observed; the duality reduced to one.  This girl always worked better in the in-betweens.</p>
 
-<p><img src="/assets/post-img/kmlyink.jpg" alt="A photo of kmlyink in action. There's some emails listed on an e-ink
-display." /></p>
+<p>A reader reached out and, though I was extremely flattered at first, now I can’t feel the same way about writing here.</p>
 
+<p>I was never meant to be someone in your story—I was meant to be an exhibit of open life, to be appreciated, not touched.</p>
+
+<p>Godspeed.</p>
+
+<p><a href="https://www.youtube.com/watch?v=-ZuyB-S-O9Q">Dollscythe - Flashes (Extended)</a></p>
 
 
       
@@ -163,32 +105,25 @@ display." /></p>
       
     </div>
     <h1 class="post-title">
-      <a href="/2021/02/13/dtb-parser-implementing-notes/">
-        DTB parser implementing notes
+      <a href="/flashes/2021/06/18/dasein-v/">
+        dasein V
       </a>
     </h1>
 
-    <time datetime="2021-02-13T00:00:00+11:00" class="post-date">13 Feb 2021</time>
+    <time datetime="2021-06-18T00:00:00+10:00" class="post-date">18 Jun 2021</time>
 
     
-      <p>Ever find yourself needing to implement a <a href="https://devicetree-specification.readthedocs.io/en/latest/chapter5-flattened-format.html">device tree
-blob</a>
-(aka FDT, flattened device tree) parser and want to save yourself some time?
-Learn from my mistakes!</p>
+      <p>For the third time in ten days, C has come over.</p>
 
-<h2 id="if-you-try-to-do-it-in-one-pass-you-will-hurt-yourself">If you try to do it in one pass, you will hurt yourself</h2>
+<p>It’s 1am and I’m sitting alone on my bed, in my slave’s quarters, such as they are.</p>
 
-<p><a id="more"></a>I charged headlong into writing
-<a href="https://github.com/kivikakk/dtb.zig">dtb.zig</a>
-by starting at the top of the Devicetree Specification page on the “Flattened
-Devicetree (DTB)” Format” and reading down. It looked delightfully simple. Keep
-in mind, I still didn’t know what I yet needed out of it, just that I probably
-needed to reference the DTB to get it.  (I <a href="https://github.com/kivikakk/daintree/commit/1a65076a36301f0fb33748b8da644010a178b58e#diff-5e1ca02318cf3679c3aa9a422be7adfefe1fefdd76d297d676770edeacdb5e67R329-R349">kind of know better now</a>.)</p>
+<p>It’s been wholesome, honestly; we ordered food delivery and it never came, so the three of us went out for what was by then a very late dinner. N suddenly wanted ice cream, and it turned out we were 20 metres away from a great vegan gelato and ice cream place, so we had that to follow. Then, on the way back, a surprise drug test for the driver from the local police! Even though I don’t use cannabis regularly, and what I do use is a legitimate prescription, there was still some nerves wracked and a feeling of the three of us bonding while waiting for that result. Then we were on our way.</p>
+
+<p>Perhaps less wholesome: I’ve been fucked while wearing a <em>straitjacket</em> now. N took photos and it is so goddamned hot. We look like we’re right out of some amazing kinky queer German porn. God damn.</p>
+
+<p>A wonderful night, and I’m so glad C was able to stay over.</p>
 
 
-
-      
-        <a href="/2021/02/13/dtb-parser-implementing-notes/#more">Read more</a>
       
     
   </article>
@@ -200,30 +135,27 @@ needed to reference the DTB to get it.  (I <a href="https://github.com/kivikakk/
       
     </div>
     <h1 class="post-title">
-      <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/">
-        Breaking homegrown crypto
+      <a href="/flashes/2021/06/17/%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5/">
+        становление
       </a>
     </h1>
 
-    <time datetime="2016-02-20T11:56:00+11:00" class="post-date">20 Feb 2016</time>
+    <time datetime="2021-06-17T00:00:00+10:00" class="post-date">17 Jun 2021</time>
 
     
-      <p>Note: this is a pretty long article which does a deep dive into breaking some amateur crypto.  I go on for quite a bit.  Make a cup of tea before reading, and get ready to read some code!</p>
+      <p>I really do struggle to maintain a positive connection with people who seem to idle as their default.</p>
 
-<h3 id="introduction">introduction</h3>
+<p>This is at least partly a failing of mine; for so many people they simply don’t have the option of study or paid work. I <em>consciously</em> recognise that many of the opportunities I’ve had are privileged ones, lucky, or both, but I wonder if subconsciously I don’t factor that in enough and still think — somewhere deep down — “well, I dealt with childhood trauma, an abusive marriage, a full-blown nervous breakdown, rape, bipolar/borderline diagnosis, and still have managed to be successful and independent since I turned 18, so why don’t they?”</p>
 
-<p>Everyone knows it.  Rolling your own cryptography is a terrible idea.  Here’s <a href="https://www.schneier.com/essays/archives/1999/03/cryptography_the_imp.html">Bruce Schneier writing about it in <strong>1999</strong></a>.  Here’s <a href="http://security.stackexchange.com/a/18198/34825">an excellent answer on the Infosec Stack Exchange</a> about why you shouldn’t do it.  Here’s <a href="https://www.schneier.com/blog/archives/2015/05/amateurs_produc.html">another Scheiner post</a> with an excellent opening sentence.</p>
+<p>Again, I don’t like to think I believe that, but nonetheless people who have no life direction generate something like repulsion in me, so much so that my last major falling out with a friend was — on my part — kinda due to their having no goals or purposes in life.</p>
 
-<p>This, then, is a post about a broken homegrown cryptosystem; namely, that used in <a href="https://www.codeigniter.com">CodeIgniter</a>, pre-2.2.  This version was current until the release of CodeIgniter 2.2, on <a href="https://ellislab.com/blog/entry/codeigniter-2.2.0-released">the 5th of June, 2014</a>, and you can still find sites on it today.</p>
+<p>This ties in a little bit to generally wanting to be led, in my relationships. If someone doesn’t even lead their own, I don’t trust or respect them enough to have them lead mine; heck, not even enough to let them lead it the tiny bit that a normal, balanced friendship or relationship inevitably entails between two people, let alone as much as I’d like to.</p>
 
-<p>The attack described in the post depends on a lot of things to go right (or wrong, if you will); it’s not just that they used a bad cipher, but also the fact that they rolled their own session storage, and implemented a fallback, and a dozen other things.  This is probably typical for most bugs of this class; a bunch of bad decisions which aren’t thought through find their logical conclusion in complete insecurity.</p>
+<p>I think I want to be led because, generally speaking, I have my shit very sorted out. I am happy on my own, take care of myself fully, and can be left to my own devices indefinitely. I have my interests and I engage in communities relating to them comfortably. So if I’m going to be close to someone, it’s not really because I have a lot of things I’ve been waiting to show someone, or because I’ve been dying to let someone in close. I already do those things — such is the spot on the aro-spectrum I sit, where my proclivity for openness and truthfulness means I have closer and more romantic connections with friends than many do with their romantic partners.</p>
 
-<p><a id="more"></a>Let’s get into it!</p>
+<p>Instead, it’s because I want them to show me and take me places in the abstract space of (relational) possibility; to put me somewhere in their world and let me play into the role they’ve marked out for me. And to believe that’s possible, I need to see them starting with themselves first; to see them actually lead a role in a world that’s their own.</p>
 
 
-
-      
-        <a href="/cryptography/2016/02/20/breaking-homegrown-crypto/#more">Read more</a>
       
     
   </article>
@@ -235,42 +167,21 @@ needed to reference the DTB to get it.  (I <a href="https://github.com/kivikakk/
       
     </div>
     <h1 class="post-title">
-      <a href="/2013/05/10/snapchat/">
-        Snapchat: not for state secrets
+      <a href="/flashes/2021/06/16/%E5%91%BD%E4%BB%A4/">
+        命令
       </a>
     </h1>
 
-    <time datetime="2013-05-10T20:44:00+10:00" class="post-date">10 May 2013</time>
+    <time datetime="2021-06-16T00:00:00+10:00" class="post-date">16 Jun 2021</time>
 
     
-      <p>I use <a href="http://www.snapchat.com/">Snapchat</a>.  It’s an app where you can take a
-photo or short (&lt; 10 second) video and send it to your friends who use the
-service; they’ll then be able to see it, once, before it disappears forever.</p>
+      <p>Exhausted by Comirnaty #2, I’m on the couch in the living room today as N works at the desk nearby.</p>
 
-<p>Ostensibly, the app is for sexting, because there’s no fear that your photo
-will get spread around (no forwarding/etc.) or retained for longer than you’d
-like, but it <a href="http://survata.com/blog/is-snapchat-only-used-for-sexting-we-asked-5000-people-to-find-out/">seems like it’s not as much a sexter’s hangout as the media might
-want you to
-think</a>.</p>
+<p>At some point she got horny and commanded me over to take care of her. I’m a little impressed by her audacity, ordering me specifically as a sex slave while I’m nominally “sick” enough not to be working today.</p>
 
-<p>My circle of friends use it basically as an extension of weird Twitter – most
-snaps I send and receive are strange angles of weird objects; the completely
-mundane but somehow therapeutic (7 seconds of the camera pointed outside the
-window of a tram, pointed at the ground moving below); or just closeups of
-<a href="https://www.google.com.au/search?q=curtis+stone">Curtis Stone’s face</a>,
-wherever we see him.</p>
-
-<p><img style="border: 1px solid #000; margin: 0px auto; display: block;" title="Curtis Stone. Ugh." src="/assets/post-img/stone.jpg" /></p>
-
-<p><a id="more"></a>Of course, the promise that they won’t get retained is just that: a promise.
-Since your phone receives this image and shows it to you at some point, it must
-be downloaded by your phone.  If it can be downladed by the phone, it can be
-downloaded by something else.  We decided to find out how.</p>
+<p>Later she mentioned in passing that it was actually C’s idea to have me do that. Jesus.</p>
 
 
-
-      
-        <a href="/2013/05/10/snapchat/#more">Read more</a>
       
     
   </article>
@@ -282,48 +193,161 @@ downloaded by something else.  We decided to find out how.</p>
       
     </div>
     <h1 class="post-title">
-      <a href="/2012/04/18/escapology/">
-        Escapology: how, when and why to encode and escape
+      <a href="/flashes/2021/06/15/dasein-iv/">
+        dasein IV
       </a>
     </h1>
 
-    <time datetime="2012-04-18T21:10:00+10:00" class="post-date">18 Apr 2012</time>
+    <time datetime="2021-06-15T00:00:00+10:00" class="post-date">15 Jun 2021</time>
 
     
-      <p>As programmers, we spend a lot of time just carting data from one place to
-another.  Sometimes that’s the entire purpose of a program or library (data
-conversion whatevers), but more often it’s just something that needs to happen
-in the course of getting a certain task done.  When we’re sending a request,
-using a library, executing templates or whatever, it’s important to be 100%
-clear on the format of the data, which is a fancy way of saying how the data is
-encoded.</p>
+      <p>We were visited by C again! Twice in five days. It would appear she’s rather keen. Some haphazard notes:</p>
 
-<p>Let’s do the tacky dictionary thing:</p>
+<p>This might be the most immature thing in the world, but after she left — I got back from vaccine appointment #2 around 5pm, we all started playing almost immediately, and she left by quarter-to-midnight — I put this on the TV:</p>
 
-<blockquote>
-  <p><strong><a href="http://en.wiktionary.org/wiki/encoding">encoding</a></strong> (<em>plural</em> encodings)</p>
+<p><a href="https://www.youtube.com/watch?v=lQlIhraqL7o">https://www.youtube.com/watch?v=lQlIhraqL7o</a></p>
 
-  <ol>
-    <li>
-      <p>(computing) The way in which symbols are mapped onto bytes, e.g. in the
-rendering of a particular font, or in the mapping from keyboard input into
-visual text.</p>
-    </li>
-    <li>
-      <p>A conversion of plain text into a code or cypher form (for decoding by the
-recipient).</p>
-    </li>
-  </ol>
-</blockquote>
+<p>I can’t help myself sometimes, and ending a multiple-year dry spell by being fucked by your partner/Domme’s toppy friend in front of her? Yep. I’m gonna call that one a win.</p>
 
-<p><a id="more"></a>I think these senses are a bit too specific—if your data is in a computer in
-any form, then it’s already encoded.  The keyboard doesn’t even have to come
-into it.</p>
+<p>Incidentally, the collar never did come off after C visited the first time. Previously it’d stimmed me in a weird and bad way and it was impossible to fall asleep; it’d start feeling like the metal was too heavy on my neck when my head was on the pillow and I’d start to get into a weird anxiety loop. I was so tired that night that I just passed out near as soon as I lay down.</p>
 
+<p>Haven woken up once with it still on (and thus serving as a physical demonstration to my panicky subconscious that no, this won’t somehow block an artery to your head while you sleep and kill you), I’ve not needed to remove it since. I might ask at some point that Miss takes the key from me at last, and really relinquish that.</p>
+
+<p>To review thoughts about whether these experiences will shift anything in me — I think so far the answer has been no. C is not particularly experienced in dominance or the psychological aspects of kink, and so it ends up being just the three of us having fun, with me being distinguished as “the one who can take absolutely inordinate amounts of pain” (and now fucking). I’m not complaining, but it does leave my longing for a more extreme submission still unattended to.</p>
+
+<p>I’m worn out!</p>
 
 
       
-        <a href="/2012/04/18/escapology/#more">Read more</a>
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="/flashes/2021/06/15/cartita/">
+        cartita
+      </a>
+    </h1>
+
+    <time datetime="2021-06-15T00:00:00+10:00" class="post-date">15 Jun 2021</time>
+
+    
+      <p>Words fail to capture how delighted I was to receive a letter today.</p>
+
+<p>Thank you &lt;3 x</p>
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="/flashes/2021/06/13/%D0%BD%D1%83%D0%B6%D0%BD%D0%BE/">
+        нужно
+      </a>
+    </h1>
+
+    <time datetime="2021-06-13T00:00:00+10:00" class="post-date">13 Jun 2021</time>
+
+    
+      <p>Someone who wants to take me out of sheer lust.</p>
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="/flashes/2021/06/11/%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82/">
+        объект
+      </a>
+    </h1>
+
+    <time datetime="2021-06-11T00:00:00+10:00" class="post-date">11 Jun 2021</time>
+
+    
+      <p>Well.</p>
+
+<p>It turns out being constantly stimmed on my back makes me a catty bitch liable to meltdown frequently. This morning things got too much and I started being unreasonable at N, and yet managed to keep enough presence of mind to tell her that her taking control of the situation could remedy things quickly.</p>
+
+<p>One of the objects of my unreasonableness was the kettle (and its not being filled up), and, in view of my having just filled it up — it’s like a 3 or 4 litre urn-type deal — she ordered me to go into the kitchen and watch it until it boiled.</p>
+
+<p>The kettle has the decency to show the current temperature of its contents and a minute-granularity estimate of how long it’ll take until it’s boiled. Seeing that “14” on the display as I entered the room really added something to the experience.</p>
+
+<p>It did the trick more perfectly than I could’ve anticipated.</p>
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="/flashes/2021/06/10/dasein-iii/">
+        dasein III
+      </a>
+    </h1>
+
+    <time datetime="2021-06-10T00:00:00+10:00" class="post-date">10 Jun 2021</time>
+
+    
+      <p>Body’s in struggletown.</p>
+
+<p>Feels like I’m in full-on repair mode. Upper back still feels white hot; N’s focus there was perhaps overenthusiastic. The constant stim has also made me feel a bit less people-capable than usual, at least irl. Tired!</p>
+
+
+      
+    
+  </article>
+  
+  <article class="post">
+    <div class="my-id">
+      
+        <img src="/assets/mia-icon.jpg" width="64" height="64">
+      
+    </div>
+    <h1 class="post-title">
+      <a href="/flashes/2021/06/09/dasein-ii/">
+        dasein II
+      </a>
+    </h1>
+
+    <time datetime="2021-06-09T00:00:00+10:00" class="post-date">09 Jun 2021</time>
+
+    
+      <p>My head is still swimming in endorphins, an hour later.</p>
+
+<p>It was three full hours non-stop, and then a short lull, and then half an hour more. I am more thoroughly rekt than I’ve been in.. years.</p>
+
+<p>And glowing.</p>
+
+<p>C exceeded my expectations — the stamina of that girl! — and I think it definitely drew N out as well. The actual domination aspects were light but still felt; a few times each they pulled me up on address or responsiveness and it was quite delightful. C has a very cute face yet pulls off “hot and in control” almost effortlessly.</p>
+
+<p>It was also just so good to be one of three girls in a bed together again. This was N’s and my first time doing something together with another, too. As expected, no problems there. I think our comfort with each other and in the relationships we hold with each other is at an all-time high. I could just relax into the pain, the submission, the sometimes-brutality of it.</p>
+
+
       
     
   </article>
@@ -335,7 +359,7 @@ into it.</p>
     <a class="pagination-item newer" href="/posts/5/">Newer</a>
   
   
-    <span class="pagination-item older">Older</span>
+    <a class="pagination-item older" href="/posts/7/">Older</a>
   
 </div>
 
