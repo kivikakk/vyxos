@@ -78,7 +78,6 @@
       specifics =
         {
           nixos = {
-            nixpkgs = nixpkgs;
             nixSystem = nixpkgs.lib.nixosSystem;
             modules = [
               home-manager.nixosModules.home-manager
@@ -99,7 +98,6 @@
             ];
           };
           darwin = {
-            nixpkgs = nixpkgs;
             nixSystem = nix-darwin.lib.darwinSystem;
             modules = [
               home-manager.darwinModules.home-manager
@@ -117,14 +115,19 @@
         };
     in let
       hostConfig = import ./hosts/${hostName}.nix {
-        inherit (specifics) nixpkgs;
+        inherit nixpkgs;
         inherit system hostName;
       };
-      lib = specifics.nixpkgs.lib.extend (final: prev: {
+      lib = nixpkgs.lib.extend (final: prev: {
         # …
       });
-      freezeRegistry = {
-        nix.registry = lib.mapAttrs (_: flake: {inherit flake;}) inputs;
+      nixConf = {
+        nix.registry.nixpkgs.to = {
+          owner = "NixOS";
+          repo = "nixpkgs";
+          rev = inputs.nixpkgs.rev;
+          type = "github";
+        };
       };
       hostRootModule =
         {
@@ -159,7 +162,7 @@
         modules =
           [
             ./common.nix
-            freezeRegistry
+            nixConf
             ./modules
           ]
           ++ specifics.modules
