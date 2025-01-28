@@ -74,7 +74,6 @@
       ];
       brews = [
         "libftdi"
-        "llvm@18" # zig 0.13
         "pkg-config"
         "zstd" # zig
       ];
@@ -92,6 +91,7 @@
           "kindle"
           "obsidian"
           "rectangle"
+          "solvespace"
           "syncthing"
           "transmission"
           "transmission-remote-gui"
