@@ -155,8 +155,7 @@
       specifics.nixSystem {
         inherit system;
         specialArgs = {
-          inherit (specifics) nixpkgs;
-          inherit isDarwin hostName lib;
+          inherit nixpkgs isDarwin hostName lib;
         };
 
         modules =
