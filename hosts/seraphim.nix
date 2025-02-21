@@ -91,12 +91,16 @@
           "kindle"
           "obsidian"
           "rectangle"
-          "solvespace"
           "syncthing"
           "transmission"
           "transmission-remote-gui"
           "vlc"
           "yubico-authenticator"
+        ]
+        ++ [
+          # CAD.
+          "freecad"
+          "solvespace"
         ]
         ++ [
           # Dev tools.
