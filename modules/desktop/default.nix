@@ -20,7 +20,7 @@ in {
   };
 
   config = mkIf (cfg.enable) {
-    i18n.defaultLocale = "en_US.UTF-8";
+    i18n.defaultLocale = "en_AU.UTF-8";
     i18n.extraLocaleSettings = {
       LC_ADDRESS = "et_EE.UTF-8";
       LC_IDENTIFICATION = "et_EE.UTF-8";

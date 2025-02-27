@@ -23,12 +23,6 @@ in {
 
     environment.systemPackages = [pkgs.wl-clipboard];
 
-    services.xserver.xkb = {
-      layout = "us";
-      variant = "dvorak";
-    };
-    console.keyMap = "dvorak";
-
     services.printing.enable = true;
 
     hardware.pulseaudio.enable = false;
