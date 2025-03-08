@@ -140,7 +140,7 @@
           # "musescore"
           # "scrivener"
           # "wireshark"
-          # "xld"
+          "xld"
           # "yubico-yubikey-manager"
         ];
     };
