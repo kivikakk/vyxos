@@ -9,7 +9,14 @@
   inherit (lib) mkIf;
 in {
   config = mkIf (cfg.enable) {
-    services.displayManager.ly.enable = true;
+    services.displayManager.ly = {
+      enable = true;
+      settings = {
+        bigclock = "fa";
+        clear_password = true;
+      };
+    };
+
     services.desktopManager.plasma6.enable = true;
     environment.plasma6.excludePackages = with pkgs.kdePackages; [
       plasma-browser-integration # pins a core to 100%
