@@ -65,6 +65,8 @@
     hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
     time.hardwareClockInLocalTime = true;
 
+    services.fprintd.enable = false;
+
     environment.systemPackages = [
       pkgs.doas-sudo-shim
       pkgs.sbctl
