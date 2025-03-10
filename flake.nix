@@ -5,7 +5,7 @@
     flake-utils.url = github:numtide/flake-utils;
 
     nixpkgs.url = github:NixOS/nixpkgs/nixos-24.11;
-    fish-nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
 
     nix-darwin = {
       url = github:LnL7/nix-darwin/master;
@@ -60,7 +60,7 @@
     self,
     flake-utils,
     nixpkgs,
-    fish-nixpkgs,
+    nixpkgs-unstable,
     nix-darwin,
     home-manager,
     sops-nix,
@@ -160,7 +160,8 @@
             {
               nixpkgs.overlays = [
                 (final: prev: {
-                  fish = (import fish-nixpkgs {inherit system;}).fish;
+                  fish = nixpkgs-unstable.legacyPackages.${system}.fish;
+                  helix = nixpkgs-unstable.legacyPackages.${system}.helix;
                 })
               ];
             }

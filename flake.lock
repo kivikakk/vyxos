@@ -44,7 +44,7 @@
         "type": "github"
       }
     },
-    "fish-nixpkgs": {
+    "nixpkgs-unstable": {
       "locked": {
         "lastModified": 1741379970,
         "narHash": "sha256-Wh7esNh7G24qYleLvgOSY/7HlDUzWaL/n4qzlBePpiw=",
@@ -359,7 +359,7 @@
     "root": {
       "inputs": {
         "comenzar": "comenzar",
-        "fish-nixpkgs": "fish-nixpkgs",
+        "nixpkgs-unstable": "nixpkgs-unstable",
         "flake-utils": "flake-utils",
         "furpoll": "furpoll",
         "home-manager": "home-manager",
