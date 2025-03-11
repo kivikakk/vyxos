@@ -2,57 +2,71 @@
   description = "seraphim, piret + kala";
 
   inputs = {
-    flake-utils.url = github:numtide/flake-utils;
+    flake-utils.url = "github:numtide/flake-utils";
 
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-24.11;
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
 
     nix-darwin = {
-      url = github:LnL7/nix-darwin/master;
+      url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = github:nix-community/home-manager/release-24.11;
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     sops-nix = {
-      url = github:Mic92/sops-nix;
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     furpoll = {
-      url = git+https://github.com/kivikakk/furpoll;
+      url = "git+https://github.com/kivikakk/furpoll";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
 
-    nixos-hardware.url = github:NixOS/nixos-hardware;
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
 
     comenzar = {
-      url = git+https://github.com/kivikakk/comenzar;
+      url = "git+https://github.com/kivikakk/comenzar";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
     };
 
     plasma-manager = {
-      url = github:nix-community/plasma-manager;
+      url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
 
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     jj = {
-      url = github:charlottia/jj/ssh-openssh;
+      # TODO: at some point, check that jj HEAD isn't good enough. It's been a while.
+      url = "github:charlottia/jj/ssh-openssh";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
+      inputs.rust-overlay.follows = "rust-overlay";
     };
 
     lanzaboote = {
-      url = github:nix-community/lanzaboote/v0.4.1;
+      url = "github:nix-community/lanzaboote/v0.4.1";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
-      inputs.rust-overlay.follows = "jj/rust-overlay";
+      inputs.rust-overlay.follows = "rust-overlay";
+    };
+
+    nos = {
+      url = "git+https://git.sr.ht/~kivikakk/nos";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.rust-overlay.follows = "rust-overlay";
     };
   };
 
@@ -68,8 +82,10 @@
     nixos-hardware,
     comenzar,
     plasma-manager,
+    rust-overlay,
     jj,
     lanzaboote,
+    nos,
   }: let
     mkHost = hostName: system: specifiedModules: let
       isDarwin = builtins.elem system nixpkgs.lib.platforms.darwin;
@@ -162,6 +178,7 @@
                 (final: prev: {
                   fish = nixpkgs-unstable.legacyPackages.${system}.fish;
                   helix = nixpkgs-unstable.legacyPackages.${system}.helix;
+                  nos = nos.packages.${system}.nos;
                 })
               ];
             }
