@@ -351,11 +351,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1741595276,
-        "narHash": "sha256-0TGbSJlQRAlvLyaC6eig3wcqvwunGy9sNcKMyfUeZCk=",
+        "lastModified": 1741667878,
+        "narHash": "sha256-nTZON7ttdFkHyXsfgb4zxSyZGTvkkqWKvVjfwVNMsu0=",
         "ref": "refs/heads/main",
-        "rev": "d3a65b942c9b43237c4517f2f172efc8eb6e6297",
-        "revCount": 17,
+        "rev": "9c2381a3a8f73efbb1d67d7d9c1cbdcc95059e0e",
+        "revCount": 18,
         "type": "git",
         "url": "https://git.sr.ht/~kivikakk/nos"
       },

@@ -197,7 +197,9 @@
     })
     // {
       nixosConfigurations = {
-        kala = mkHost "kala" "x86_64-linux" [];
+        kala = mkHost "kala" "x86_64-linux" [
+          nos.nixosModules."x86_64-linux".default
+        ];
         piret = mkHost "piret" "x86_64-linux" [
           nixos-hardware.nixosModules.framework-16-7040-amd
           lanzaboote.nixosModules.lanzaboote
